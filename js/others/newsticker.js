@@ -49,6 +49,7 @@ const messages = [
   ["paradoxes 420: this is a paradox"],
   ["paradoxes 69420: gwa isn't real"],
   ['"why is it broken?" -developers'],
+  ["well, since you're reading this I'm sorry to say this is pointless to read so just move along and ignore this. Wait, you're still here? I said move along, there's nothing here. Ok, go to hell now!!"],
   ['"these are all unfunny" -randomtuba'],
   ["BREAKING NEWS: Local developer has been found guilty of resetting saves, community shocked and outraged"],
   ["what happens next will shock you"],
@@ -73,7 +74,7 @@ const messages = [
   ["How many ticks can a tick tick at?"],
   ["Next update in 4.8 hours"],
   ["Ow, that hurt! Stop clicking me!"],
-  ["ae".repeat(100)],
+  ["ae".repeat(100)],//this is offensive /j because ae is offensive /j
   ["imagine a newsticker that says 'j'"],
   [`imagine a newsticker that says "imagine a newsticker that says 'j'"`],
   ["you are very cool!"],
@@ -86,7 +87,7 @@ const messages = [
   ["imagine a game with over 1 thousand different news ticker messages but only three layers of prestiging"],
   ["adding news tickers might have been a bad idea"],
   ["this game is written on glitch.com (at least when writing this news ticker)"],
-  ["grind, buy upgrades, prestige, ".repeat(3) ],
+  ["grind, buy upgrades, prestige, ".repeat(5)],
   ['Petition to call F notation "Science Fiction Notation"'],
   ["there are SOFT layers"],
   ["(softcapped)"],
@@ -105,14 +106,13 @@ const messages = [
   ["BLOOD FOR THE BLOOD GOD"],
   ["Imagine a world without bugs, we'd be the closest we ever got to world peace"],
   [":flushed:"],
+  ["[this news ticker is left intentionlly blank]"],
   ["STR 24 (+7)"],
   ["DEX 17 (+3)"],
   ["CON 30 (+10)"],
   ["INT 15 (+2)"], 
   ["WIS 14 (+2)"],
   ["CHR 18 (+4)"], //Dungeons & Dragon reference news tickers
-  ["The chinese government is kinda b- Sorry, I got shot, hopefully I can finish this news ticker, as I was saying..."],
-  ["It doesn't matter if you're Lesbian, Gay, Black, or Transexual, at the end of the day you are part of the LGBT and welcomed here."],
   ["when you forget to put the \" at the end of a string"],
   ["If you're paid hourly, don't forget to not put a \ at the end of a string"],
   ["Oh no we're out of content ideas."],
@@ -122,12 +122,17 @@ const messages = [
   ["According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway. Because bees don’t care what humans think is impossible."],
   ["Sextillions are better without the tillions!"],
   ["Banana monke make dart go brrr, balloon scared"],
-  ["I'm the son of Zeus!"],
-  ["Guns! Guns! Guns! Gu- This news ticker has been removed for being too offensive."]
+  ["'I'm the son of Zeus!' ~ A person who doesn't know Greek gods"],
+  ["Being offensive really makes me snigger and want to report."], //"snigger" is a small, faint laugh, not a slur
+  ["Guns! Guns! Guns! Gu- This news ticker has been removed for being too offensive."] //It's a joke, "transgender people" and "people" isn't a gender
+  ["Trans people don't exist                  Because people isn't a gender, we do support trans men, women, and everything in between."],// it's literally transphobia bait
+  //transphobic messages are considered offensive
+  ["Hey, what's the opposite of defensive? Of-[This user has been banned from the news tricker community]"] 
+
   //these tickers require luck
   ["You have gotten very lucky.", () => Math.random() < 0.01],
   ["There is a 0.1% chance of seeing this message. That's the same chance as the title of this game being 'Trollcremental 2'.", () => Math.random() < 0.001],
-  ["Go buy a lottery ticket.", () => Math.random() < 0.0001],
+  ["Go buy a lottery  ticket.", () => Math.random() < 0.0001],
   ["Hey you just won a lottery.", () => Math.random() < 0.000001],
   ["Hey you just won two lotteries in a row.",() => Math.random() < 0.00000001],
   [
