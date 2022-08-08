@@ -1,4 +1,5 @@
-class LRUCache {
+const Decimal = (() => {
+  class LRUCache {
     /**
      * @param maxSize The maximum size for this cache. We recommend setting this
      * to be one less than a power of 2, as most hashtables - including V8's
@@ -2576,8 +2577,6 @@ class LRUCache {
   FC_NN = Decimal.fromComponents_noNormalize; // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ME = Decimal.fromMantissaExponent; // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ME_NN = Decimal.fromMantissaExponent_noNormalize;
-
-export default Decimal
-export {
-  D
-}
+  return Decimal
+})()
+const D = Decimal.fromValue_noAlloc

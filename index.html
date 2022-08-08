@@ -27,14 +27,20 @@
       <h1 id="dev">
         WARNING: THIS IS A DEV BUILD. YOUR SAVES MAY BE LOST AT ANY TIME/RESET.
       </h1>
+      <div id="news_ticker_base">
+        <div id="news_ticker" style="animation-duration: 10s; display: inline-block; position: relative;">
+          news poggers
+        </div>
+      </div>
       <div id="pointsDisplay">
-        <span style="font-size: 24px"
-          >You have <span id="points">X</span> points</span
-        ><br />
-        (+<span id="pointsGain">X</span>/s)<br /><br />
+        <span style="font-size: 24px">
+          You have <span id="points">X</span> points</span>
+        <br />
+        (+<span id="pointsGain">X</span>/s)
+        <br /><br />
       </div>
       <h2 id="wannacry" class="cannotbuy" style="display: none">
-        You have a <span id="chance"></span>% chance of triggering a hard reset
+        You have a <span id="chance"></span>% chance of triggering a rollback
         every time you press a button!
       </h2>
       <div id="notificationarea"></div>
@@ -47,6 +53,9 @@
         <button id="tab_btn_dark" onclick="switchTab('dark')">
           Dark World
         </button>
+        <!--<button id="tab_btn_chal" onclick="switchTab('chal')">
+          Challenges
+        </button>-->
 
         <button id="tab_btn_stats" onclick="switchTab('stats')">Stats</button>
         <button id="tab_btn_ach" onclick="switchTab('ach')">
@@ -94,19 +103,19 @@
         </div>
         <div class="tab" id="stab_main_con">
           <button
-            class="u prestige"
+            class="u"
             id="consume_btn"
             onclick="L1_CONSUME.consume()"
           >
-            Consume <span id="consume_str"></span> Boosters.<br />Currently:
-            <span id="consume_amt"></span><br />Left:
-            <span id="consume_left"></span></button
+            Consume <span id="consume_str"></span> Boosters.<br />
+            <span id="consume_amt"></span> sacrificed<br />
+            <span id="consume_left"></span> left</button
           ><br /><button onclick="L1_CONSUME.release()">Release</button
           ><br /><br />
           <span style="font-size: 24px"
             ><span id="dark_eng">0</span> Dark Energy</span
           >
-          (+<span id="dark_prod">0</span>/s)<br />
+          (+<span id="dark_prod">0</span>/s), which increases toning amount and max level of each toning<br>
 
           Remaining Tonings: <span id="toning_left"></span><br />
           <table id="darkToning"></table>
@@ -144,21 +153,25 @@
         </div>
         <br />
         <div class="tab" id="stab_settings_main">
-          <h3>Reset Confirm</h3>
+          <button
+            id="newsbtn"
+            onclick="player.news=!player.news"
+          >
+          </button>
+          <h2>Confirmations</h2>
           <button
             id="boosterconfirm"
             onclick="player.boost.confirm=!player.boost.confirm"
           >
-            Booster Confirm: ON
           </button><button
             id="darkconfirm"
             onclick="player.dark.confirm=!player.dark.confirm"
           >
-            Dark Confirm: ON
           </button>
-          <h3>Save</h3>
+          <h2>Save</h2>
           <button onclick="save(true)">Save</button>
           <button onclick="exportSave()">Export</button>
+          <button onclick="downloadSave()">Download</button>
           <button onclick="importSave()">Import</button>
           <h3>Themes</h3>
           <button onclick="setTheme('default')">Default</button>
@@ -180,8 +193,11 @@
           /></a>
           <h3>Hard Reset</h3>
           <button id="hardreset" onclick="hardReset()">Hard Reset</button>
-          <h3>Trolling</h3>
-          <button id="absurd" onclick="player.absurd=!player.absurd">
+          <h3>Misc</h3>
+          <button onclick="player.linearNews = !player.linearNews" id="tickerType">
+            News Ticker: LINEAR
+          </button>
+          <button id="absurd" onclick="absurd=!absurd">
             Absurd Mode: OFF
           </button><br>
           <button onclick="setTheme('wannacry')">
@@ -199,9 +215,16 @@
         <div class="tab" id="stab_settings_changelog">
           <h3>v0.1</h3>
           <br />
+          - Added an endgame screen.
+          - Added achievement rewards.
+          - Moved consumption into "Main" tab.
+          - Implmented Darken and Dark Upgrades.
+          - Fixed lots of bugs.
+          <h3>v0.1 beta</h3>
+          <br />
           - Added Makers, Generators, Producers, Factories, and Boosters.<br />
-          - Added 6 upgrades.<br />
-          - Added Dark World.<br />
+          - Added 7 upgrades.<br />
+          - Added the beginning of Dark World: Consumption.<br />
           - Added settings, 8 new themes, credits, lore, changelog, and
           achievements.<br />
           - Added milestones.<br />
@@ -212,7 +235,7 @@
         Time: <span id="time">0</span>s<br />
         Highest points: <span id="max">0</span> <br /><br />
         Layers: <span id="layers">0</span>/2<br />
-        Features: <span id="features">0</span>/5 <br /><br />
+        Features: <span id="features">0</span>/2<br /><br />
         <div id="stabs_stats">
           <button id="stab_btn_stats_l1" onclick="switchStab('stats', 'l1')">Boosters</button>
           <button id="stab_btn_stats_l2" onclick="switchStab('stats', 'l2')">Darken</button>
@@ -233,7 +256,7 @@
       </div>
       <div class="tab" id="tab_ach">
         <br />
-        Achievements: <span id="achievements">0</span> / 20 (<span id="achPercent">0</span>%)<br />
+        Achievements: <span id="achievements">0</span> / <span id="achTotal">0</span> (<span id="achPercent">0</span>%)<br />
         <table id="achs"></table>
       </div>
       <div class="tab" id="tab_auto">
@@ -251,18 +274,19 @@
           <br>
           <i style="color: red">Allow it to consume you.</i><br /><br />
           <b>
+            By darkening the sun...<br>
             This will reset everything, as well as Boosters and Consumption.<br>
-            You will unlock Resizers and Time Warps in return to rebuild.<br>
-            Also, you will unlock Darken Upgrades and Dark Recall.
+            Also, you will unlock Darken Upgrades and Booster Enhancements for rebuilding.
+            <br><br>
+            You have reached the end of this game for now...<br>
+            You have a opportunity to do it soon as the update releases.
           </b>
         </div><br><br>
         <button class="prestige2" id="darken_btn" onclick="doLayer2()">
           <span id="darken_resetdesc">Darken the sun.</span>
         </button><br><br>
 
-        <div id="stabs_dark">
-          <!-- *stabs your stats and switches your stabs*-->
-          <!-- *stabs your switches*-->
+        <!-- <div id="stabs_dark">
           <button
             onclick="switchStab('dark', 'rec')"
           >
@@ -278,13 +302,25 @@
           >
             Upgrades
           </button>
-        </div>
+        </div>-->
         <div class="tab" id="stab_dark_recall">WIP</div>
         <div class="tab" id="stab_dark_alloy">WIP</div>
         <div class="tab" id="stab_dark_upg">
+          You have <span id="dm"></span> dark matter.
           <div id="darkUpgs"></div>
         </div>
       </div>
+    </div>
+    <div id="endgame" style="display: none">
+      <b style="font-size: 40px;">Congratulations! You have reached the summit!</b><br>
+      The long hike is over... You have beaten the game for now.<br><br>
+      Check the Discord server to see if there are more updates!<br><br>
+      <button onclick="player.hasWon = true">
+        Keep Going
+      </button>
+      <button onclick="hardReset()">
+        Play Again
+      </button>
     </div>
 
     <!-- MAKE SURE TO PUT SCRIPTS AT THE END TO MAKE LOADING SCREEN APPEARS. -->
@@ -293,15 +329,18 @@
     <script src="js/utils/Element.js"></script>
     <script src="js/utils/utils.js"></script>
     <script src="js/utils/format.js"></script>
-
+    <script src="js/notify.js"></script>
+    <script src="js/imageLoad.js"></script>
+    
+    
     <script src="js/layers/1-booster.js"></script>
     <script src="js/layers/2-darken.js"></script>
+    <script src="js/layers/0-buyables.js"></script>
 
+    <script src="js/others/newsticker.js"></script>
     <script src="js/others/trolling.js"></script>
 
     <script src="js/achievements.js"></script>
-    <script src="js/notify.js"></script>
-    <script src="js/imageload.js"></script>
     <script src="js/tmp.js"></script>
     <script src="js/player.js"></script>
     <script src="js/save.js"></script>

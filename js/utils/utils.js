@@ -1,5 +1,3 @@
-const D = (x) => new Decimal(x);
-
 function htmlFor(data, func) {
   let text = "";
   if (Array.isArray(data)) {
@@ -24,17 +22,14 @@ function updateBuyThings(key, can, list = ["cannotbuy", "canbuy"]) {
 
 function setTheme(name = "default") {
   document.getElementById("csstheme").href = "themes/"+name+".css"
- if (name === 'wannacry') {
-    [...document.getElementsByTagName("button")].forEach(i => i.addEventListener('click', wannacry))
-   tmp.cache.wannacry.show()
-  } else {
-    [...document.getElementsByTagName("button")].forEach(i => i.removeEventListener('click', wannacry))
-   tmp.cache.wannacry.hide()
-  }
   player.theme = name
+  wannacryDOM(name)
 }
 
 function randomTheme() {
   const themes = ["retro","compact","crong","dark","default","dim","honeycake","inverted","light","microwave","superdark","sussy"]
-  setTheme(themes[Math.floor(Math.random()*themes.length+1)])
+  setTheme(random(themes))
+}
+function random(list) {
+  return list[Math.floor(Math.random()*list.length)]
 }
