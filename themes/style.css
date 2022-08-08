@@ -1,0 +1,244 @@
+:root { /* theme stuff */
+  --font: "Lato",sans-serif;
+  --font-color: #000;
+  --bg: #719dcc;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--font-color);
+  text-align: center;
+}
+#bg {
+  background: var(--bg)
+}
+#ver {
+	position: fixed;
+	top: 0;
+	right: 0;
+	text-align: right;
+	opacity: 0.1
+}
+#dev {
+	transition-duration: 3s
+}
+
+div, table {
+  margin: auto;
+	text-align: center;
+}
+.tab {
+  display: none
+}
+
+/* specific tab button styling */
+#stab_btn_main_upgrades {
+  background-color: #c8ffc8;
+}
+#stab_btn_main_milestones {
+  background-color: #c8ffff;
+}
+#tabs button, #stabs_settings button {
+  width: 110px;
+  border-radius: 10px;
+}
+#stab_btn_main_consume {
+  color: #fff;
+  background-color: #6900aa;
+}
+#tab_btn_auto {
+  color: #fff;
+  background-color: #00a81c;
+}
+#stab_btn_settings_lore {
+  color: #fff;
+  background-color: #b06621;
+}
+#tab_btn_dark {
+  color: #bbbbbb;
+  background-color: #000000;
+}
+#tab_btn_ach {
+  color: #fff;
+  background-color: #07f;
+}
+#tab_btn_settings, #stab_btn_settings_main, #tab_btn_stats, #stab_btn_settings_credits, #stab_btn_settings_changelog {
+  color: #fff;
+  background-color: #333;
+}
+#hardreset {
+  color: #fff;
+  background-color: #ff6464;
+}
+#notificationarea {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  z-index: 1;
+}
+
+.notification {
+  position: relative;
+  top: 0px;
+  right: 0px;
+  margin: 6px;
+  padding: 2px;
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 6px;
+  z-index: 1;
+}
+/* shamelessly taken from w3schools */
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+button {
+  border: 2px solid #0000007f;
+  border-radius: 5px;
+  font-family: var(--font);
+  transition: all 0.3s ease;
+  transform: scale(1);
+}
+button:hover {
+  transform: scale(1.03)
+}
+button:active {
+  transform: scale(1)
+}
+.upgbutton { /* size was decided by *some* discussions*/
+  height: 32px;
+  width: 205px;
+  border-radius: 10px;
+  font-size: 12px;
+	vertical-align: top;
+}
+.u { /* size was decided by *some* discussions*/
+  height: 110px;
+  width: 216px;
+  border-radius: 10px;
+  font-size: 12px; /*this does matter as upg button and u are different*/
+	vertical-align: top;
+}
+.buildboosttext{
+  font-size: 7px;
+}
+.canbuy {
+  background-color: #f9ea62
+}
+.bought {
+  background-color: #6ce391
+}
+.cannotbuy {
+  background-color: #f37078;
+}
+.prestige {
+  background-color: #87d3e7;
+}
+.prestige2 {
+  background-color: #2f2f2f;
+}
+button.bought:hover, button.cannotbuy:hover {
+  transform: scale(1)
+}
+
+#layerunlock {
+  display: none;
+  transition-duration: 1.5s;
+
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#layerbar {
+  background: #ffffff3f;
+  box-shadow: 0 0 6px white;
+  color: #3f3fff;
+  text-shadow: 0 0 6px #3f3fff;
+  position: absolute;
+  top: calc(50% - 60px);
+  left: 0;
+  width: 100%;
+  height: 36px;
+  font-size: 24px
+}
+#layerbg {
+  background: linear-gradient(#bfbfff7f, transparent);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#layerflash {
+  background: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: 2s flash linear infinite;
+}
+@keyframes flash {
+  0% {
+    background: white
+  }
+  50% {
+    background: transparent
+  }
+  100% {
+    background: transparent
+  }
+}
+
+.credits {
+  width: 140px;
+  height: 25px;
+	border: 2px solid black;
+	border-collapse: collapse;
+}
+
+.ach {
+	border-radius: 12px;
+	font-size: 12px;
+	width: 90px;
+	height: 90px;
+	border: 2px solid
+}
+
+.ach.completed {
+  background-color: #0adb23
+}
+
+#milestones {
+  background-color: #000
+}

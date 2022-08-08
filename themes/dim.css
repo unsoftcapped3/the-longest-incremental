@@ -1,0 +1,5 @@
+:root {
+  filter: brightness(0.1);
+  --bg: #000;
+  --font-color: #fff;
+}

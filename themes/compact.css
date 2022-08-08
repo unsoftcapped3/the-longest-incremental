@@ -1,0 +1,181 @@
+/*NOTICE! Most things are subject to change as im just testing stuff for now to see what gives best results, [DeLorean]*/
+
+/*TODO LIST: BORDER GRADIENT*/
+/*TESTING: TEXT GRADIENTS */
+/*Thanks for Jwklong for helping me making this theme better =) */
+
+:root {
+  --font: 'Dosis', sans-serif;
+  --font-color: #ad77fd;
+  --bg: linear-gradient(0deg, #110128 0%, #140033 100%);
+  background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/maintab.png");
+/*  background: -webkit-linear-gradient(#eeeeee, #333333); NO TOUCHY! zad
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;*/
+  
+   text-shadow:0px 2px 0px #2a0054, 0px 2px 0px #5b00b5; /*De text under shadowing*/
+   text-shadow:2px 2px 2px #2a0054, 2px 2px 2px #5b00b5; /*De text glowing*/
+}
+
+button {
+  background-color: #8459c5;
+  border-color: #31204b;
+  text-shadow:1px 1px 1px #707070, 1px 1px 1px #707070;
+}
+
+.canbuy {
+  background-color:  #8077fd;
+  background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/cbought.png");
+   border-color: #6b63db;
+   filter: drop-shadow(1px 1px 1px #6b63db);
+}
+
+.bought {
+  background-color:  #c4c4c4;
+   background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/bought.png");
+     border-color: #9e9e9e;
+   filter: drop-shadow(1px 1px 1px #9e9e9e);
+}
+
+.cannotbuy {
+   background-color:  #fd4444;
+   background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/cnbought.png");
+    border-color: #d93838;
+  text-shadow:1px 1px 1px #b82a2a, 1px 1px 1px #b82a2a;
+   filter: drop-shadow(1px 1px 1px #d93838);
+}
+
+button:hover {
+  transform: scale(0.9) /*Reversed scale on hover since yes :cart_troll:*/
+}
+
+button:active {
+  transform: scale(1.03)
+}
+
+.upgbutton { /*this theme makes buttons more rounded*/
+  height: 40px;
+  width: 180px;
+  border-radius: 14px;
+  font-size: 14px;
+	vertical-align: top;
+}
+
+.u { /*some changes for that aswell*/
+  height: 110px;
+  width: 240px;
+  border-radius: 10px;
+  font-size: 14px; /*Beeg font size*/
+	vertical-align: top;
+}
+
+#layerunlock { /* whatever this thing is... */
+  display: none;
+  transition-duration: 2.5s;
+
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#tab_btn_lore { /*uhoh the longest incremental lore*/
+  color: #000000;
+  background-color: #ffffff;
+}
+
+#tab_btn_consume {
+  background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/consume.png");
+}
+
+#tab_btn_main_upgrades {
+  background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/maintab.png");
+  color: #ffffff;
+}
+
+#tab_btn_main_milestones {
+  background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/maintab.png");
+  color: #ffffff;
+}
+
+#tab_btn_settings {
+  color: #ffffff;
+  background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/settings.png");
+  background-color: #333333;
+  border-color: #d9d9d9;
+  filter: drop-shadow(1px 1px 1px #d9d9d9);
+}
+
+#tab_btn_main {
+   border-color: #8f5cdb;
+   filter: drop-shadow(1px 1px 1px #6f3fb5);
+}
+
+#mainBuyable3{
+  color:  #33e5f2;
+  text-shadow:0px 2px 0px #178087, 0px 2px 0px #178087;
+   text-shadow:2px 2px 2px #178087, 2px 2px 2px #178087;
+}
+
+#makerimg {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/maker.jpg") no-repeat; /*testing*/
+  width: 32px;
+  height: 32px;
+  padding-left: 32px;
+  background-size: cover;
+  filter: drop-shadow(2px 2px 2px #250066);
+}
+#generatorimg {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/generator.jpg") no-repeat;
+  width: 32px;
+  height: 32px;
+  padding-left: 32px;
+  background-size: cover;
+  filter: drop-shadow(2px 2px 2px #250066);
+}
+#producerimg {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/producer.jpg") no-repeat;
+  width: 32px;
+  height: 32px;
+  padding-left: 32px;
+  background-size: cover;
+  filter: drop-shadow(2px 2px 2px #250066);
+}
+#factoryimg {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/factory.jpg") no-repeat;
+  width: 32px;
+  height: 32px;
+  padding-left: 32px;
+  background-size: cover;
+  filter: drop-shadow(2px 2px 2px #250066);
+}
+#boosterimg {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/booster.jpg") no-repeat;
+  width: 32px;
+  height: 32px;
+  padding-left: 32px;
+  background-size: cover;
+  filter: drop-shadow(2px 2px 2px #003866);
+}
+
+#milestones {
+  color: #35009c;
+  text-shadow:0px 0px 0px #1c0052, 0px 0px 0px #1c0052;
+}

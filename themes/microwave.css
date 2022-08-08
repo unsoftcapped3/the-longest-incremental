@@ -1,0 +1,36 @@
+:root {
+  --font-color: #fff;
+  --bg: #323232;
+}
+#pointsDisplay {
+	right:0;
+	position:absolute;
+	width:315px;
+	color: blue;
+	border: solid black 5px;
+	background-color: #222222
+}
+#tabs {
+	right:0;
+	top:20%;
+	position:absolute;
+	width:315px;
+}
+#tabs * {
+	height:50px;
+}
+
+#stabs_settings {
+	right:0;
+	top:40%;
+	position:absolute;
+	width:315px;
+}
+#stabs_settings * {
+	height:50px;
+}
+
+.ach {
+  width: 85px;
+  height: 85px;
+}

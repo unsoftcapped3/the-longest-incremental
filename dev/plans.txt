@@ -1,0 +1,145 @@
+PRESTIGE LAYER NAMES AND IDEAS:
+
+*** LAYER 0 ***
+All this layer content before extend is done.
+(post-Extend content goes here -Meta)
+
+*** LAYER 1 ***
+All this layer content before extend is done.
+(post-Extend content goes here -Meta)
+
+*** LAYER 2 ***
+IMPORTANT: We are making this layer, but we still need more idea.
+WARNING: Darken is currently the longest layer planned yet!
+oh man you have NO IDEA what's to come -Meta
+I will make upgrade tree and the rest of layer 3's mechanics have even more content than the entirety of layer 2! :ae
+At first Darken: Boost Points and Dark Energy based on Boosters.
+
+Effects:
+	* Add Booster Base. (up to +0.5x bc why not have scalings?)
+	* Per-X building levels are closer to maximum.
+	* Raise Dark Tonings' effects.
+	* Reduce the Booster consumption.
+	* Upgrade Resizers and Time Warps.
+
+- (Aarex) Dark Recall
+After Darkening, you will be able to get more resources based on DM gain.
+These resources are only gained by having values over a specific set.
+Darkening requires the product of 3 factors.
+- Point Factor (b^log(x)^0.5)
+- Booster Factor (b^x^0.5)
+- Dark Factor (x)
+
+Each factor contains its value:
+- You can increase / decrease it. (0 - 10)
+- BUT, it reduces a specific factor by an exponent.
+
+Few resources have boosts.
+
+- (Aarex) Resizers (Rebuild)
+Raise points by an exponent.
+However, it is limited by your maximum points in this Darken.
+- The limit is reduced by an exponent too!
+You can only use 1 per Booster.
+And the exponent is adjustable.
+
+- (Randomtuba) Time Warps
+  * At some point, there will be long timewalls that are hard to get past
+  * You can buy Time Warps with the main L2 currency
+  * Using a Time Warp allows you to jump 6 hours forward in time (this could be extended)
+  * Time Warps have a 60 second cooldown (or 5 minutes idk)
+  * You can also use Time Warps to speed up time
+
+- (Aarex) Dark Alloying
+Many resources can be fused into higher-tier resources.
+- But first, some resources can be converted into others.
+
+- Challenges
+-- (Aarex) I'm thinking about having multiple challenge choices to increase a level in a set.
+-- (Randomtuba) maybe there could be 4 pairs of challenges, light and dark, that have the same goal but different nerf and reward, and you can only choose one
+-- (Meta) customizable challenges could be post layer 2
+
+(In order to transition to L3)
+	* There's Elemental Essences, which you only gain one from all kinds.
+	* There's Essence which requires a lot of Darken resources. (which muliplies L3 gain)
+
+(post-Expansion content goes here -Meta)
+
+*** LAYERS 3+ ***
+- (downvoid) Upgrade Tree (L3, or maybe part of another layer?)
+	* The 3D upgrade tree will start with having 6 branches, one for each element.
+	* Each element boosts a different thing, so like air could boost points, fire could boost boosters, water could boost polishers, etc.
+  * Oh, and each element has its own mechanic. :)
+	* Light and Dark branches will be opposites, boosting 1 thing but nerfing something else. Buying 1 level of each upgrade will cancel each other out
+	* Pure branches are 3 branches that will be unlocked later (maybe as an extend mechanic unlock?), and they do something (tbd)
+  
+- ASCENSION (L4):
+  * Basically ascension from trollcremental
+  * unlocked after Extend
+  * Has both ascension upgrades and milestones
+  * Yeah we'll figure this out later
+
+- MINIGAMES (L4):
+  (The power shouldn't be OP and should be optional.
+    * The power should boost pre-Layer 4 content.
+    * There are tiers based on how well you did: bronze, silver, gold, diamond, platinum, obsidian.
+      * Higher tiers = more power.
+      * Power is always logarithmic!
+1. (by incremental_gamer) tetrational power tower game (basically base^^height)
+  no, this is not inflation
+  1.44^^Infinity = some real number
+2. (Aarex's) balancing control (a game which automatically reduces / adds numbers. going out of bounds loses.)
+3. (Aarex's) tetrational balancing (basically multiple dilated formulas stacked on one, and are upgraded by a single currency. +1 slog^0.75 -> x2 tetr points)
+4. (Aarex's) rediscovery
+  There are 3 modes:
+    1. Expert Mode (buffs a feature)
+    2. Time Trial
+    3. Time Attacks (limited time)
+  Your save will be retrived back on exiting.
+  
+- (Meta) Extend (L∞)
+  * This layer underpins all others, with heavily scaled requirements.
+  * Extending resets EVERYTHING except the Extend layer itself. 
+  * Each reset unlocks a new layer, expands all layers, and unlocks some boosts to speed up the early game.
+    * And yes, I do mean expand ALL layers. All the way from layer 0 to the most recently unlocked one.
+  * Unlocked at some point around L3-5, depending on how timewally the game is
+
+TROLLING:
+We do a lot of trolling
+we could take some stuff from community incremental (the previous longest incremental)
+
+STUFF WE CAN TAKE FROM COMMUNITY INCREMENTAL 2:
+- Gifts (you can give giftboxes to developers [like cube tributes] that each give rewards)
+(note: was never added but planned)
+- Technobabble gaming
+
+Achievements:
+- Achievement tab appear at Layer 1.
+
+id  name                               req                     effect (mostly additive ok)
+1   Start.                             Buy 1 maker             NO
+2   Self-Productive                    Buy 1 Generator         NO
+3   The Naming System Feels Arbitrary  Buy 1 Producer          NO 
+4   The Large Production               Buy 1 Factory           NO
+5   Multiplied!                        Buy 1 Booster           +10% point
+6   Make it Shiny!                     Enhance a building      NO
+7   Is this even useful?               Buy the fifth upg       NO
+8   The 9th achievement doesn't exist  Get 9 booster           +9% point
+9   I don't exist.                     Get 99 maker            +9% maker point gain
+10  The Darkness                       Unlock Dark World       +10% point  
+11  Dark Magic                         Get 10,000 Dark Energy  2x dark energy gain
+12  What Comes Next?                   Reach 20 Boosters       NO
+13  Gaming Chair                       Beat a Minigame         +50% point
+14  Eight-Packed                       Get all upgrades        NO
+15  The Summit                         Get all Booster Milestones.
+16  Uneffective                        Get 10^20 while consuming 10 Boosters.
+17  Mass Production                    Get 99 factories.
+18  Precious...                        Enhance a building 8 times.
+19  Gogol Point                        Get 10^50 points.
+20  Time-Trial                         Beat a Minigame in under 20 minutes.
+
+21  One with the Dark                  Go Dark.                NO
+
+(future achievements, number unknown)
+??  Underachiever                      Go Elemental.           ^1.3 Points --this causes inflation without scalings ~ Aarex / Lightning
+??  A Bad Idea                         Extend.                 NO
