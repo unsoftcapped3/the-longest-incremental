@@ -1,0 +1,59 @@
+:root {
+--font: Courier
+--font-color: #84ff00
+ --bg: #719dcc; /* temporary solution */ /* gradient didnt work?, [DeLorean] no but this does [crg] btw your theme still rickrolls, [DeLorean] that's fine [crg] */
+  --bg: linear-gradient(0deg, #110128 0%, #268000 100%);
+
+}
+.canbuy {
+  background-color: #00fbff
+}
+.bought {
+  background-color: #00ff1e
+}
+.cannotbuy {
+  background-color: #f00010;
+}
+.prestige {
+  background-color: #0c17b0;
+}
+button:hover {
+  transform: scale(2)
+}
+button {
+  border: 5px solid #0000007f;
+  border-radius: 5px;
+  font-family: var(--font);
+  transition: all 0.3s ease;
+  transform: scale(1);
+}
+#tab_btn_main_upgrades {
+  background-color: #998c00;
+}
+#tab_btn_main_milestones {
+  background-color: #77008f;
+}
+#tab_btn_consume {
+  color: #fff;
+  background-color: #1c015b;
+}
+#tab_btn_auto {
+  color: #fff;
+  background-color: #313f33;
+}
+#stab_btn_settings_lore {
+  color: #fff;
+  background-color: #b06621;
+}
+#tab_btn_settings, #stab_btn_settings_main, #tab_btn_stats, #stab_btn_settings_credits {
+  color: #fff;
+  background-color: #8a0505;
+}
+#hardreset {
+  color: #fff;
+  background-color: #12f315;
+}
+/* best theme, [DeLorean] thanks [crg] */
+button.bought:hover, button.cannotbuy:hover {
+  transform: scale(3)
+}

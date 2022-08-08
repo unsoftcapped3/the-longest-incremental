@@ -1,0 +1,310 @@
+<html lang="en" dir="ltr">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/favicon.png?v=1659925332906" id="favicon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Dosis&family=Lato&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <title>The Longest Incremental</title>
+    <link rel="stylesheet" href="themes/style.css" />
+    <link id="csstheme" rel="stylesheet" href="themes/default.css" />
+  </head>
+
+  <body id="bg">
+    <div id="loading_page">
+      <h1>Loading... (this shouldn't take more than 5 hours)</h1>
+      <br />
+      What, 5 hours have passed and you still haven't loaded?! Refresh and wait
+      for it to load :troll:
+    </div>
+    <div id="layerunlock">
+      <div id="layerbg"></div>
+      <b id="layerbar">Layer 1 Unlocked: Boosters!</b>
+      <div id="layerflash"></div>
+    </div>
+    <div id="game_page" style="display: none">
+      <h1 id="dev">
+        WARNING: THIS IS A DEV BUILD. YOUR SAVES MAY BE LOST AT ANY TIME/RESET.
+      </h1>
+      <div id="pointsDisplay">
+        <span style="font-size: 24px"
+          >You have <span id="points">X</span> points</span
+        ><br />
+        (+<span id="pointsGain">X</span>/s)<br /><br />
+      </div>
+      <h2 id="wannacry" class="cannotbuy" style="display: none">
+        You have a <span id="chance"></span>% chance of triggering a hard reset
+        every time you press a button!
+      </h2>
+      <div id="notificationarea"></div>
+      <!-- TABS -->
+      <div id="tabs">
+        <button id="tab_btn_main" onclick="switchTab('main')">Main</button>
+        <button id="tab_btn_auto" onclick="switchTab('auto')">
+          Automation
+        </button>
+        <button id="tab_btn_dark" onclick="switchTab('dark')">
+          Dark World
+        </button>
+
+        <button id="tab_btn_stats" onclick="switchTab('stats')">Stats</button>
+        <button id="tab_btn_ach" onclick="switchTab('ach')">
+          Achievements
+        </button>
+        <button id="tab_btn_settings" onclick="switchTab('settings')">
+          Settings
+        </button>
+      </div>
+      <div class="tab" id="tab_main">
+        <br />
+        <div id="buyableBoost"></div>
+        <button id="max_all" onclick="buyMaxBuyables()">Buy max (M)</button>
+        <button id="polish_respec" onclick="L1_POLISH.respec()">Respec</button>
+        <br />
+        <table id="buildings"></table>
+        <br /><br />
+        <div id="stabs_main">
+          <!-- *stabs your stats and switches your stabs*-->
+          <!-- *stabs your switches*-->
+          <button
+            id="stab_btn_main_upgrades"
+            onclick="switchStab('main', 'upg')"
+          >
+            Upgrades
+          </button>
+          <button
+            id="stab_btn_main_milestones"
+            onclick="switchStab('main', 'ms')"
+          >
+            Milestones
+          </button>
+          <button
+            id="stab_btn_main_consume"
+            onclick="switchStab('main', 'con')"
+          >
+            Consumption
+          </button>
+        </div><br>
+        <div class="tab" id="stab_main_upg">
+          <div id="upgrades"></div>
+        </div>
+        <div class="tab" id="stab_main_ms">
+          <table id="milestones"></table>
+        </div>
+        <div class="tab" id="stab_main_con">
+          <button
+            class="u prestige"
+            id="consume_btn"
+            onclick="L1_CONSUME.consume()"
+          >
+            Consume <span id="consume_str"></span> Boosters.<br />Currently:
+            <span id="consume_amt"></span><br />Left:
+            <span id="consume_left"></span></button
+          ><br /><button onclick="L1_CONSUME.release()">Release</button
+          ><br /><br />
+          <span style="font-size: 24px"
+            ><span id="dark_eng">0</span> Dark Energy</span
+          >
+          (+<span id="dark_prod">0</span>/s)<br />
+
+          Remaining Tonings: <span id="toning_left"></span><br />
+          <table id="darkToning"></table>
+        </div>
+      </div>
+      <div class="tab" id="tab_settings">
+        <span id="ver">v0.1</span>
+        <div id="stabs_settings">
+          <!-- *stabs your stats and switches your stabs*-->
+          <!-- *stabs your switches*-->
+          <button
+            id="stab_btn_settings_main"
+            onclick="switchStab('settings', 'main')"
+          >
+            Settings
+          </button>
+          <button
+            id="stab_btn_settings_lore"
+            onclick="switchStab('settings', 'lore')"
+          >
+            Lore
+          </button>
+          <button
+            id="stab_btn_settings_credits"
+            onclick="switchStab('settings', 'credits')"
+          >
+            Credits
+          </button>
+          <button
+            id="stab_btn_settings_changelog"
+            onclick="switchStab('settings', 'changelog')"
+          >
+            Changelog
+          </button>
+        </div>
+        <br />
+        <div class="tab" id="stab_settings_main">
+          <h3>Reset Confirm</h3>
+          <button
+            id="boosterconfirm"
+            onclick="player.boost.confirm=!player.boost.confirm"
+          >
+            Booster Confirm: ON
+          </button><button
+            id="darkconfirm"
+            onclick="player.dark.confirm=!player.dark.confirm"
+          >
+            Dark Confirm: ON
+          </button>
+          <h3>Save</h3>
+          <button onclick="save(true)">Save</button>
+          <button onclick="exportSave()">Export</button>
+          <button onclick="importSave()">Import</button>
+          <h3>Themes</h3>
+          <button onclick="setTheme('default')">Default</button>
+          <button onclick="setTheme('inverted')">Inverted</button><br>
+          <button onclick="setTheme('dark')">Dark</button>
+          <button onclick="setTheme('dim')">Dim</button><br>
+          <button onclick="setTheme('superdark')">Extreme Dark</button>
+          <button onclick="setTheme('light')">Eye Destroyer</button><br>
+          <button onclick="setTheme('sussy')">Sussy (by jwklong)</button>
+          <button onclick="setTheme('retro')">Retro (by jwklong)</button><br>
+          <button onclick="setTheme('compact')">Compact v0.23b (by DeLorean)</button>
+          <button onclick="setTheme('honeycake')">Honeycake (by DeLorean)</button><br>
+          <button onclick="setTheme('crong')">Crong (by CRG, not recommended unless you want to be cronged)</button><br>
+          <button onclick="setTheme('microwave')">Microwave (by TheMKeyHolder)</button><br><br>
+          <button onclick="randomTheme()">Random Theme</button>
+          <h3>Discord</h3>
+          <a href="https://discord.gg/GBHavRPeke" target="_blank"
+            ><img src="https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/discord.png?v=1659925329308" height="50px" width="50px"
+          /></a>
+          <h3>Hard Reset</h3>
+          <button id="hardreset" onclick="hardReset()">Hard Reset</button>
+          <h3>Trolling</h3>
+          <button id="absurd" onclick="player.absurd=!player.absurd">
+            Absurd Mode: OFF
+          </button><br>
+          <button onclick="setTheme('wannacry')">
+            Wannacry (by incremental_gamer, not recommended unless you want it
+          </button>
+        </div>
+        <div class="tab" id="stab_settings_lore">
+          In the beginning, there was nothing. But then, you decided to do
+          something with your life and make some points. So you make some maker and it can make points! You felt happy and start making more things like that.
+          And there is, generator and producer. However, they are not effective so you make upgrades. First, you get the idea from playing synergism and you make
+          the first upgrade. Also, points are smart and they boost themselves. However, the point amount is not enough and you start to make a new things, booster.
+          <br><br>(After that is wip)
+        </div>
+        <div class="tab" id="stab_settings_credits"></div>
+        <div class="tab" id="stab_settings_changelog">
+          <h3>v0.1</h3>
+          <br />
+          - Added Makers, Generators, Producers, Factories, and Boosters.<br />
+          - Added 6 upgrades.<br />
+          - Added Dark World.<br />
+          - Added settings, 8 new themes, credits, lore, changelog, and
+          achievements.<br />
+          - Added milestones.<br />
+        </div>
+      </div>
+      <div class="tab" id="tab_stats">
+        <br />
+        Time: <span id="time">0</span>s<br />
+        Highest points: <span id="max">0</span> <br /><br />
+        Layers: <span id="layers">0</span>/2<br />
+        Features: <span id="features">0</span>/5 <br /><br />
+        <div id="stabs_stats">
+          <button id="stab_btn_stats_l1" onclick="switchStab('stats', 'l1')">Boosters</button>
+          <button id="stab_btn_stats_l2" onclick="switchStab('stats', 'l2')">Darken</button>
+        </div>
+        <div class="tab" id="stab_stats_l1">
+          You have performed <span id="booster_stat">0</span> Booster resets.<br />
+          You have restarted <span id="booster_restart">0</span> Booster
+          runs.<br />
+          Time since last booster reset: <span id="booster_time">0</span>s<br />
+          Highest points in all Boosters: <span id="booster_highest">0</span>
+        </div>
+        <div class="tab" id="stab_stats_l2">
+          You have performed <span id="darken_stat">0</span> Darken resets.<br />
+          You have restarted <span id="darken_restart">0</span> Darken
+          runs.<br />
+          Time since last darken reset: <span id="darken_time">0</span>s
+        </div>
+      </div>
+      <div class="tab" id="tab_ach">
+        <br />
+        Achievements: <span id="achievements">0</span> / 20 (<span id="achPercent">0</span>%)<br />
+        <table id="achs"></table>
+      </div>
+      <div class="tab" id="tab_auto">
+        <br />
+        Automatically buy max buildings every 2 seconds.
+        <button
+          id="automationtoggle"
+          onclick="player.automationtoggle=!player.automationtoggle"
+        >
+          Automation: ON
+        </button>
+      </div>
+      <div class="tab" id="tab_dark">
+        <div id="pre_darken">
+          <br>
+          <i style="color: red">Allow it to consume you.</i><br /><br />
+          <b>
+            This will reset everything, as well as Boosters and Consumption.<br>
+            You will unlock Resizers and Time Warps in return to rebuild.<br>
+            Also, you will unlock Darken Upgrades and Dark Recall.
+          </b>
+        </div><br><br>
+        <button class="prestige2" id="darken_btn" onclick="doLayer2()">
+          <span id="darken_resetdesc">Darken the sun.</span>
+        </button><br><br>
+
+        <div id="stabs_dark">
+          <!-- *stabs your stats and switches your stabs*-->
+          <!-- *stabs your switches*-->
+          <button
+            onclick="switchStab('dark', 'rec')"
+          >
+            Recall
+          </button>
+          <button
+            onclick="switchStab('dark', 'alo')"
+          >
+            Alloy
+          </button>
+          <button
+            onclick="switchStab('dark', 'upg')"
+          >
+            Upgrades
+          </button>
+        </div>
+        <div class="tab" id="stab_dark_recall">WIP</div>
+        <div class="tab" id="stab_dark_alloy">WIP</div>
+        <div class="tab" id="stab_dark_upg">
+          <div id="darkUpgs"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAKE SURE TO PUT SCRIPTS AT THE END TO MAKE LOADING SCREEN APPEARS. -->
+    <script src="js/utils/break_eternity.js"></script>
+    <script src="js/utils/lzString.js"></script>
+    <script src="js/utils/Element.js"></script>
+    <script src="js/utils/utils.js"></script>
+    <script src="js/utils/format.js"></script>
+
+    <script src="js/layers/1-booster.js"></script>
+    <script src="js/layers/2-darken.js"></script>
+
+    <script src="js/others/trolling.js"></script>
+
+    <script src="js/achievements.js"></script>
+    <script src="js/notify.js"></script>
+    <script src="js/imageload.js"></script>
+    <script src="js/tmp.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/save.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

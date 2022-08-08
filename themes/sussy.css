@@ -1,0 +1,13 @@
+:root {
+  --font: "Comic Sans MS", "Comic Sans", cursive;
+  --font-color: #fff;
+  --bg: linear-gradient(0deg, #ff4d4d 0%, #bf3636 100%);
+}
+
+button {
+  background-color: #ffbdca;
+}
+
+.u {
+  font-size: 11.5px
+}

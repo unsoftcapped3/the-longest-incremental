@@ -1,0 +1,31 @@
+:root {
+  --font: 'Press Start 2P', cursive;
+  --font-color: #fff;
+  --bg: #000;
+}
+
+* {
+  border-radius: 0 !important;
+  border: 0px !important;
+}
+
+button {
+  transition: none;
+}
+
+#tabs button, #stabs_settings button {
+  width: 170px;
+  border-radius: 10px;
+}
+
+#tab_btn_dark {
+  background-color: #222;
+}
+
+.u {
+  margin-top: 3px
+}
+
+#milestones {
+  color: #000;
+}
