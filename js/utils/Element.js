@@ -1,4 +1,4 @@
-export class UtilElement {
+class UtilElement {
   constructor(el) {
     this.el = el;
     /*this.observer = new MutationObserver(

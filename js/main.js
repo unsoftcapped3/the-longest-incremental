@@ -1,45 +1,31 @@
-import Decimal from './utils/break_eternity.js'
-import {player, production} from './player.js'
-import {updateTmp} from './tmp.js'
-
+const ver = 0.1
 
 function main() {
-  if (!player) return;
-  updateTmp();
+  if (!player) return
 
-  const diff = (Date.now() - player.lastTick) / 1000;
-  player.lastTick = Date.now();
-  player.stats.time += diff;
+  if (!inEndGameScreen()) {
+    updateTmp()
 
-  player.points = Decimal.plus(player.points, Decimal.mul(production(), diff));
-  player.stats.max = Decimal.max(player.stats.max, player.points);
+    const diff = (Date.now() - player.lastTick) / 1000;
+    player.lastTick = Date.now();
+    player.stats.time += diff;
 
-  player.boost.amt = D(player.buyables[3]);
-  if (player.boost.amt.gt(0)) player.boost.unl = true;
-  player.boost.time += diff;
-  player.boost.maxPoints = Decimal.max(player.boost.maxPoints, player.points);
-  player.boost.consume.eng = D(player.boost.consume.eng).add(
-    L1_CONSUME.darkProd().mul(diff)
-  );
+    player.points = Decimal.plus(player.points, Decimal.mul(production(), diff));
+    player.stats.max = Decimal.max(player.stats.max, player.points);
 
-  player.dark.time += diff;
+    player.boost.amt = D(player.buyables[3]);
+    if (player.boost.amt.gt(0)) player.boost.unl = true;
+    player.boost.time += diff;
+    player.boost.maxPoints = Decimal.max(player.boost.maxPoints, player.points);
+    player.boost.consume.eng = D(player.boost.consume.eng).add(
+      L1_CONSUME.darkProd().mul(diff)
+    );
+
+    player.dark.time += diff;
+  }
 
   updateDOM();
-  if (player.absurd) {
-    let bufhiesibvfib = document.body.querySelectorAll(".tab, #mainContainer");
-    let bufhiesibvfib2 = document.body;
-    for (const i in bufhiesibvfib) {
-      if (bufhiesibvfib[i].style !== undefined) {
-        let t = `rotate(${Math.random() * 360}deg) `;
-        t += "skew(" + Math.random() * 75 + "deg) ";
-        let scale = (Math.random() * 3) ** 2 / 9;
-        if (scale < 0.1) scale = 0.1;
-        t += "scale(" + scale + ") ";
-        bufhiesibvfib[i].style.transform = t;
-        bufhiesibvfib2.style.transform = t;
-      }
-    }
-  }
+  absurdMode()
 }
 
 function setupHTML() {
@@ -106,8 +92,14 @@ function initCredits() {
 function updateStats() {
   tmp.cache.max.writeText(format(player.stats.max));
   tmp.cache.time.writeText(format(player.stats.time));
-  tmp.cache.layers.writeText(player.boost.unl ? 1 : 0);
-  tmp.cache.features.writeText(L1_CONSUME.unl() ? 2 : player.boost.unl ? 1 : 0);
+  tmp.cache.layers.writeText(
+    player.dark.unl ? 2 : 
+    player.boost.unl ? 1 : 0
+  );
+  tmp.cache.features.writeText(
+    L1_CONSUME.unl() || player.dark.unl ? 2 :
+    player.boost.unl ? 1 : 0
+  );
 
   tmp.cache.stab_btn_stats_l2.changeStyle(
     "display",
@@ -127,13 +119,28 @@ function updateStats() {
 }
 function updateDOM() {
   if (tmp.cache.points !== undefined) {
+    let endgame = inEndGameScreen()
+    tmp.cache.game_page.changeStyle(
+      "display",
+      !endgame ? "block" : "none"
+    );
+    tmp.cache.endgame.changeStyle(
+      "display",
+      endgame ? "block" : "none"
+    );
+    if (endgame) return
+
     tmp.cache.points.writeText(format(player.points, 2));
     if (tmp.cache.pointsGain !== undefined)
       tmp.cache.pointsGain.writeText(format(production()));
+    tmp.cache.news_ticker_base.changeStyle(
+      "display",
+      player.news ? "" : "none"
+    );
 
     tmp.cache.tab_btn_auto.changeStyle(
       "display",
-      L1_MILESTONES.unl(6) ? "table-row" : "none"
+      L1_MILESTONES.unl(6) || hasUpg(1, "dark") ? "table-row" : "none"
     );
     tmp.cache.tab_btn_ach.changeStyle(
       "display",
@@ -143,7 +150,6 @@ function updateDOM() {
       "display",
       player.boost.unl ? "table-row" : "none"
     );
-
     tmp.cache.tab_btn_dark.changeStyle(
       "display",
       L1_CONSUME.unl() || player.dark.unl ? "table-row" : "none"
@@ -166,7 +172,7 @@ function updateDOM() {
         );
         if (player.stab.main === "upg") updateUpgrades("normal");
         if (player.stab.main === "ms") L1_MILESTONES.updateDOM();
-        if (player.stab.consume === "eng") L1_CONSUME.updateDOM();
+        if (player.stab.main === "con") L1_CONSUME.updateDOM();
         break;
       case "stats":
         updateStats();
@@ -188,23 +194,26 @@ function updateDOM() {
 }
 
 function updateSettings() {
-  tmp.cache["boosterconfirm"].writeText(
+  tmp.cache.boosterconfirm.writeText(
     `Booster Confirm: ${player.boost.confirm ? "ON" : "OFF"}`
   );
-  tmp.cache.darkenconfirm.changeStyle(
+  tmp.cache.darkconfirm.changeStyle(
     "display",
     player.dark.unl ? "" : "none"
   );
-  tmp.cache["darkenconfirm"].writeText(
-    `Darken Confirm: ${player.dark.unl ? "ON" : "OFF"}`
+  tmp.cache.darkconfirm.writeText(
+    `Darken Confirm: ${player.dark.confirm ? "ON" : "OFF"}`
   );
+  tmp.cache.newsbtn.writeText(
+    `News ticker: ${player.news ? "ON" : "OFF"}`
+  )
   // oh don't worry we'll have plenty of these buttons in the future
-  tmp.cache["absurd"].writeText(`Absurd Mode: ${player.absurd ? "ON" : "OFF"}`);
-
+  tmp.cache.absurd.writeText(`Absurd Mode: ${player.absurd ? "ON" : "OFF"}`);
+  tmp.cache.tickerType.writeText(`News Ticker: ${player.linearNews ? "LINEAR" : "CURVED"}`)
 }
 
 function updateAutomation() {
-  tmp.cache["automationtoggle"].writeText(
+  tmp.cache.automationtoggle.writeText(
     "Automation: " + (player.automationtoggle ? "ON" : "OFF")
   );
 }
@@ -227,21 +236,7 @@ function setupRandom() {
   if (random < 0.001) document.title = "Trollcremental 2";
   if (random < 1e-30) {
     document.title = "Your luck skills have broken the multiverse and beyond";
-    const audio = new Audio(
-      "//cdn.glitch.global/3f70934b-8463-45ab-b33e-4045b9696eef/Rick_Astley_-_Never_Gonna_Give_You_Up_legitmuzic.com.mp3?v=1652834040070"
-    );
-    audio.addEventListener("canplaythrough", () => {
-      audio.loop = true;
-      const playId = setInterval(async () => {
-        try {
-          await audio.play();
-          clearInterval(playId);
-        } catch {
-          alert("Never gonna give you up, never gonna let you down! ...");
-          alert("Get back to playing the game you fool");
-        }
-      }, 1);
-    });
+    rickroll()
   }
   if (random < 1e-69) {
     alert("You have reached the funny number. Your number was...");

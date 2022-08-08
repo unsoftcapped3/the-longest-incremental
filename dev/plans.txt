@@ -47,8 +47,14 @@ And the exponent is adjustable.
   * At some point, there will be long timewalls that are hard to get past
   * You can buy Time Warps with the main L2 currency
   * Using a Time Warp allows you to jump 6 hours forward in time (this could be extended)
+  * (incremental_gamer) 6 hours????????????????? too much
   * Time Warps have a 60 second cooldown (or 5 minutes idk)
   * You can also use Time Warps to speed up time
+  * (Aarex) Suggestions:
+    * Time Warps have 30 second cooldown.
+    * You can use it to either:
+      * Jump 60 seconds or
+      * Speed up by 2x temporaily until cooldown ends.
 
 - (Aarex) Dark Alloying
 Many resources can be fused into higher-tier resources.
@@ -58,12 +64,14 @@ Many resources can be fused into higher-tier resources.
 -- (Aarex) I'm thinking about having multiple challenge choices to increase a level in a set.
 -- (Randomtuba) maybe there could be 4 pairs of challenges, light and dark, that have the same goal but different nerf and reward, and you can only choose one
 -- (Meta) customizable challenges could be post layer 2
+-- (yyyy) agreed on meta's opinion
+-- (incremental_gamer) maybe challenges that nerf things but unlock new mechanics?
 
 (In order to transition to L3)
 	* There's Elemental Essences, which you only gain one from all kinds.
 	* There's Essence which requires a lot of Darken resources. (which muliplies L3 gain)
 
-(post-Expansion content goes here -Meta)
+(post-Expansion content goes here -Meta) wait what, upgrade tree is supposed to be before expansion, only the last part is after -downvoid
 
 *** LAYERS 3+ ***
 - (downvoid) Upgrade Tree (L3, or maybe part of another layer?)
@@ -71,8 +79,30 @@ Many resources can be fused into higher-tier resources.
 	* Each element boosts a different thing, so like air could boost points, fire could boost boosters, water could boost polishers, etc.
   * Oh, and each element has its own mechanic. :)
 	* Light and Dark branches will be opposites, boosting 1 thing but nerfing something else. Buying 1 level of each upgrade will cancel each other out
+  * (and yes, these 2 are separate from the other 6 branches. They will be part of another upgrade tree)
 	* Pure branches are 3 branches that will be unlocked later (maybe as an extend mechanic unlock?), and they do something (tbd)
+  * hmm maybe we could make the 3 dimensions be the upgrades, like the more you go in one dimension the more the upgrade affects that particular thing
+  - Fire:
+    * :gwa:
+  - Water:
+  - Air:
+  - Earth:
+  - Light:
+  - Dark:
+  * elements after this will be unlocked later into layer 3
+  - Space:
+  - Time:
+  * elements after this will be post-extend
+  - Energy:
+  - Mana:
+  - Blood:
   
+- (randomtuba) Collider (L3 or L4)
+  * You generate matter from points and antimatter from dark energy
+  * You can collide both to create annihilation energy and dark matter
+  * Annihilation Energy can be used to make the Collider more effective, and speed up production of other currencies outside of Collider
+  * Dark Matter can be used to purchase upgrades
+
 - ASCENSION (L4):
   * Basically ascension from trollcremental
   * unlocked after Extend
@@ -96,13 +126,13 @@ Many resources can be fused into higher-tier resources.
     2. Time Trial
     3. Time Attacks (limited time)
   Your save will be retrived back on exiting.
-  
+5. (inremental_gamer) incremental version game
 - (Meta) Extend (L∞)
   * This layer underpins all others, with heavily scaled requirements.
   * Extending resets EVERYTHING except the Extend layer itself. 
   * Each reset unlocks a new layer, expands all layers, and unlocks some boosts to speed up the early game.
     * And yes, I do mean expand ALL layers. All the way from layer 0 to the most recently unlocked one.
-  * Unlocked at some point around L3-5, depending on how timewally the game is
+  * Unlocked at the end of Layer 3.
 
 TROLLING:
 We do a lot of trolling

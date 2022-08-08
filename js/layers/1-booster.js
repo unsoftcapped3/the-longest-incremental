@@ -108,7 +108,7 @@ const L1_MILESTONES = {
     },
     7: {
       req: D(15),
-      desc: "Unlock the Dark World.",
+      desc: "Unlock Consumption and the Dark World.",
     },
     8: {
       req: D(20),
@@ -181,8 +181,8 @@ let L1_POLISH = {
   },
   costMul(x) {
     let r = 1;
-    if (x == 3) r *= 10;
     if (L1_MILESTONES.unl(3)) r = 0.75;
+    if (x == 3) r *= 10;
     if (L1_CONSUME.unl()) r /= tmp.darkTones[3];
     return r;
   },
@@ -318,7 +318,10 @@ const L1_CONSUME = {
     let amt = D(player.boost.consume.amt);
     let points = player.points.max(10).log10();
     if (amt.eq(0)) return D(0);
-    return D(2).pow(amt).mul(D(2).pow(points.sqrt())).div(10);
+
+    let r = D(2).pow(amt).mul(D(2).pow(points.sqrt())).div(10);
+    if (hasUpg(0, "dark")) r = r.mul(3);
+    return r;
   },
   release() {
     if (
@@ -403,6 +406,12 @@ const L1_CONSUME = {
       max: (b) => b.div(5),
       eff: (l) => D(1).add(l.div(2)).pow(0.75),
       desc: (x) => "Raise Upgrade 1 by ^" + format(x) + ".",
+    },
+    5: {
+      unl: () => player.boost.amt.gte(100),
+      max: (b) => b.div(10),
+      eff: (l) => D(1).add(l.div(3)),
+      desc: (x) => "Raise Upgrade 5 by ^" + format(x) + ".",
     },
   },
 };

@@ -2,7 +2,9 @@ const tenthousandth = new Decimal(0.0001)
 const thousandth = new Decimal(0.001);
 const tenth = new Decimal(0.1);
 const e4 = new Decimal(1e4);
+const e6 = new Decimal(1e6);
 const e9 = new Decimal(1e9);
+const eeee1000 = new Decimal("eeee1000");
 
 function exponentialFormat(num, precision, mantissa = true) {
   let e = num.log10().floor()
@@ -18,8 +20,7 @@ function exponentialFormat(num, precision, mantissa = true) {
 
 function commaFormat(num, precision) {
   if (num.lt(thousandth)) return (0).toFixed(precision);
-  const init = num.toStringWithDecimalPlaces(precision);
-  const portions = init.split(".")
+  const portions = num.toStringWithDecimalPlaces(precision).split(".");
   portions[0] = portions[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
   if (portions.length === 1) return portions[0];
   return `${portions[0]}."${portions[1]}`;
@@ -36,12 +37,13 @@ function format(decimal, precision = 2) {
   decimal = new Decimal(decimal);
   if (Decimal.isNaN(decimal)) return  "[ERROR]: NaN";
   if (decimal.lt(Decimal.dZero)) return `-${format(decimal.neg(), precision)}`;
-        if (decimal.mag === Number.POSITIVE_INFINITY) return "Infinity"
-        if (decimal.gte("eeee1000")) {
-            let slog = decimal.slog()
-            if (slog.gte(1e6)) return "F" + format(slog.floor())
-            else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + commaFormat(slog.floor(), 0)
-        } else if (decimal.gte("1e1000000")) return exponentialFormat(decimal, 0, false)
+  if (!decimal.isFinite()) return "Infinity"
+  if (decimal.gte(eeee1000)) {
+    const slog = decimal.slog();
+    if (slog.gte(e6)) return `F${format(slog.floor())}`;
+    return `${Decimal.pow(Decimal.dTen, slog.sub(slog.floor())).toStringWithDecimalPlaces(3)}F${commaFormat(slog.floor(), 0)}`;
+  } 
+  if (decimal.gte("1e1000000")) return exponentialFormat(decimal, 0, false)
         else if (decimal.gte("1e10000")) return exponentialFormat(decimal, 0)
         else if (decimal.gte(1e6)) return exponentialFormat(decimal, precision)
         else if (decimal.gte(1e3)) return commaFormat(decimal, 0)

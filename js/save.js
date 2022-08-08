@@ -9,20 +9,43 @@ function decompressSave(data) {
 function deepCopy(object, data) {
   if (!data) return;
   // merge data into object
-  for (const [key, value] of Object.entries(data)) {
+  for (const key in data) {
     if (object[key] && object[key].constructor === Object)
-      deepCopy(object[key], value);
-    else if (object[key] === undefined) object[key] = value;
+      deepCopy(object[key], data[key]);
+    else if (object[key] === undefined) object[key] = data[key];
+    //stop. my method works with if (object[key] === undefined)
+    //please, it only assigns missing things.
+    // f i n e
+    //you need to handle both cases
+    //and assign it too
   }
   return object;
 }
 
 async function exportSave() {
   try {
-    await navigator.clipboard.writeText(compressSave());
+    if (!canSave) throw "Nice try."
+    await navigator.clipboard.writeText(compressSave())
     notifyMessage("Save successfully copied to clipboard.");
   } catch (e) {
-    notifyMessage("Your save could not be exported. Sorry!");
+    notifyMessage("Your save could not be exported due to an error. Sorry!");
+    console.error(e);
+  }
+}
+
+async function downloadSave() {
+  try {
+    if (!canSave) throw "Nice try."
+
+    const file = new Blob([compressSave()], {type: "text/plain"})
+    window.URL = window.URL || window.webkitURL;
+    const a = document.createElement("a")
+    a.href = window.URL.createObjectURL(file)
+    a.download = "The Longest Incremental - " + new Date().toGMTString()+".txt"
+    a.click()
+    notifyMessage("Save successfully downloaded.");
+  } catch (e) {
+    notifyMessage("Your save could not be exported due to an error. Sorry!");
     console.error(e);
   }
 }
@@ -32,10 +55,20 @@ function importSave(save) {
     save = save || prompt("paste your save here");
     if (!save) return;
     const data = decompressSave(save);
+    // WHY THIS WON"T WORK
+    // setup will overide data
+    // meaning that you won't have a imported save
+    // this overwrites the save for deepCopy(setup(), data).
+    // that mean data gets overwritten, not setup()
+    
     player = new Proxy(deepCopy(data, setup()), playerHandler);
-    //to do: fix undefined bug for player.dark
     resetTabs();
     setTheme(player.theme);
+
+    if (ver > player.ver) {
+      player.ver = ver
+      player.hasWon = false
+    }
   } catch (error) {
     alert("Invalid save!");
     console.error(error);
@@ -69,13 +102,13 @@ function load() {
 
     tmp.cache.loading_page.hide();
     tmp.cache.game_page.show();
-    setTimeout(function () {
+    setTimeout(() => {
       tmp.cache.dev.changeStyle("opacity", 0);
     }, 2000);
-    setTimeout(function () {
+    
+    setTimeout(() => {
       tmp.cache.dev.writeText("");
-    }, 5000);
-    player.absurd = false;
+    }, 5000)
   } catch (e) {
     canSave = false;
     console.error(e);
@@ -93,7 +126,7 @@ function resetTabs() {
   switchStab("main", player.stab.main);
   switchStab("stats", player.stab.stats);
   switchStab("settings", player.stab.settings);
-  switchStab("dark", player.stab.dark);
+  //switchStab("dark", player.stab.dark);
 }
 
 function reset() {
@@ -107,10 +140,5 @@ window.onload = load;
 window.onbeforeunload = save;
 
 const achInterval = setInterval(getAchs, 1000);
-const autoInterval = setInterval(function () {
-  if (L1_MILESTONES.unl(10) && player.automationtoggle) {
-    buyMaxBuyables();
-    if (L1_MILESTONES.unl(40)) for (var i = 0; i <= 6; i++) buyUpg(i, "normal");
-  }
-}, 2000);
+
 const saveInterval = setInterval(save, 15000);

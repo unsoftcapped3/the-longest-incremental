@@ -1,6 +1,4 @@
-// shameless taken from fe0000000
-// yeah this isn't very difficult lol
-
+// shamelessly taken from fe0000000
 function notifyMessage(text) {
     let e = document.createElement('div');
     e.className = 'notification';

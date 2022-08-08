@@ -1,6 +1,6 @@
 :root { /* theme stuff */
   --font: "Lato",sans-serif;
-  --font-color: #000;
+  --font-color: #000000;
   --bg: #719dcc;
 }
 
@@ -59,15 +59,15 @@ div, table {
   background-color: #000000;
 }
 #tab_btn_ach {
-  color: #fff;
-  background-color: #07f;
+  color: #ffffff;
+  background-color: #0077ff;
 }
 #tab_btn_settings, #stab_btn_settings_main, #tab_btn_stats, #stab_btn_settings_credits, #stab_btn_settings_changelog {
-  color: #fff;
-  background-color: #333;
+  color: #ffffff;
+  background-color: #333333;
 }
 #hardreset {
-  color: #fff;
+  color: #ffffff;
   background-color: #ff6464;
 }
 #notificationarea {
@@ -104,7 +104,7 @@ div, table {
   left: 50%;
   margin-left: -60px;
   background-color: black;
-  color: #fff;
+  color: #ffffff;
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
@@ -163,6 +163,7 @@ button:active {
 }
 .prestige2 {
   background-color: #2f2f2f;
+  color: #6f6f6f;
 }
 button.bought:hover, button.cannotbuy:hover {
   transform: scale(1)
@@ -240,5 +241,26 @@ button.bought:hover, button.cannotbuy:hover {
 }
 
 #milestones {
-  background-color: #000
+  background-color: #000000
+}
+
+#news_ticker_base {
+  width: 100%;
+  height: 30px;
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #000000;
+  border: solid;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@keyframes news_ticker {
+  from {transform: translateX(100vw);}
+  to {transform: translateX(-100vw);}
+}
+
+#news_ticker {
+  animation: news_ticker cubic-bezier(0,0,1,1) infinite; 
+  font-size: 20px;
 }
