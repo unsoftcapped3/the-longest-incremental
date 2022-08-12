@@ -1,3 +1,22 @@
-// name of layer is tbd
-// we don't need this until we reach layer 3
-// this will be the mechanic after darken stuff is done
+// hi player! If you're reading this, be the first to tell us and you'll get beta tester (or 0.25 of a personal role)!
+
+class Element {
+  constructor(name,cost,descendants,effect,effectdisplay) {
+    this.name = name;
+    this.cost = cost;
+    this.descendants = descendants;
+    this.effect = effect;
+    this.effectdisplay = effectdisplay;
+    this.bought = false;
+  }
+  
+  get isUnlocked() {
+    return this.unlocked();
+  }
+  
+  canBuy() {
+    return player.points.gte(this.cost);
+  }
+  
+  
+}

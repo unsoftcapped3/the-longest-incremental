@@ -119,11 +119,10 @@ const Decimal = (() => {
     // Faster AND simpler
     const powersOf10 = [];
     for (let i = NUMBER_EXP_MIN + 1; i <= NUMBER_EXP_MAX; i++) {
-      powersOf10.push(Number("1e" + i));
+      powersOf10.push(Number(`1e${i}`));
     }
-    const indexOf0InPowersOf10 = 323;
-    return function (power) {
-      return powersOf10[power + indexOf0InPowersOf10];
+    return function(power) {
+      return powersOf10[power + 323];
     };
   })(); //tetration/slog to real height stuff //background info and tables of values for critical functions taken here: https://github.com/Patashu/break_eternity.js/issues/22
   const critical_headers = [2, Math.E, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -334,9 +333,8 @@ const Decimal = (() => {
   const _twopi = 6.2831853071795864769252842; // 2*pi
   const _EXPN1 = 0.36787944117144232159553; // exp(-1)
   const OMEGA = 0.56714329040978387299997; // W(1, 0) //from https://math.stackexchange.com/a/465183 // The evaluation can become inaccurate very close to the branch point
-  const f_lambertw = function (z, tol = 1e-10) {
-    let w;
-    let wn;
+  const f_lambertw = function(z, tol = 1e-10) {
+    let w = z < 10 ? 0 : Math.log(z) - Math.log(Math.log(z)), wn;
     if (!Number.isFinite(z)) {
       return z;
     }
@@ -346,24 +344,15 @@ const Decimal = (() => {
     if (z === 1) {
       return OMEGA;
     }
-    if (z < 10) {
-      w = 0;
-    } else {
-      w = Math.log(z) - Math.log(Math.log(z));
-    }
     for (let i = 0; i < 100; ++i) {
       wn = (z * Math.exp(-w) + w * w) / (w + 1);
-      if (Math.abs(wn - w) < tol * Math.abs(wn)) {
-        return wn;
-      } else {
-        w = wn;
-      }
+      if (Math.abs(wn - w) < tol * Math.abs(wn)) return wn;
+      w = wn;
     }
-    throw Error(`Iteration failed to converge: ${z.toString()}`); //return Number.NaN;
+    throw Error(`Iteration failed to converge: ${z}`); //return Number.NaN;
   }; //from https://github.com/scipy/scipy/blob/8dba340293fe20e62e173bdf2c10ae208286692f/scipy/special/lambertw.pxd // The evaluation can become inaccurate very close to the branch point // at ``-1/e``. In some corner cases, `lambertw` might currently // fail to converge, or can end up on the wrong branch.
   function d_lambertw(z, tol = 1e-10) {
-    let w;
-    let ew, wewz, wn;
+    let w, ew, wewz, wn;
     if (!Number.isFinite(z.mag)) {
       return z;
     }
@@ -397,76 +386,46 @@ const Decimal = (() => {
       this.sign = 0;
       this.mag = 0;
       this.layer = 0;
-      if (value instanceof Decimal) {
-        this.fromDecimal(value);
-      } else if (typeof value === "number") {
-        this.fromNumber(value);
-      } else if (typeof value === "string") {
-        this.fromString(value);
-      }
+      if (value instanceof Decimal) this.fromDecimal(value);
+      if (typeof value === "number") this.fromNumber(value);
+      if (typeof value === "string") this.fromString(value);
     }
     get m() {
-      if (this.sign === 0) {
-        return 0;
-      } else if (this.layer === 0) {
-        const exp = Math.floor(Math.log10(this.mag)); //handle special case 5e-324
-        let man;
-        if (this.mag === 5e-324) {
-          man = 5;
-        } else {
-          man = this.mag / powerOf10(exp);
-        }
-        return this.sign * man;
-      } else if (this.layer === 1) {
-        const residue = this.mag - Math.floor(this.mag);
-        return this.sign * Math.pow(10, residue);
-      } else {
-        //mantissa stops being relevant past 1e9e15 / ee15.954
-        return this.sign;
-      }
+      if (this.sign === 0) return 0;
+      if (this.layer === 0) return this.sign * (this.mag === 5e-324 ? 5 : powerOf10(Math.floor(Math.log10(this.mag))))
+      if (this.layer === 1) return this.sign * Math.pow(10, this.mag - Math.floor(this.mag));
+      return this.sign;
     }
     set m(value) {
-      if (this.layer <= 2) {
-        this.fromMantissaExponent(value, this.e);
-      } else {
-        //don't even pretend mantissa is meaningful
-        this.sign = Math.sign(value);
-        if (this.sign === 0) {
-          this.layer = 0;
-          this.exponent = 0;
-        }
+      if (this.layer <= 2) this.fromMantissaExponent(value, this.e);
+      //don't even pretend mantissa is meaningful
+      this.sign = Math.sign(value);
+      if (this.sign === 0) {
+        this.layer = 0;
+        this.mag = 0;
       }
     }
     get e() {
-      if (this.sign === 0) {
-        return 0;
-      } else if (this.layer === 0) {
-        return Math.floor(Math.log10(this.mag));
-      } else if (this.layer === 1) {
-        return Math.floor(this.mag);
-      } else if (this.layer === 2) {
-        return Math.floor(
-          Math.sign(this.mag) * Math.pow(10, Math.abs(this.mag))
-        );
-      } else {
-        return this.mag * Number.POSITIVE_INFINITY;
+      if (this.mag === 0) return 0;
+      switch (this.layer) {
+        case 0:
+          return Math.floor(Math.log10(this.mag));
+          break;
+        case 1:
+          return Math.floor(this.mag);
+          break;
+        case 2:
+          return Math.floor(
+            Math.sign(this.mag) * Math.pow(10, Math.abs(this.mag)))
+          break;
+        default:
+          return this.mag * Infinity
+        break;
       }
     }
     set e(value) {
       this.fromMantissaExponent(this.m, value);
     }
-    get s() {
-      return this.sign;
-    }
-    set s(value) {
-      if (value === 0) {
-        this.sign = 0;
-        this.layer = 0;
-        this.mag = 0;
-      } else {
-        this.sign = value;
-      }
-    } // Object.defineProperty(Decimal.prototype, "mantissa", {
     get mantissa() {
       return this.m;
     }
@@ -513,22 +472,13 @@ const Decimal = (() => {
          @returns {Decimal} the Decimal
          */
     static fromValue_noAlloc(value) {
-      if (value instanceof Decimal) {
-        return value;
-      } else if (typeof value === "string") {
+      if (value instanceof Decimal) return value;
+      if (typeof value === "string") {
         const cached = Decimal.fromStringCache.get(value);
-        if (cached !== undefined) {
-          return cached;
-        }
+        if (cached) return cached;
         return Decimal.fromString(value);
-      } else if (typeof value === "number") {
-        return Decimal.fromNumber(value);
-      } else {
-        // This should never happen... but some users like Prestige Tree Rewritten
-        // pass undefined values in as DecimalSources, so we should handle this
-        // case to not break them.
-        return Decimal.dZero;
       }
+      if (typeof value === "number") return Decimal.fromNumber(value);
     }
     static abs(value) {
       return D(value).abs();
@@ -859,17 +809,7 @@ const Decimal = (() => {
       if (Math.random() * 20 < 1) {
         return FC_NN(randomsign, 0, 1);
       } //pick a random layer
-      const layer = Math.floor(Math.random() * (maxLayers + 1));
-      let randomexp =
-        layer === 0 ? Math.random() * 616 - 308 : Math.random() * 16; //10% of the time, make it a simple power of 10
-      if (Math.random() > 0.9) {
-        randomexp = Math.trunc(randomexp);
-      }
-      let randommag = Math.pow(10, randomexp); //10% of the time, trunc mag
-      if (Math.random() > 0.9) {
-        randommag = Math.trunc(randommag);
-      }
-      return FC(randomsign, layer, randommag);
+      const layer = Math.floor(Math.random() * 5)
     }
     static affordGeometricSeries_core(
       resourcesAvailable,
@@ -877,10 +817,9 @@ const Decimal = (() => {
       priceRatio,
       currentOwned
     ) {
-      const actualStart = priceStart.mul(priceRatio.pow(currentOwned));
       return Decimal.floor(
         resourcesAvailable
-          .div(actualStart)
+          .div(priceStart.mul(priceRatio.pow(currentOwned)))
           .mul(priceRatio.sub(1))
           .add(1)
           .log10()
@@ -895,8 +834,8 @@ const Decimal = (() => {
     ) {
       return priceStart
         .mul(priceRatio.pow(currentOwned))
-        .mul(Decimal.sub(1, priceRatio.pow(numItems)))
-        .div(Decimal.sub(1, priceRatio));
+        .mul(Decimal.sub(Decimal.dOne, priceRatio.pow(numItems)))
+        .div(Decimal.sub(Decimal.dOne, priceRatio));
     }
     static affordArithmeticSeries_core(
       resourcesAvailable,
@@ -907,12 +846,10 @@ const Decimal = (() => {
       // n = (-(a-d/2) + sqrt((a-d/2)^2+2dS))/d
       // where a is actualStart, d is priceAdd and S is resourcesAvailable
       // then floor it and you're done!
-      const actualStart = priceStart.add(currentOwned.mul(priceAdd));
-      const b = actualStart.sub(priceAdd.div(2));
-      const b2 = b.pow(2);
-      return b
+      const b = priceStart.add(currentOwned.mul(priceAdd)).sub(priceAdd.div(2));
+      return priceStart.add(currentOwned.mul(priceAdd)).sub(priceAdd.div(2))
         .neg()
-        .add(b2.add(priceAdd.mul(resourcesAvailable).mul(2)).sqrt())
+        .add(b.pow(2).add(priceAdd.mul(resourcesAvailable).mul(2)).sqrt())
         .div(priceAdd)
         .floor();
     }
@@ -922,10 +859,10 @@ const Decimal = (() => {
       priceAdd,
       currentOwned
     ) {
-      const actualStart = priceStart.add(currentOwned.mul(priceAdd)); // (n/2)*(2*a+(n-1)*d)
+       // (n/2)*(2*a+(n-1)*d)
       return numItems
         .div(2)
-        .mul(actualStart.mul(2).plus(numItems.sub(1).mul(priceAdd)));
+        .mul(priceStart.add(currentOwned.mul(priceAdd)).mul(2).plus(numItems.sub(1).mul(priceAdd)));
     }
     static efficiencyOfPurchase_core(cost, currentRpS, deltaRpS) {
       return cost.div(currentRpS).add(cost.div(deltaRpS));
@@ -1007,8 +944,7 @@ const Decimal = (() => {
     fromMantissaExponent(mantissa, exponent) {
       this.layer = 1;
       this.sign = Math.sign(mantissa);
-      mantissa = Math.abs(mantissa);
-      this.mag = exponent + Math.log10(mantissa);
+      this.mag = exponent + Math.log10(Math.Abs(mantissa));
       this.normalize();
       return this;
     }
@@ -1033,14 +969,10 @@ const Decimal = (() => {
     fromString(value) {
       const originalValue = value;
       const cached = Decimal.fromStringCache.get(originalValue);
-      if (cached !== undefined) {
-        return this.fromDecimal(cached);
-      }
-      if (IGNORE_COMMAS) {
-        value = value.replace(",", "");
-      } else if (COMMAS_ARE_DECIMAL_POINTS) {
-        value = value.replace(",", ".");
-      } //Handle x^^^y format.
+      if (cached) return this.fromDecimal(cached);
+      if (IGNORE_COMMAS) value = value.replace(",", "");
+      else if (COMMAS_ARE_DECIMAL_POINTS) value = value.replace(",", ".");
+      //Handle x^^^y format.
       const pentationparts = value.split("^^^");
       if (pentationparts.length === 2) {
         const base = parseFloat(pentationparts[0]);
@@ -1049,11 +981,9 @@ const Decimal = (() => {
         let payload = 1;
         if (heightparts.length === 2) {
           payload = parseFloat(heightparts[1]);
-          if (!isFinite(payload)) {
-            payload = 1;
-          }
+          if (!Number.isFinite(payload)) payload = 1;
         }
-        if (isFinite(base) && isFinite(height)) {
+        if (Number.isFinite(base) && Number.isFinite(height)) {
           const result = Decimal.pentate(base, height, payload);
           this.sign = result.sign;
           this.layer = result.layer;
@@ -1075,11 +1005,9 @@ const Decimal = (() => {
         let payload = 1;
         if (heightparts.length === 2) {
           payload = parseFloat(heightparts[1]);
-          if (!isFinite(payload)) {
-            payload = 1;
-          }
+          if (!Number.isFinite(payload)) payload = 1;
         }
-        if (isFinite(base) && isFinite(height)) {
+        if (Number.isFinite(base) && Number.isFinite(height)) {
           const result = Decimal.tetrate(base, height, payload);
           this.sign = result.sign;
           this.layer = result.layer;
@@ -1097,7 +1025,7 @@ const Decimal = (() => {
       if (powparts.length === 2) {
         const base = parseFloat(powparts[0]);
         const exponent = parseFloat(powparts[1]);
-        if (isFinite(base) && isFinite(exponent)) {
+        if (Number.isFinite(base) && Number.isFinite(exponent)) {
           const result = Decimal.pow(base, exponent);
           this.sign = result.sign;
           this.layer = result.layer;
@@ -1121,10 +1049,8 @@ const Decimal = (() => {
         ptparts[1] = ptparts[1].replace("(", "");
         ptparts[1] = ptparts[1].replace(")", "");
         let payload = parseFloat(ptparts[1]);
-        if (!isFinite(payload)) {
-          payload = 1;
-        }
-        if (isFinite(base) && isFinite(height)) {
+        if (!Number.isFinite(payload)) payload = 1;
+        if (Number.isFinite(base) && Number.isFinite(height)) {
           const result = Decimal.tetrate(base, height, payload);
           this.sign = result.sign;
           this.layer = result.layer;
@@ -1145,9 +1071,7 @@ const Decimal = (() => {
         ptparts[1] = ptparts[1].replace("(", "");
         ptparts[1] = ptparts[1].replace(")", "");
         let payload = parseFloat(ptparts[1]);
-        if (!isFinite(payload)) {
-          payload = 1;
-        }
+        if (Number.isFinite(payload)) payload = 1;
         if (isFinite(base) && isFinite(height)) {
           const result = Decimal.tetrate(base, height, payload);
           this.sign = result.sign;
@@ -1166,7 +1090,7 @@ const Decimal = (() => {
       const ecount = parts.length - 1; //Handle numbers that are exactly floats (0 or 1 es).
       if (ecount === 0) {
         const numberAttempt = parseFloat(value);
-        if (isFinite(numberAttempt)) {
+        if (Number.isFinite(numberAttempt)) {
           this.fromNumber(numberAttempt);
           if (Decimal.fromStringCache.size >= 1) {
             Decimal.fromStringCache.set(
@@ -1179,7 +1103,7 @@ const Decimal = (() => {
       } else if (ecount === 1) {
         //Very small numbers ("2e-3000" and so on) may look like valid floats but round to 0.
         const numberAttempt = parseFloat(value);
-        if (isFinite(numberAttempt) && numberAttempt !== 0) {
+        if (Number.isFinite(numberAttempt) && numberAttempt !== 0) {
           this.fromNumber(numberAttempt);
           if (Decimal.fromStringCache.maxSize >= 1) {
             Decimal.fromStringCache.set(
@@ -1193,9 +1117,7 @@ const Decimal = (() => {
       const newparts = value.split("e^");
       if (newparts.length === 2) {
         this.sign = 1;
-        if (newparts[0].charAt(0) == "-") {
-          this.sign = -1;
-        }
+        if (newparts[0][0] === "-") this.sign = -1;
         let layerstring = "";
         for (let i = 0; i < newparts[1].length; ++i) {
           const chrcode = newparts[1].charCodeAt(i);
@@ -1221,9 +1143,7 @@ const Decimal = (() => {
         this.sign = 0;
         this.layer = 0;
         this.mag = 0;
-        if (Decimal.fromStringCache.maxSize >= 1) {
-          Decimal.fromStringCache.set(originalValue, Decimal.fromDecimal(this));
-        }
+        if (Decimal.fromStringCache.maxSize >= 1) Decimal.fromStringCache.set(originalValue, Decimal.fromDecimal(this));
         return this;
       }
       const mantissa = parseFloat(parts[0]);
@@ -1231,20 +1151,18 @@ const Decimal = (() => {
         this.sign = 0;
         this.layer = 0;
         this.mag = 0;
-        if (Decimal.fromStringCache.maxSize >= 1) {
-          Decimal.fromStringCache.set(originalValue, Decimal.fromDecimal(this));
-        }
+        if (Decimal.fromStringCache.maxSize >= 1) Decimal.fromStringCache.set(originalValue, Decimal.fromDecimal(this));
         return this;
       }
       let exponent = parseFloat(parts[parts.length - 1]); //handle numbers like AeBeC and AeeeeBeC
       if (ecount >= 2) {
         const me = parseFloat(parts[parts.length - 2]);
-        if (isFinite(me)) {
+        if (Number.isFinite(me)) {
           exponent *= Math.sign(me);
           exponent += f_maglog10(me);
         }
       } //Handle numbers written like eee... (N es) X
-      if (!isFinite(mantissa)) {
+      if (!Number.isFinite(mantissa)) {
         this.sign = parts[0] === "-" ? -1 : 1;
         this.layer = ecount;
         this.mag = exponent;
@@ -1269,118 +1187,63 @@ const Decimal = (() => {
             );
           }
           return this;
-        } else {
-          //at eee and above, mantissa is too small to be recognizable!
-          this.mag = exponent;
-        }
+        } 
+        else this.mag = exponent;
       }
       this.normalize();
-      if (Decimal.fromStringCache.maxSize >= 1) {
-        Decimal.fromStringCache.set(originalValue, Decimal.fromDecimal(this));
-      }
+      if (Decimal.fromStringCache.maxSize >= 1) Decimal.fromStringCache.set(originalValue, Decimal.fromDecimal(this));
       return this;
     }
     fromValue(value) {
-      if (value instanceof Decimal) {
-        return this.fromDecimal(value);
-      }
-      if (typeof value === "number") {
-        return this.fromNumber(value);
-      }
-      if (typeof value === "string") {
-        return this.fromString(value);
-      }
+      if (value instanceof Decimal) return this.fromDecimal(value);
+      if (typeof value === "number") return this.fromNumber(value);
+      if (typeof value === "string") return this.fromString(value);
       this.sign = 0;
       this.layer = 0;
       this.mag = 0;
       return this;
     }
     toNumber() {
-      if (!Number.isFinite(this.layer)) {
-        return Number.NaN;
-      }
-      if (this.layer === 0) {
-        return this.sign * this.mag;
-      } else if (this.layer === 1) {
-        return this.sign * Math.pow(10, this.mag);
-      } //overflow for any normalized Decimal
-      else {
-        return this.mag > 0
-          ? this.sign > 0
-            ? Number.POSITIVE_INFINITY
-            : Number.NEGATIVE_INFINITY
-          : 0;
-      }
+      if (!Number.isFinite(this.layer)) return NaN;
+      if (this.layer === 0) return this.sign * this.mag;
+      if (this.layer === 1) return this.sign * Math.pow(10, this.mag);
+      //overflow for any normalized Decimal
+      return this.mag > 0 ? this.sign > 0 ? Infinity: -Infinity : 0;
     }
     mantissaWithDecimalPlaces(places) {
       // https://stackoverflow.com/a/37425022
-      if (isNaN(this.m)) {
-        return Number.NaN;
-      }
-      if (this.m === 0) {
-        return 0;
-      }
+      if (Number.isNaN(this.m)) return NaN;
+      if (this.m === 0) return 0;
       return decimalPlaces(this.m, places);
     }
     magnitudeWithDecimalPlaces(places) {
       // https://stackoverflow.com/a/37425022
-      if (isNaN(this.mag)) {
-        return Number.NaN;
-      }
-      if (this.mag === 0) {
-        return 0;
-      }
+      if (Number.isNaN(this.mag)) return Number.NaN;
+      if (this.mag === 0) return 0;
       return decimalPlaces(this.mag, places);
     }
     toString() {
-      if (isNaN(this.layer) || isNaN(this.sign) || isNaN(this.mag)) {
-        return "NaN";
-      }
-      if (
-        this.mag === Number.POSITIVE_INFINITY ||
-        this.layer === Number.POSITIVE_INFINITY
-      ) {
-        return this.sign === 1 ? "Infinity" : "-Infinity";
-      }
+      if (Number.isNaN(this.layer) || Number.isNaN(this.mag)) return "NaN";
+      if (this.mag === Infinity || this.layer === Infinity) return this.sign === 1 ? "Infinity" : "-Infinity";
       if (this.layer === 0) {
-        if ((this.mag < 1e21 && this.mag > 1e-7) || this.mag === 0) {
-          return (this.sign * this.mag).toString();
-        }
-        return this.m + "e" + this.e;
-      } else if (this.layer === 1) {
-        return this.m + "e" + this.e;
-      } else {
-        //layer 2+
-        if (this.layer <= MAX_ES_IN_A_ROW) {
-          return (
-            (this.sign === -1 ? "-" : "") + "e".repeat(this.layer) + this.mag
-          );
-        } else {
-          return (
-            (this.sign === -1 ? "-" : "") + "(e^" + this.layer + ")" + this.mag
-          );
-        }
+        if ((this.mag < 1e21 && this.mag > 1e-7) || this.mag === 0) return (this.sign * this.mag).toString();
+        return `${this.m}e${this.e}`;;
       }
+      if (this.layer === 1) return `${this.m}e${this.e}`;
+      if (this.layer <= MAX_ES_IN_A_ROW) return (this.sign === -1 ? "-" : "") + "e".repeat(this.layer) + this.mag;
+      return `${this.sign === -1 ? "-" : ""}(e^${this.layer})${this.mag}`;
     }
     toExponential(places) {
-      if (this.layer === 0) {
-        return (this.sign * this.mag).toExponential(places);
-      }
+      if (this.layer === 0) return (this.sign * this.mag).toExponential(places);
       return this.toStringWithDecimalPlaces(places);
     }
     toFixed(places) {
-      if (this.layer === 0) {
-        return (this.sign * this.mag).toFixed(places);
-      }
+      if (this.layer === 0) return (this.sign * this.mag).toFixed(places);
       return this.toStringWithDecimalPlaces(places);
     }
     toPrecision(places) {
-      if (this.e <= -7) {
-        return this.toExponential(places - 1);
-      }
-      if (places > this.e) {
-        return this.toFixed(places - this.exponent - 1);
-      }
+      if (this.e <= -7) return this.toExponential(places - 1);
+      if (places > this.e) return this.toFixed(places - this.exponent - 1);
       return this.toExponential(places - 1);
     }
     valueOf() {
@@ -1391,112 +1254,62 @@ const Decimal = (() => {
     }
     toStringWithDecimalPlaces(places) {
       if (this.layer === 0) {
-        if ((this.mag < 1e21 && this.mag > 1e-7) || this.mag === 0) {
-          return (this.sign * this.mag).toFixed(places);
-        }
-        return (
-          decimalPlaces(this.m, places) + "e" + decimalPlaces(this.e, places)
-        );
-      } else if (this.layer === 1) {
-        return (
-          decimalPlaces(this.m, places) + "e" + decimalPlaces(this.e, places)
-        );
-      } else {
+        if ((this.mag < 1e21 && this.mag > 1e-7) || this.mag === 0) return (this.sign * this.mag).toFixed(places);
+        return `${decimalPlaces(this.m, places)}e${decimalPlaces(this.e, places)}`;
+      if (this.layer === 1) return `${decimalPlaces(this.m, places)}e${decimalPlaces(this.e, places)}`;
+      else {
         //layer 2+
-        if (this.layer <= MAX_ES_IN_A_ROW) {
-          return (
-            (this.sign === -1 ? "-" : "") +
-            "e".repeat(this.layer) +
-            decimalPlaces(this.mag, places)
-          );
-        } else {
-          return (
-            (this.sign === -1 ? "-" : "") +
-            "(e^" +
-            this.layer +
-            ")" +
-            decimalPlaces(this.mag, places)
-          );
-        }
+        if (this.layer <= MAX_ES_IN_A_ROW) return (this.sign === -1 ? "-" : "") + "e".repeat(this.layer) + decimalPlaces(this.mag, places);
+        return `${this.sign === -1 ? "-" : ""}(e^${this.layer})${decimalPlaces(this.mag, places)}`;
       }
-    }
+    }}
     abs() {
-      return FC_NN(this.sign === 0 ? 0 : 1, this.layer, this.mag);
+      return FC_NN(Math.abs(this.sign), this.layer, this.mag);
     }
     neg() {
       return FC_NN(-this.sign, this.layer, this.mag);
     }
     negate() {
-      return this.neg();
+      return FC_NN(-this.sign, this.layer, this.mag);
     }
     negated() {
-      return this.neg();
-    } // public sign () { //     return this.sign; //   }
+      return FC_NN(-this.sign, this.layer, this.mag);
+    }
     sgn() {
       return this.sign;
     }
     round() {
-      if (this.mag < 0) {
-        return Decimal.dZero;
-      }
-      if (this.layer === 0) {
-        return FC(this.sign, 0, Math.round(this.mag));
-      }
+      if (this.mag < 0) return Decimal.dZero;
+      if (this.layer === 0) return FC(this.sign, 0, Math.round(this.mag));
       return this;
     }
     floor() {
-      if (this.mag < 0) {
-        return Decimal.dZero;
-      }
-      if (this.layer === 0) {
-        return FC(this.sign, 0, Math.floor(this.mag));
-      }
+      if (this.mag < 0) return Decimal.dZero;
+      if (this.layer === 0) return FC(this.sign, 0, Math.floor(this.mag));
       return this;
     }
     ceil() {
-      if (this.mag < 0) {
-        return Decimal.dZero;
-      }
-      if (this.layer === 0) {
-        return FC(this.sign, 0, Math.ceil(this.mag));
-      }
+      if (this.mag < 0) return Decimal.dZero;
+      if (this.layer === 0) return FC(this.sign, 0, Math.ceil(this.mag));
       return this;
     }
     trunc() {
-      if (this.mag < 0) {
-        return Decimal.dZero;
-      }
-      if (this.layer === 0) {
-        return FC(this.sign, 0, Math.trunc(this.mag));
-      }
+      if (this.mag < 0) return Decimal.dZero;
+      if (this.layer === 0) return FC(this.sign, 0, Math.trunc(this.mag));
       return this;
     }
     add(value) {
       const decimal = D(value); //inf/nan check
-      if (!Number.isFinite(this.layer)) {
-        return this;
-      }
-      if (!Number.isFinite(decimal.layer)) {
-        return decimal;
-      } //Special case - if one of the numbers is 0, return the other number.
-      if (this.sign === 0) {
-        return decimal;
-      }
-      if (decimal.sign === 0) {
-        return this;
-      } //Special case - Adding a number to its negation produces 0, no matter how large.
-      if (
-        this.sign === -decimal.sign &&
-        this.layer === decimal.layer &&
-        this.mag === decimal.mag
-      ) {
-        return FC_NN(0, 0, 0);
-      }
-      let a;
-      let b; //Special case: If one of the numbers is layer 2 or higher, just take the bigger number.
-      if (this.layer >= 2 || decimal.layer >= 2) {
-        return this.maxabs(decimal);
-      }
+      if (!Number.isFinite(this.layer)) return this;
+      if (!Number.isFinite(decimal.layer)) return decimal;
+      //Special case - if one of the numbers is 0, return the other number.
+      if (this.sign === 0) return decimal;
+      if (decimal.sign === 0) return this;
+      //Special case - Adding a number to its negation produces 0, no matter how large.
+      if (this.sign === -decimal.sign && this.layer === decimal.layer && this.mag === decimal.mag) return FC_NN(0, 0, 0);
+      //Special case: If one of the numbers is layer 2 or higher, just take the bigger number.
+      if (this.layer >= 2 || decimal.layer >= 2) return this.maxabs(decimal);
+      let a, b;
       if (Decimal.cmpabs(this, decimal) > 0) {
         a = this;
         b = decimal;
@@ -1504,51 +1317,23 @@ const Decimal = (() => {
         a = decimal;
         b = this;
       }
-      if (a.layer === 0 && b.layer === 0) {
-        return Decimal.fromNumber(a.sign * a.mag + b.sign * b.mag);
-      }
+      if (a.layer === 0 && b.layer === 0) return Decimal.fromNumber(a.sign * a.mag + b.sign * b.mag);
       const layera = a.layer * Math.sign(a.mag);
       const layerb = b.layer * Math.sign(b.mag); //If one of the numbers is 2+ layers higher than the other, just take the bigger number.
-      if (layera - layerb >= 2) {
-        return a;
-      }
+      if (layera - layerb >= 2) return a;
       if (layera === 0 && layerb === -1) {
-        if (Math.abs(b.mag - Math.log10(a.mag)) > MAX_SIGNIFICANT_DIGITS) {
-          return a;
-        } else {
-          const magdiff = Math.pow(10, Math.log10(a.mag) - b.mag);
-          const mantissa = b.sign + a.sign * magdiff;
-          return FC(
-            Math.sign(mantissa),
-            1,
-            b.mag + Math.log10(Math.abs(mantissa))
-          );
-        }
+        if (Math.abs(b.mag - Math.log10(a.mag)) > MAX_SIGNIFICANT_DIGITS) return a;
+        const mantissa = b.sign + a.sign * Math.pow(1, Math.log10(a.mag) - b.mag);
+        return FC(Math.sign(mantissa),1,b.mag + Math.log10(Math.abs(mantissa)));
       }
       if (layera === 1 && layerb === 0) {
-        if (Math.abs(a.mag - Math.log10(b.mag)) > MAX_SIGNIFICANT_DIGITS) {
-          return a;
-        } else {
-          const magdiff = Math.pow(10, a.mag - Math.log10(b.mag));
-          const mantissa = b.sign + a.sign * magdiff;
-          return FC(
-            Math.sign(mantissa),
-            1,
-            Math.log10(b.mag) + Math.log10(Math.abs(mantissa))
-          );
-        }
+        if (Math.abs(a.mag - Math.log10(b.mag)) > MAX_SIGNIFICANT_DIGITS) return a;
+        const mantissa = b.sign + a.sign * Math.pow(10, a.mag - Math.log10(b.mag));
+        return FC(Math.sign(mantissa),1,Math.log10(b.mag) + Math.log10(Math.abs(mantissa)));
       }
-      if (Math.abs(a.mag - b.mag) > MAX_SIGNIFICANT_DIGITS) {
-        return a;
-      } else {
-        const magdiff = Math.pow(10, a.mag - b.mag);
-        const mantissa = b.sign + a.sign * magdiff;
-        return FC(
-          Math.sign(mantissa),
-          1,
-          b.mag + Math.log10(Math.abs(mantissa))
-        );
-      }
+      if (Math.abs(a.mag - b.mag) > MAX_SIGNIFICANT_DIGITS) return a;
+      const mantissa = b.sign + a.sign * Math.pow(10, a.mag - b.mag);
+      return FC(Math.sign(mantissa), 1, b.mag + Math.log10(Math.abs(mantissa)));
     }
     plus(value) {
       return this.add(value);

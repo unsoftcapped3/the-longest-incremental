@@ -1,5 +1,9 @@
 const tmp = {
-  cache: {} // for DOM element cache
+  cache: {}, // for DOM element cache
+  temp: {
+    boosterAuto: false,
+    consumeAuto: false
+  }
 };
 
 function setupTmp() {
@@ -9,5 +13,6 @@ function setupTmp() {
 }
 
 function updateTmp() {
+  L2_RECALL.updateTmp();
 	L1_CONSUME.updateTmp();
 }

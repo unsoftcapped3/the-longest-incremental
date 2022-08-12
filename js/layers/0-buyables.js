@@ -1,11 +1,14 @@
 const buyableOrder = [0, 1, 2, 4, 5, 3];
 const buyables = {
   0: {
-    cost(b) {
-      return Decimal.pow(1.4, b || getBuyable(0)).times(10);
-    },
-    bulk() {
-      return player.points.div(10).log(1.4).floor().add(1);
+    cost: {
+      init() {
+        let x = D(10);
+        if (L1_MILESTONES.unl(8)) x = x.root(L1_POLISH.cheap());
+        if (L1_MILESTONES.unl(11)) x = x.div(creatorPowerEff());
+        return x;
+      },
+      exp: 1.4
     },
     limit: Infinity,
     prod() {
@@ -25,20 +28,18 @@ const buyables = {
     name: "Maker",
   },
   1: {
-    initCost() {
-      let x = D(25);
-      if (L1_MILESTONES.unl(8)) x = x.root(Math.sqrt(L1_POLISH.flat(4)));
-      return x.mul(10);
-    },
-    cost(b) {
-      return Decimal.pow(1.6, b || getBuyable(1)).times(this.initCost());
-    },
-    bulk() {
-      return player.points.div(this.initCost()).log(1.6).floor().add(1);
+    cost: {
+      init() {
+        let x = D(250);
+        if (L1_MILESTONES.unl(8)) x = x.root(L1_POLISH.cheap());
+        if (L1_MILESTONES.unl(11)) x = x.div(creatorPowerEff());
+        return x;
+      },
+      exp: 1.6
     },
     limit: Infinity,
     prod() {
-      let r = D(getBuyable(1)).mul(10);
+      let r = getBuyable(1).mul(10);
       if (L1_MILESTONES.unl(1)) r = r.mul(3);
       if (player.boost.unl) r = r.mul(L1_POLISH.eff(1));
       if (L1_CONSUME.unl()) r = r.mul(tmp.darkTones[1][1]);
@@ -53,20 +54,18 @@ const buyables = {
     name: "Generator",
   },
   2: {
-    initCost() {
-      let x = D(1e3);
-      if (L1_MILESTONES.unl(8)) x = x.root(Math.sqrt(L1_POLISH.flat(4)));
-      return x.mul(10);
-    },
-    cost(b) {
-      return Decimal.pow(1.8, b || getBuyable(2)).times(this.initCost());
-    },
-    bulk() {
-      return player.points.div(this.initCost()).log(1.8).floor().add(1);
+    cost: {
+      init() {
+        let x = D(1e4);
+        if (L1_MILESTONES.unl(8)) x = x.root(L1_POLISH.cheap());
+        if (L1_MILESTONES.unl(11)) x = x.div(creatorPowerEff());
+        return x;
+      },
+      exp: 1.8
     },
     limit: Infinity,
     prod() {
-      let r = D(getBuyable(2)).mul(100);
+      let r = getBuyable(2).mul(100);
       if (player.boost.unl) r = r.mul(L1_POLISH.eff(2));
       if (L1_CONSUME.unl()) r = r.mul(tmp.darkTones[1][2]);
       return r;
@@ -80,19 +79,18 @@ const buyables = {
     name: "Producer",
   },
   3: {
-    cost() {
-      let amt = getBuyable(3);
-      // if (amt.gte(15)) amt = amt.sub(14).pow(1.5).add(14)
-      // like, same as "scaled" in DI, we would do (x-a)^2+a
-      return Decimal.pow(10, amt).times(1e5);
-    },
-    bulk() {
-      return player.points.div(1e5).log10().floor().add(1);
+    cost: {
+      init: D(1e5),
+      exp: 10,
+      scaled: {
+        start: 250,
+        pow: 1.5
+      }
     },
     limit: Infinity,
     prod() {
-      let b = D(getBuyable(3));
-      if (L1_CONSUME.unl()) b = b.sub(L1_CONSUME.consumeEff());
+      let b = getBuyable(3);
+      if (L1_CONSUME.unl()) b = b.sub(L1_CONSUME.consumeAmt());
       if (L1_CONSUME.unl()) b = b.add(tmp.darkTones[0]);
       return Decimal.pow(D(2).add(L1_POLISH.eff(3)), b);
     },
@@ -110,26 +108,25 @@ const buyables = {
     },
     onBuy() {
       doLayer1Reset();
+      tmp.temp.boosterAuto = true
     },
-    name: "Booster",
+    name: "Booster"
   },
   4: {
-    initCost() {
-      let x = D(1e7);
-      if (L1_MILESTONES.unl(8)) x = x.root(Math.sqrt(L1_POLISH.flat(4)));
-      return x.mul(10);
-    },
-    cost(b) {
-      return Decimal.pow(2, b || getBuyable(4)).times(this.initCost());
-    },
-    bulk() {
-      return player.points.div(this.initCost()).log(2).floor().add(1);
+    cost: {
+      init() {
+        let x = D(1e8);
+        if (L1_MILESTONES.unl(8)) x = x.root(L1_POLISH.cheap());
+        if (L1_MILESTONES.unl(11)) x = x.div(creatorPowerEff());
+        return x;
+      },
+      exp: 2
     },
     limit: Infinity,
     prod() {
-      let r = D(getBuyable(4)).mul(3e3);
+      let r = getBuyable(4).mul(3e3);
       if (player.boost.unl) r = r.mul(L1_POLISH.eff(4));
-      if (hasUpg(5, "normal")) r = r.mul(D(player.buyables[3]).add(1));
+      if (hasUpg(5, "normal")) r = r.mul(upgrades.normal.list[5].effect());
       if (L1_CONSUME.unl()) r = r.mul(tmp.darkTones[1][4]);
       return r;
     },
@@ -142,55 +139,86 @@ const buyables = {
     name: "Factory",
   },
   5: {
-    cost(b) {
-      return D("Infinity");
-    },
-    bulk() {
-      return D(0);
+    //Creator Enhancements unlock at Layer 3.
+    cost: {
+      init: D(1e80),
+      exp: 1.5,
+      // why do we need it?
+      // pow: 2
+      // it's due to Creator Enhancements
+      // maybe later
+      // like superscale or smh
     },
     limit: Infinity,
     prod() {
-      return D(0);
+      let r = getBuyable(5).pow(2)
+      if (L2_RECALL.unl()) r = r.mul(tmp.darkRecall.st)
+      return r;
     },
     prodDisp(x) {
-      return "+" + format(x) + "/s";
+      return "+" + format(x) + " CP/s";
     },
     unlocked() {
-      return layer_placeholder(3);
+      return L1_MILESTONES.unl(12);
     },
     name: "Creator",
   },
 };
 const BUYABLE_KEYS = Object.keys(buyables);
-function canAffordBuyable(id) {
-  return Decimal.gte(player.points, buyables[id].cost());
+
+//Cost functions!
+function getBuyableCost(id, lvl) {
+  return getCost(buyables[id].cost, lvl || getBuyable(id))
 }
-function buyBuyable(id, max) {
+
+function getBuyableBulk(id, res) {
+  return getBulk(buyables[id].cost, res || player.points)
+}
+
+function isBuyableScaled(id) {
+  return isScaled(buyables[id].cost, getBuyable(id))
+}
+
+function getBuyableScalePower(id) {
+  return isBuyableScaled(id) ? buyables[id].cost.scaled.pow : 1
+}
+
+function getBuyableScaleStart(id) {
+  return startsAt(buyables[id].cost)
+}
+
+//...
+function canAffordBuyable(id) {
+  return Decimal.gte(player.points, getBuyableCost(id));
+}
+
+function buyBuyable(id, max, auto) {
   const dict = buyables;
   const data = dict[id];
 
   const src = player.buyables;
-  const cost = data.cost();
-  const bulk = data.bulk();
+  const cost = getBuyableCost(id);
+  const bulk = getBuyableBulk(id);
+  // also this thing is broken
+  // buying it actually doesn't buy it
 
-  //if (Decimal.gte(src[id], data.limit)) return;
   if (id == 3 && hasUpg(1, "dark")) max = true;
   if (Decimal.gte(player.points, cost)) {
-    if (data.confirm && !data.confirm()) return;
-    player.points = Decimal.sub(
+    if (!auto && data.confirm && !data.confirm()) return;
+    if (!L1_MILESTONES.unl(11)) player.points = Decimal.sub(
       player.points,
-      max ? data.cost(bulk.sub(1)) : cost
+      max ? getBuyableCost(id, bulk.sub(1)) : cost
     ).max(0);
     src[id] = max ? bulk : Decimal.add(src[id], 1);
     if (data.onBuy) data.onBuy();
   }
 }
 function buyMaxBuyables() {
-  for (var i = 4; i > -1; i--)
+  for (const i of BUYABLE_KEYS)
     if (i != 3 && buyables[i].unlocked()) buyBuyable(i, true);
 }
 function getBuyable(id) {
-  return D(player.buyables[id]);
+  return D(player.buyables[id] || 0);
 }
 function updateBuyables() {
   for (const key of BUYABLE_KEYS) {
@@ -198,7 +226,7 @@ function updateBuyables() {
       "display",
       buyables[key].unlocked() ? "table-row" : "none"
     );
-    tmp.cache[`buyableAmount${key}`].writeText(format(player.buyables[key], 0));
+    tmp.cache[`buyableAmount${key}`].writeText(format(getBuyable(key), 0));
     tmp.cache[`buyableProd${key}`].writeText(
       buyables[key].prodDisp(buyables[key].prod())
     );
@@ -206,16 +234,21 @@ function updateBuyables() {
       "cannotbuy",
       key == 3 ? "prestige" : "canbuy",
     ]);
-    tmp.cache[`buyableCost${key}`].writeText(format(buyables[key].cost()));
+    tmp.cache[`buyableCost${key}`].writeText(format(getBuyableCost(key)));
     tmp.cache[`buyableBoostDiv${key}`].changeStyle(
       "display",
       player.boost.unl && key != 3 ? "table-cell" : "none"
     );
     tmp.cache[`buyableBoostEff${key}`].changeStyle(
       "display",
-      player.boost.unl && L1_POLISH.amt(key) && key != 3 ? "table-cell" : "none"
+      key == 5 ? "table-cell" : 
+      player.boost.unl && L1_POLISH.amt(key) ? "table-cell" : "none"
     );
+    tmp.cache[`buyableScale${key}`].writeText(
+      getScalingName(buyables[key].cost, getBuyable(key))
+    )
   }
+  // what keeps happening with this
 }
 
 const upgrades = {
@@ -225,6 +258,7 @@ const upgrades = {
     src: () => player.upgrades,
     res_src: () => player,
     res: "points",
+    spendable: () => L1_MILESTONES.unl(11),
     list: {
       0: {
         //upgrade
@@ -284,15 +318,13 @@ const upgrades = {
       },
       5: {
         cost: D(1.5e13),
-        desc: "Factory production is multiplied by your total amount of boosters.",
+        desc: "Factory production is multiplied by Boosters.",
         effectDisplay() {
           return hasUpg(5) ? "UNLOCKED" : "LOCKED";
         },
         unlocked: () => hasUpg(4),
         effect() {
-          let r = D(player.buyables[3]).add(1);
-          if (L1_CONSUME.unl()) r = r.pow(tmp.darkTones[5]);
-          return r
+          return player.boost.amt.add(1)
         },
         effectDisplay() {
           return format(this.effect()) + "x";
@@ -320,6 +352,7 @@ const upgrades = {
     src: () => player.dark.upg,
     res_src: () => player.dark.res,
     res: "dm",
+    spendable: () => true,
     list: {
       0: {
         cost: D(1),
@@ -338,11 +371,95 @@ const upgrades = {
         },
       },
       2: {
-        cost: D(1),
-        desc: "Unlock Abilities and Recall. [post-end-game: soon]",
+        cost: D(3),
+        desc: "Unlock Abilities and Recall.",
         unlocked: () => hasUpg(0, "dark"),
         effectDisplay() {
-          return hasUpg(2, "dark") ? "THE END (for now)" : "LOCKED";
+          return hasUpg(2, "dark") ? "UNLOCKED" : "LOCKED";
+        },
+      },
+
+      3: {
+        cost: D(5),
+        desc: "Gain more Points based on Dark Matter.",
+        effect() {
+          return D(player.dark.res.dm).add(1).log10().sqr().add(3);
+        },
+        unlocked: () => hasUpg(2, "dark"),
+        effectDisplay() {
+          return format(this.effect()) + "x";
+        },
+      },
+      4: {
+        cost: D(25),
+        desc: "Booster Enhances multiply Dark Toning 1's effect.",
+        effect() {
+          let amt = D(player.boost.bu[3] || 0)
+          return amt.sqrt().div(4).add(1.7)
+        },
+        unlocked: () => hasUpg(3, "dark"),
+        effectDisplay() {
+          return format(this.effect()) + "x";
+        },
+      },
+      5: {
+        cost: D(50),
+        desc: "Gain more Dark Resources based on highest Dark Energy.",
+        effect() {
+          return D(player.boost.consume.maxEng).div(1e6).add(1).pow(.2)
+        },
+        unlocked: () => hasUpg(4, "dark"),
+        effectDisplay() {
+          return format(this.effect()) + "x";
+        },
+      },
+      6: {
+        cost: D(100),
+        desc: "Automate boosters every 2 seconds, and passively get boosters up to 5 lower than maximum gain.",
+        unlocked: () => hasUpg(4, "dark"),
+        effectDisplay() {
+          return hasUpg(6, "dark") ? "UNLOCKED" : "LOCKED";
+        },
+      },
+      7: {
+        cost: D(200),
+        desc: "Unlock Dark Alloying.",
+        unlocked: () => hasUpg(6, "dark"),
+        effectDisplay() {
+          return hasUpg(7, "dark") ? "UNLOCKED" : "LOCKED";
+        },
+      },
+
+      8: {
+        cost: D(1e4),
+        desc: "Enhancing is 25% cheaper.",
+        unlocked: () => hasUpg(7, "dark"),
+        effectDisplay() {
+          return hasUpg(8, "dark") ? "UNLOCKED" : "LOCKED";
+        },
+      },
+      9: {
+        cost: D(1e5),
+        desc: "Multiply Recall Resources by 2x.",
+        unlocked: () => hasUpg(8, "dark"),
+        effectDisplay() {
+          return hasUpg(9, "dark") ? "UNLOCKED" : "LOCKED";
+        },
+      },
+      10: {
+        cost: D(1e5),
+        desc: "Automate Enhance and Consumption.",
+        unlocked: () => hasUpg(6, "dark"),
+        effectDisplay() {
+          return hasUpg(10, "dark") ? "UNLOCKED" : "LOCKED";
+        },
+      },
+      11: {
+        cost: D(2e6),
+        desc: "Unlock Challenges. [soon]",
+        unlocked: () => hasUpg(9, "dark"),
+        effectDisplay() {
+          return hasUpg(11, "dark") ? "THE END" : "LOCKED";
         },
       },
     },
@@ -360,11 +477,11 @@ function buyUpg(id, type = "normal") {
   const data = upgrades[type];
   const res_src = data.res_src();
   data.src()[id] = 1;
-  res_src[data.res] = D(res_src[data.res]).sub(data.list[id].cost);
+  if (data.spendable()) res_src[data.res] = D(res_src[data.res]).sub(data.list[id].cost);
 }
 function hasUpg(id, type = "normal") {
   const src = upgrades[type].src();
-  return src[id] && src[id] !== "0";
+  return !!src[id] && src[id] !== "0";
 }
 function hasUpgrade(id, type) {
   return hasUpg(id, type);
@@ -397,12 +514,34 @@ function setupUpgradeBuyables() {
   document.getElementById("buildings").innerHTML = htmlFor(
     buyableOrder,
     function (key) {
-      value = buyables[key];
-      return `<tr id="mainBuyable${key}">
-     <td> <img id="${value.name.toLowerCase()}img" src="${imageMap(
-        value.name
-      )}"></td>
-        <td style='text-align: left; width: 120px'><b>${value.name}</b>:</td>
+      const value = buyables[key];
+      const name = value.name
+      let html = ""
+  
+      if (key === 0) html = `<tr><td></td><td></td><td></td><td></td><td>
+        <button
+          id="automationtoggle"
+          onclick="player.automationtoggle=!player.automationtoggle"
+        ></button>
+        <button id="max_all" onclick="buyMaxBuyables()">Buy max (M)</button>
+      </td><td>
+        <div id="buyableBoost"></div>
+        <button
+          id="autoenhance"
+          onclick="openModal('boost')"
+        >Open Auto</button>
+        <button id="polish_respec" onclick="L1_POLISH.respec()">Respec</button>
+      </td></tr>`
+      //header
+
+      html += `<tr id="mainBuyable${key}">
+        <td><img id="${name}img" src="${imageMap(
+          // TODO: shrink image
+          name.toLowerCase()
+        )}"></td>
+        <td style='text-align: left; width: 120px'>
+          <span id="buyableScale${key}"></span> ${name}</b>:
+        </td>
         <td         
          id="buyableAmount${key}"  style='text-align: left; width: 60px'></td>
         <td style="font-size: 14px">
@@ -420,19 +559,38 @@ function setupUpgradeBuyables() {
             points
           </button>
         </td>
-        <td id="buyableBoostDiv${key}">
-          <button 
-            id="buyableBoost${key}" 
-            class="upgbutton cannotbuy"
-            onclick="L1_POLISH.buy(${key})">
- 	              (0) Enhance: ??? boosters
-          </button>
-        </td>
+        <td><div id="buyableBoostDiv${key}">
+            <button 
+              id="buyableBoost${key}" 
+              class="upgbutton cannotbuy"
+              onclick="L1_POLISH.buy(${key})">
+                  (0) Enhance: ??? boosters
+            </button>
+        </div></td>
         <td id="buyableBoostEff${key}" class="buildboosttext" style="font-size: 10px">
-          Enhance boost: <span id="buyableFlat${key}"></span>x (additive)<br>
-          Every <span id="buyableRepeated${key}"></span> buildings, do x2 production.
+          ${key === 5 ? `<span id="creatorPower"></span> Creator Power<br>(/<span id="creatorPowerEff"></span> building costs)` :
+          key === 3 ? `Enhance boost: Increases the base by <span id="buyableFlat${key}"></span>` :
+          `Enhance boost: <span id="buyableFlat${key}"></span>x (additive)<br>
+          For every <span id="buyableRepeated${key}"></span> buildings, double production.`}
         </td>
       </tr>`;
+
+      if (key === 3) html += `
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <button id="autobooster"
+            onclick="player.autoBooster=!player.autoBooster">
+            Auto: OFF
+          </button>
+        </td>
+      </tr>`
+      //footer
+  
+      return html
     }
   );
 
@@ -458,7 +616,16 @@ function setupUpgradeBuyables() {
              id="${id}Effect${key}">
            </span>
          </button>
-       `
+       `+(key % 4 == 3 ? `<br>` : ``)
     );
   }
+}
+
+//Extra
+function creatorPowerEff() {
+  let exp = D(0.7)
+  let base = D(player.creatorPower).add(1)
+
+  if (L2_RECALL.unl()) exp = exp.mul(tmp.darkRecall.df)
+  return base.pow(exp)
 }

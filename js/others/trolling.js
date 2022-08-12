@@ -9,8 +9,8 @@ function wannacry() {
   }
 }
 
-function wannacryDOM(name) {
-  if (name === "wannacry") {
+function wannacryDOM() {
+  if (player.wannacry) {
     canSave = false;
     [...document.getElementsByTagName("button")].forEach((i) =>
       i.addEventListener("click", wannacry)
@@ -24,7 +24,11 @@ function wannacryDOM(name) {
     tmp.cache.wannacry.hide();
   }
 }
-
+function toggleWannacry() {
+  player.wannacry = !player.wannacry
+  wannacryDOM()
+  if (player.music) getMusic()
+}
 // absurd mode stuff
 
 let absurd = false;
@@ -40,21 +44,4 @@ function absurdMode() {
     el.style.transform = transform;
     document.body.style.transform = transform;
   }
-}
-
-// rickroll stuff
-
-function rickroll() {
-  const audio = new Audio(
-    "//cdn.glitch.global/3f70934b-8463-45ab-b33e-4045b9696eef/Rick_Astley_-_Never_Gonna_Give_You_Up_legitmuzic.com.mp3?v=1652834040070"
-  );
-  audio.addEventListener("canplaythrough", () => {
-    audio.loop = true;
-    const playId = setInterval(async () => {
-      try {
-        await audio.play();
-        clearInterval(playId);
-      } catch {}
-    }, 1);
-  });
 }

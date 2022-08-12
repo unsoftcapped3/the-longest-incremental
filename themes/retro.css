@@ -13,19 +13,37 @@ button {
   transition: none;
 }
 
-#tabs button, #stabs_settings button {
+#tabs button, #stabs_settings button, #stabs_main button, #stabs_stats button {
+  width: 110px;
   width: 170px;
   border-radius: 10px;
 }
 
-#tab_btn_dark {
+#tab_btn_dark, #stab_btn_stats_l2 {
   background-color: #222;
 }
 
+.cannotbuy {
+  background-color: #f00
+}
+
+.canbuy, .ach.allDone {
+  background-color: #ff0
+}
+
+.ach.rowDone, .bought, .ach.completed {
+  background-color: #0f0;
+}
+
 .u {
-  margin-top: 3px
+  margin-top: 3px;
 }
 
 #milestones {
   color: #000;
+}
+
+.ach {
+  color: #000;
+  font-size: 10px;
 }

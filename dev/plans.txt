@@ -1,175 +1,423 @@
 PRESTIGE LAYER NAMES AND IDEAS:
 
-*** LAYER 0 ***
+------------------------------------ *** LAYER 0 - MAIN *** ------------------------------------
 All this layer content before extend is done.
 (post-Extend content goes here -Meta)
 
-*** LAYER 1 ***
+- More point upgrades. It's really simple.
+- 10 points: start with 1e10 points on booster/darken reset
+-- balancing check: immediately get boosters and enhancements with that.
+
+------------------------------------ *** LAYER 1 - BOOSTERS *** ------------------------------------
 All this layer content before extend is done.
 (post-Extend content goes here -Meta)
 
-*** LAYER 2 ***
-IMPORTANT: We are making this layer, but we still need more idea.
-WARNING: Darken is currently the longest layer planned yet!
-oh man you have NO IDEA what's to come -Meta
-I will make upgrade tree and the rest of layer 3's mechanics have even more content than the entirety of layer 2! :ae
-At first Darken: Boost Points and Dark Energy based on Boosters.
+- (randomtuba) AUGMENTATION (EXTEND 1)
+  * You can now "augment" your boosters to gain augmented boosters (kind of like consumption).
+  ** You gain one augment booster per 1 booster.
+  * Augmented boosters allow you to augment point upgrades, like how regular boosters allow you to enhance buildings.
+  * Augmented upgrades have improved effects.
+    -- Upgrade 1: Effect ^2
+    -- Upgrade 2: Effect ^1.5 (cost inflation + softcap)
+    -- Upgrade 3: Unlock super-boosters? (scales quadratically, boosts dark energy)
+    -- Upgrade 4: Upgrade 2 has an even better formula.
+    -- Upgrade 5: Makers produce more points based on Makers bought.
+    -- Upgrade 6: All building production is multiplied by your total amount of boosters.
+    -- Upgrade 7: Effect ^2
+  * (Aarex) Might be Enhancements / Building Boosters, but to Point Upgrades instead.
+    - Oh, you'll keep Augmentation in Lighten Mode.
 
-Effects:
-	* Add Booster Base. (up to +0.5x bc why not have scalings?)
-	* Per-X building levels are closer to maximum.
-	* Raise Dark Tonings' effects.
-	* Reduce the Booster consumption.
-	* Upgrade Resizers and Time Warps.
+- (downvoid) Super Boosters (Augmentation, Upgrade 3)
+ * Super boosters increase the booster base.
+ ** Adds effective Boosters instead if Boosters don't scale.
+ * They can also be enhanced.
+ * They will also have milestones that give even more QoL to the layers.
 
-- (Aarex) Dark Recall
-After Darkening, you will be able to get more resources based on DM gain.
-These resources are only gained by having values over a specific set.
-Darkening requires the product of 3 factors.
-- Point Factor (b^log(x)^0.5)
-- Booster Factor (b^x^0.5)
-- Dark Factor (x)
+------------------------------------ *** LAYER 2 - DARKEN *** ------------------------------------
+Dark Upgrades, Dark Recall, and Dark Alloying are done.
+Do not add Post-Extend features in Layer 2. The layer is now finally completed.
+Aarex will not tolerate this.
 
-Each factor contains its value:
-- You can increase / decrease it. (0 - 10)
-- BUT, it reduces a specific factor by an exponent.
-
-Few resources have boosts.
-
-- (Aarex) Resizers (Rebuild)
-Raise points by an exponent.
-However, it is limited by your maximum points in this Darken.
-- The limit is reduced by an exponent too!
-You can only use 1 per Booster.
-And the exponent is adjustable.
-
-- (Randomtuba) Time Warps
-  * At some point, there will be long timewalls that are hard to get past
-  * You can buy Time Warps with the main L2 currency
-  * Using a Time Warp allows you to jump 6 hours forward in time (this could be extended)
-  * (incremental_gamer) 6 hours????????????????? too much
-  * Time Warps have a 60 second cooldown (or 5 minutes idk)
-  * You can also use Time Warps to speed up time
-  * (Aarex) Suggestions:
-    * Time Warps have 30 second cooldown.
-    * You can use it to either:
-      * Jump 60 seconds or
-      * Speed up by 2x temporaily until cooldown ends.
-
-- (Aarex) Dark Alloying
-Many resources can be fused into higher-tier resources.
-- But first, some resources can be converted into others.
-
-- Challenges
+- (Consensus) Challenges
 -- (Aarex) I'm thinking about having multiple challenge choices to increase a level in a set.
 -- (Randomtuba) maybe there could be 4 pairs of challenges, light and dark, that have the same goal but different nerf and reward, and you can only choose one
+--- (Aarex) Might come in Layer 3: Elemental or beyond.
+--- Oh. Light / Dark Branches come from Upgrade Tree.
+--- Might include Lighten Mode too. Anti-Darken, but different.
 -- (Meta) customizable challenges could be post layer 2
 -- (yyyy) agreed on meta's opinion
 -- (incremental_gamer) maybe challenges that nerf things but unlock new mechanics?
+--- (Aarex) Coming in Layer 4: Ascend.
+--- (Aarex) I'll say new mechanics should be rewards.
+-- (jwklong) im here to say im doin the challenge icons
+-- (downvoid) There will be 5 challenges at the start, each having the nerf and reward listed in 3^3's message
+-- (downvoid) C5's completion unlocks elemental essences and the Elements layer.
 
 (In order to transition to L3)
 	* There's Elemental Essences, which you only gain one from all kinds.
+  * Elemental Essences boost specific element of a tree.
 	* There's Essence which requires a lot of Darken resources. (which muliplies L3 gain)
-
-(post-Expansion content goes here -Meta) wait what, upgrade tree is supposed to be before expansion, only the last part is after -downvoid
-
-*** LAYERS 3+ ***
-- (downvoid) Upgrade Tree (L3, or maybe part of another layer?)
-	* The 3D upgrade tree will start with having 6 branches, one for each element.
-	* Each element boosts a different thing, so like air could boost points, fire could boost boosters, water could boost polishers, etc.
-  * Oh, and each element has its own mechanic. :)
-	* Light and Dark branches will be opposites, boosting 1 thing but nerfing something else. Buying 1 level of each upgrade will cancel each other out
-  * (and yes, these 2 are separate from the other 6 branches. They will be part of another upgrade tree)
-	* Pure branches are 3 branches that will be unlocked later (maybe as an extend mechanic unlock?), and they do something (tbd)
-  * hmm maybe we could make the 3 dimensions be the upgrades, like the more you go in one dimension the more the upgrade affects that particular thing
-  - Fire:
-    * :gwa:
-  - Water:
-  - Air:
-  - Earth:
-  - Light:
-  - Dark:
-  * elements after this will be unlocked later into layer 3
-  - Space:
-  - Time:
-  * elements after this will be post-extend
-  - Energy:
-  - Mana:
-  - Blood:
   
-- (randomtuba) Collider (L3 or L4)
-  * You generate matter from points and antimatter from dark energy
-  * You can collide both to create annihilation energy and dark matter
+------------------------------------ dark branch stuff ------------------------------------
+(Dark Branch goes here)
+- (Aarex) Dark Orbs
+  * You can now separate resources into 2 resources.
+  * Adjust your new resources to gain one, which multiplies respective requirements.
+  * Dark Orbs multiply Elemental Essences.
+  * There are no Special Orbs.
+- (incremental_gamer) Dark Balance
+  * You can adjust a slider which gives various nerfs and buffs
+  * There are upgrades that can nerf the nerfs (and make new ones, blah blah blah)
+  * It also generates "Balance Energy" based on the slider and also differs in concentration (equal to the "composition" of the left and right side of the slider, similar to a concentration of a liquid)
+  * Unlocks a section where you can merge these concentrations to create new ones and then you can merge them together to get dark orbs and special orbs as well
+
+------------------------------------ light branch stuff ------------------------------------
+(Light Branch goes here)
+- (Aarex) Lighten Mode
+ * How?
+    Point generation will be nerfed.
+    Enhancements scale faster.
+    Boosters scale instantly.
+ * Replaces:
+    Buildings, Boosters, Enhancements, and Elemental won't be replaced.
+    Consumption is replaced with a different mechanic.
+    Darken is transformed into Lighten with different gameplay.
+      No Darken boosts are shared with the Light except with Space.
+ * Toggling:
+    All Lighten features only unlock as you progress in Lighten Mode.  
+    Turning off Lighten Mode removes Lighten features, and readds Darken features.
+
+Virtualization:
+- With Boosters, you can virtualize for an extra Booster, Neutral Booster, and Anti-Booster.
+- You can spend Anti-Boosters and other kind of Boosters for Theorems.
+- These theorems can be putted into different "milestones," and you can respec them.
+
+Lighten (Layer 2b):
+- Lighten doesn't reset Neutral Boosters and Anti-Boosters.
+- You will unlock Interelemental Upgrades which keeps upgrades in Darken mode.
+ - Some upgrades are based on Neutral Boosters.
+
+Transfusion:
+- You'll be given a transfuser.
+- Transfusers convert one resource into another.
+- Merging Transfusers allow you to convert multiple into another.
+- Having enough progress allows you to multiply Elemental Essences.
+- You can even reverse it!
+
+There won't be new Lighten Challenges and new Elemental Essences.
+
+------------------------------------ post expansion stuff ------------------------------------
+From the owner of Darken:
+- Hey, zappies!
+- The layer is now finally completed.
+- No post-extend L2 features will be accepted.
+
+For each Extend, you'll be given a new Recall Factor with a proficent resource.
+- Thus, alloying with that resource will unlock new powerful resources.
+
+Anyways, Aarex / Lightning's out!
+
+------------------------------------ *** LAYER 3 - ELEMENTAL *** ------------------------------------
+Going Elemental resets Darken entirely.
+Yes, including Darken Unlocks, Dark Upgrades, and Dark Resources.
+
+Elements are gained by going Elemental, multiplied by Elemental Essence.
+(based on the logarithmic rate)
+	* There are a total of 12 elements, each coming with a feature.
+  * For each set of 6 elements, there is a upgrade tree.
+  * The prestige resource for elemental will be called...
+    - Fire: Runes.
+    - Water: Potions.
+    - Air: Possession.
+    - Earth: The Planet
+  * Part 2:
+    - Light: Lighten Mode.
+    - Dark: Dark Orbs.
+  * Part 3:
+    - Space: Soup.
+    - Time: Lattices.
+  * Post-Extend:
+    Energy and Matter will be unlocked after 1st extend. Mana and Blood will be unlocked from Ascension.
+    - Energy:
+    - Matter: 
+    - Mana:
+    - Blood:
+------------------------------------ The Upgrade Tree ------------------------------------
+- (downvoid) Upgrade Tree (L3, or maybe part of another layer?)
+  * These will be 3D coordinates.
+  * Distance 1 boosts pre-Elemental, distance 2 unlocks a feature, and distance 3 improves it.
+    -- For example, upgrade (2,0,0) unlocks Runes and upgrade (0,0,2) unlocks Lighten Mode.
+    -- The position of each upgrade determines what it does. so like upgrade (1,1,0) is combining air with fire and will probably be a synergy between air's feature and fire's feature.
+    -- Each upgrade (x,y,z) requires upgrades (x-1,y,z), (x,y-1,z), and (x,y,z-1) to buy. (unless one or more are 0, also replace -1 with +1 if it's negative)
+  * There won't be upgrades beyond 3. (Total of 2 7*7*7 cubes of upgrades)
+  * Elemental upgrades will cost their respective type of elemental essence.
+    -- If an upgrade has more than one non-zero coordinate, it will cost both or all 3 of those essence types.
+    
+-- Branch Planning:
+  -- First Set:
+    - up: air
+    - down: earth
+    - left: water
+    - right: fire
+    - forward: light
+    - backward: dark
+  -- Second Set:
+    - up: space
+    - down: time
+    - left: energy
+    - right: matter
+    - forward: mana
+    - backward: blood
+------------------------------------ Upgrade Planning ------------------------------------
+There are too many upgrades.
+Groups of (x,0,0) upgrades will recieve unique effects.
+However, every one shouldn't be unique.
+* Some upgrades will be the same. Like (1,2,3)(1,3,2)(2,1,3)etc, and (1,1,2) and (2,1,1), and (2,3,0) and (3,2,0)
+* Instead of 343 unique upgrades per tree, there will now only be 171.
+
+* any upgrade with 2 or more 0s in its coordinates will have a unique effect.
+* any upgrade where all 3 numbers have the same absolute value will have a unique effect.
+
+* Upgrade Tree 1:
+(0,0,0): Unlock the Collider. (this costs 0 of each essence because all the coordinates are 0)
+(1,0,0): Dark Energy gain is quadrupled.
+(2,0,0): Unlock Runes.
+(-1,0,0): Boosters are 5% more effective. (the base is raised to the 1.05)
+(-2,0,0): Unlock Potions.
+(0,1,0): Decrease all building scaling bases by 0.1
+(0,2,0): Unlock Possession.
+(0,-1,0): Double all non-alloy dark resource gain.
+(0,-2,0): Unlock The Planet.
+(0,0,1): Challenge requirements are divided by 100.
+(0,0,2): Unlock Lighten Mode.
+(0,0,-1): The 5th Dark Toning is ^2 as effective.
+(0,0,-2): Unlock Dark Orbs.
+
+------------------------------------ Collider ------------------------------------
+Side-feature for (0,0,0).
+- (randomtuba) Collider (L3)
+  * (downvoid) Collider is unlocked when you buy the (0,0,0) upgrade.
+  * You generate matter from points and antimatter from dark energy.
+  * You can collide both to create annihilation energy and darker matter.
   * Annihilation Energy can be used to make the Collider more effective, and speed up production of other currencies outside of Collider
-  * Dark Matter can be used to purchase upgrades
+  -- (Aarex / Lightning)
+   - Annihilation Energy isn't OP unless upgraded by Boosters with Upgrade Tree.
+   - Initial Boosts: Booster Speed and Dark Resources
+   - If Boosters are (scaled), add Booster Base.
+  * Darker Matter can be used to purchase upgrades.
+  -- (Aarex / Lightning)
+   - Dark Toning 4 is always at max. (free Toning 1!)
+   - Nerf Consumption's effect. (doesn't affect cost scaling)
+   - Automate Dark Upgrades on Darken.
+   - Automate Darken every 2 seconds, and passively get Dark Matter up to 5x lower than maximum gain.
+   - Wiggle Ability: Wiggles Recall Factors and recalls every 2 seconds.
+   - Multialloy Ability: Automatically alloy everything at 50% percentage.
+   - If Boosters are (scaled), reduce Consumption scaling. (up to linear)
+------------------------------------ Element Features ------------------------------------
+We'll go over the features of every element before Extend.
+- (downvoid) Fire: 
+  * Unlocks Runes and Rune Sequences, which do stuff depending on the sequence.
+  * You have a limited supply of rune slots, and you can only use rune types from the branches where you have unlocked that branch's feature.
+  * Before you can use Runes you have to make them, which costs rune slots and the element's essence. Each rune costs 1 rune slot.
+  * There will be a large list of sequences that work and what their effects will be. However, some will have negative effects.
+  * Time and Space rune sequences are more powerful than sequences without them, but they have a higher chance of having a negative effect.
+  * The longer the sequence, the higher the chance of it having no effect.
+  * Rune sequences can be deactivated and they will be lost on deactivation.
+- (downvoid) Water:
+  * Potions can be crafted using water, elemental essence, and <insert thing here>.
+  * tbd
+- (downvoid) Air: 
+  * Possession! I still need to figure out how we're gonna implement this into this game
+- (downvoid) Earth: 
+  * Unlocks new features
+  * Can synergize with other resoures
+  * The Planet: You must control a colony on a new planet and help them colonize the planet.
+  * You will start out with some resources and you must keep the people alive to get resources from them.
+  * The resources you collect can be used to upgrade the colony or boost other things
+  * You can also buy more rune slots with resources. They can also do some other stuff but we'll figure that out when we get there
+- (Aarex) Light: Lighten Mode
+  * [See Lighten in L2]
+- (downvoid) Dark: Dark Orbs
+  * This will definitely be another mechanic in Darken.
+  * [See Dark Orbs in L2]
+- (Aarex) Space: Space Banking
+  * Allows you to permanently bank a small portion of Dark / Light Resources, but decay over time.
+  * Spending Soup will enable a Dark Upgrade in Lighten Mode and Light Upgrade in Darken Mode!
+  * These banks are considered "pseudo-Virtual," due to abilites to keep in challenges.
+  * (downvoid) Drinking the soup will give you a currency called knowledge, which will be used to improve rune usage, potion crafting, possession power, and colony growth.
+- (downvoid) Time:
+  * The Lattice is a place where you can hop to "alternate timelines", where each timeline has a different effect. There are infinitely many timelines.
+  * The lattice is 2-dimensional. Timelines are numbered "a+bi",
+  * The further you go from the center, the more extreme the nerfs in those timelines are, making them less useful.
+  * however, if you get lucky you could find a timeline without nerfs, but those get more and more rare the further out you go
+  * the effects can be almost anything, here are a few examples:
+    - t1: This is the normal universe, there are no differences.
+    - t2: Point gain is ^1.5, but you can't gain dark tonings
+    - t100: Booster base is 1.2 but dark matter gain *10
+    - t63: Dark Fuel is 3x stronger.
+    - t42069: Point gain ^0.14, Time Crystal effect ^6
+    - t(-1): All runes' effects are inverted.
+    - t(2+i): Point gain is ^1.25, but you gain half as many dark tonings
+    - (yes, all the imaginary timelines are altering the effects of the timeline without the i)
+  * Imaginary numbered timelines will be unlocked at the 3rd upgrade in the time branch.
+  * (these could make for good challenges)
+  * Also once you change timelines, you force an Elemental reset.
 
-- ASCENSION (L4):
-  * Basically ascension from trollcremental
-  * unlocked after Extend
-  * Has both ascension upgrades and milestones
-  * Yeah we'll figure this out later
+(post-Expansion content goes here -Meta)
 
-- MINIGAMES (L4):
-  (The power shouldn't be OP and should be optional.
-    * The power should boost pre-Layer 4 content.
-    * There are tiers based on how well you did: bronze, silver, gold, diamond, platinum, obsidian.
-      * Higher tiers = more power.
-      * Power is always logarithmic!
-1. (by incremental_gamer) tetrational power tower game (basically base^^height)
-  no, this is not inflation
-  1.44^^Infinity = some real number
-2. (Aarex's) balancing control (a game which automatically reduces / adds numbers. going out of bounds loses.)
-3. (Aarex's) tetrational balancing (basically multiple dilated formulas stacked on one, and are upgraded by a single currency. +1 slog^0.75 -> x2 tetr points)
-4. (Aarex's) rediscovery
-  There are 3 modes:
-    1. Expert Mode (buffs a feature)
-    2. Time Trial
-    3. Time Attacks (limited time)
-  Your save will be retrived back on exiting.
-5. (inremental_gamer) incremental version game
+Yes. 4 more features to come.
+It's either unlocked by extending or unlock new features from Ascension.
+
+- (???) Energy:
+  * ???
+- (???) Matter:
+  * ???
+- (???) Mana:
+  * ???
+- (???) Blood:
+  * ???
+
+------------------------------------ *** EXTEND 1 *** ------------------------------------
 - (Meta) Extend (L∞)
   * This layer underpins all others, with heavily scaled requirements.
   * Extending resets EVERYTHING except the Extend layer itself. 
   * Each reset unlocks a new layer, expands all layers, and unlocks some boosts to speed up the early game.
     * And yes, I do mean expand ALL layers. All the way from layer 0 to the most recently unlocked one.
-  * Unlocked at the end of Layer 3.
+  * Unlocked at the end of the Bug minigame.
 
-TROLLING:
-We do a lot of trolling
-we could take some stuff from community incremental (the previous longest incremental)
+  * (Consensus) Also, there's perks. You can choose one more Perk per Layer than last Extend.
+  ** Layer 0 perks unlock at Extend 1 and Layer X perks unlock at Extend X.
+  ** There's also "keep X" perks too!
+  ** These do not subtract from other perks
+------------------------------------ *** Layer 4 *** ------------------------------------
+- ASCENSION (L4):
+  * Basically ascension from trollcremental
+  -- ASCENSION UPGRADES:
+  Ascension Points can be used to buy Ascension Upgrades, and some of them can be charged with AP to have a greater impact (the ones with effects)
+  -- TECHNOBABBLE GAMING:
+  Based on your total AP, you generate Technobabble Gaming (TG), which pisses off scientists based on how many you have, which raises some ascension upgrade effects
+  Pissed off scientists also unlock milestones (some have QoL, some unlock new mechanics)
+    --- QUARK-GLUON:
+    There are two currencies, quark-gluon plasma and quark-gluon gas. You can use the thermocharger to generate more/less of the two currencies.
+    Quark-gluon plasma generates at higher temperature and boosts TG, quark-gluon gas generates at lower temperature and boosts main L4 currency gain
+    --- SECONDARY PARTICLES:
+    Based on your pissed off scientists, you generate Higgs fermions that boost quark-gluon effects
+    You can also change the type of photons you have (6 types, up, down, top, bottom, charm, strange), each having different effects
+    UP: boosts AP gain
+    DOWN: raises point gain
+    TOP: boosts higgs fermion gain
+    BOTTOM: boosts TG gain
+    CHARM: boosts quark-gluon gains
+    STRANGE: boosts photon gain
+  -- ASCENSION CHALLENGES:
+  There are 8 Ascension Challenges. They can be completed up to TEN TIMES.
+  Each first-time completion of an Ascension Challenge should unlock something significant.
+  -- GIFTS:
+  After unlocking this mechanic from an Ascension Upgrade, you can also gain giftboxes from Ascending!
+  Giftboxes can be sacrificed to different developers, each one having a different effect.
+  (downvoid) Gifts will boost or unlock new features in branches of the upgrade tree and elements.
 
-STUFF WE CAN TAKE FROM COMMUNITY INCREMENTAL 2:
-- Gifts (you can give giftboxes to developers [like cube tributes] that each give rewards)
-(note: was never added but planned)
-- Technobabble gaming
+------------------------------------ MINIGAMES ------------------------------------
+Minigames:
+  - Minigames are unlocked as a feature of L4. (except for bugs, those are unlocked earlier)
+  - Bugs unlock at the end of L3, and others unlock at Ascension.
 
-Achievements:
+  - This will have its own tab.
+  - Minigames boost pre-Ascension and Ascension.
+
+  - NOTICE: THERE ARE TOO MANY MINIGAMES.
+  - We will only consider some to implement.
+
+1. (by incremental_gamer) tetrational power tower game (basically base^^height)
+  no, this is not inflation
+  1.44^^Infinity = some real number
+2. (Aarex's) tetrational balancing (basically multiple dilated formulas stacked on one, and are upgraded by a single currency. +1 slog^0.75 -> x2 tetr points)
+3. (randomtuba) replicanti 
+4. (Aarex's) Lights out!
+  You are a snake in a grid.
+  There's lights you need to collect.
+  There are different kinds of lights.
+∞. (Consensus) Bug (unlocked at: end of L3 pre-extend, end of L4 post-extend, beat at least 1 minigame (increases by 1 per extend))
+  - Unlike other minigames, this is not ranked.
+  * (incremental_gamer) you gain bugs (side effect of features), anti-bugs, and features
+  * you can reset features for updates
+  * updates for games, games for money, and then spend it
+  * however, you can increase your bug and anti-bugs gain
+  * then your bug gain will explode and that's how the curruption is gotten
+  - Progress in this minigame will depend partially on progress in other minigames.
+  - You need other minigames to start gaining corruption - incremental_gamer.
+  - There's an ominous progress bar that has the caption "n% to Corruption"
+  - The screen gets more and more "glitched" as the minigame progresses.
+
+  - When the percentage reaches 100%, the Extend meta-layer is unlocked.
+  - Animation was chosen in #gameplay-discussion.
+
+Not considered:
+1. (inremental_gamer) incremental version game
+  Empty yet.
+2. (downvoid) Code Editor thing
+  (Aarex) Just like Rune Sequences but harder.
+  (downvoid) I don't even know how this would work.
+
+Non-acceptable minigames:
+1. (randomtuba) gwacremental (gwa comes every minute) 
+  "wait what, we're actually adding the entirety of gwacremental as a minigame?" -downvoid
+  (incremental_gamer) dumb question but what is gwacremental
+  (Aarex's) Too complicated if we copy the whole game.
+  (downvoid) I guess we could add --nevermind, that won't work.
+2. (meta) lightning (type every dev's names as fast as possible)
+  Typing isn't an aspect for incremental games.
+3. (Aarex's) balancing control (a game which automatically reduces / adds numbers. going out of bounds loses.)
+  Minigames are now a feature. Therefore, I don't allow this reflexing game.
+4. (incremental_gamer) Recursion minigame.
+  Point gain recursively multiplies itself.
+  However, when you reach B_E limit, you can reset to log10 your gain but unlock new features (maybe for other games) (kinda like despacit tree and tetration)
+  (downvoid) isn't this just the *exact* same thing as Inflation Tree Plus
+  (downvoid) like when you reach Fe308 in the Inflation Tree Plus, you get to reset everything and log10 your point gain and add more layers/features/upgrades
+  (incremental_gamer) yes but also i was thinking about prestreestuck and it's final layer
+  we could borrow ideas from there
+  (Aarex) Woah, woah. This breaks the purpose of Extend.
+
+------------------------------------ *** ACHIEVEMENTS *** ------------------------------------
 - Achievement tab appear at Layer 1.
 
 id  name                               req                     effect (mostly additive ok)
-1   Start.                             Buy 1 maker             NO
-2   Self-Productive                    Buy 1 Generator         NO
-3   The Naming System Feels Arbitrary  Buy 1 Producer          NO 
-4   The Large Production               Buy 1 Factory           NO
-5   Multiplied!                        Buy 1 Booster           +10% point
-6   Make it Shiny!                     Enhance a building      NO
-7   Is this even useful?               Buy the fifth upg       NO
-8   The 9th achievement doesn't exist  Get 9 booster           +9% point
-9   I don't exist.                     Get 99 maker            +9% maker point gain
-10  The Darkness                       Unlock Dark World       +10% point  
-11  Dark Magic                         Get 10,000 Dark Energy  2x dark energy gain
-12  What Comes Next?                   Reach 20 Boosters       NO
-13  Gaming Chair                       Beat a Minigame         +50% point
-14  Eight-Packed                       Get all upgrades        NO
-15  The Summit                         Get all Booster Milestones.
-16  Uneffective                        Get 10^20 while consuming 10 Boosters.
-17  Mass Production                    Get 99 factories.
-18  Precious...                        Enhance a building 8 times.
-19  Gogol Point                        Get 10^50 points.
-20  Time-Trial                         Beat a Minigame in under 20 minutes.
-
-21  One with the Dark                  Go Dark.                NO
 
 (future achievements, number unknown)
-??  Underachiever                      Go Elemental.           ^1.3 Points --this causes inflation without scalings ~ Aarex / Lightning
+??                                                             Above 2x, Timewarp Power speeds up Boosters instead.
+??  Underachiever                      Go Elemental.           ^1.05 Points --this causes inflation without scalings ~ Aarex / Lightning --not anymore! -downvoid
+??  Mediumachiever                     Unlock light and dark.  MAYBE
+??  Insert Funny Reference Here        Unlock space and time.  MAYBE
 ??  A Bad Idea                         Extend.                 NO
+??  Where's Infinity Point?            Go 1.798e308 points     NO
+??  Side Story Proficiency             Reach gold or above in all minigames.
+??  Master of Worlds                   Reach obsidian in all minigames.
+??  Only the Beginning                 Extend twice.           NO
+??  Third Time's the Charm             Extend three times.     NO
+
+*** OPTIONAL FEATURES ***
+- Rediscovery
+ * Unlock this feature at Challenges.
+ * Layer X Rediscovery unlocks at Layer X+1.
+ * All Rediscoveries are progress points.
+ * You can start a Rediscovery which disables layers beyond a specific layer.
+ * When you finish a feature, you will exit with a trophy based on factors:
+  1. Difficulty
+  2. Speedrun
+  3. Clicks
+ * Exiting will re-enable all layers, and your progress will be recovered.
+  * However, it perform a reset.
+
+- Pre-Extend
+ * Extend, but at a opposite direction.
+ * Pre-Extend 1 should nerf things as we progress until Elemental, so we can reach Ascension.
+ * You will unlock a layer before Darken.
+ * However, scalings will be more severe!
+
+ * (downvoid) maybe we could have this be a sub-feature of extend, like a set of challenges that you can enter whenever.
+ * (downvoid) this would just be like ng-, ng--, ng-3, etc.
+ * (Aarex) Yes. Extend N unlocks Pre-Extend N.
+ * (Aarex) However, you won't reward anything.
+
+- Difficulties
+ * Self-explanation.
