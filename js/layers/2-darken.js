@@ -164,7 +164,7 @@ let L2_ABILITY = {
       if (hasAch(26)) r = r.mul(1.1);
       if (hasAch(31)) r = r.mul(1.1);
       if (hasAch(32)) r = r.mul(1.1);
-      return r 
+      return r.max(1)
     },
     jump() {
       if (player.abilities.cd.tw) return
