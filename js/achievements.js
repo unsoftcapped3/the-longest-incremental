@@ -12,7 +12,6 @@ class Achievement {
 
   getAch(force=false) {
     if (player.ach.includes(this.id)) return;
-    if(!player.boost.unl) return;
     if (force || this.isUnlocked) {
       player.ach.push(this.id);
       notifyMessage(`[Achievement got!] ${this.name}`);
