@@ -28,21 +28,52 @@ div, table {
 	text-align: center;
 }
 .tab {
-  display: none
+  display: none;   
 }
-
+/* dark tab */
+.darkOverwrite, .darkOverwrite *:not(button):not(button > *):not(input) {
+  position: relative;
+  z-index: 1;
+  color: #dfbfff;
+  text-shadow: 0 0 3px #7f00ff
+}
+#dark_bg {
+  z-index: -99999;
+  position: fixed;
+  background: black;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+#dark_sym {
+  position: absolute;
+  background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/dark_world_icon.png");
+  opacity: 0.5;
+  top: calc(50% - 400px);
+  left: calc(50% - 400px);
+  width: 800px;
+  height: 800px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: spin 30s linear infinite;
+}
+@keyframes spin {
+  from {transform: rotate3d(0.7, 0.3, 2, 0deg)}
+  to {transform: rotate3d(0.7, 0.3, 2, 360deg)}
+}
 /* specific tab button styling */
 #stab_btn_main_upgrades {
   background-color: #c8ffc8;
 }
-#stab_btn_main_milestones {
+#stab_btn_main_milestones, #stab_btn_stats_l1, #boosterconfirm, #respecconfirm {
   background-color: #c8ffff;
 }
-#tabs button, #stabs_settings button {
+#tabs button, #stabs_settings button, #stabs_main button, #stabs_stats button {
   width: 110px;
   border-radius: 10px;
 }
-#stab_btn_main_consume {
+#stab_btn_main_consume, #consumeconfirm {
   color: #fff;
   background-color: #6900aa;
 }
@@ -54,9 +85,13 @@ div, table {
   color: #fff;
   background-color: #b06621;
 }
-#tab_btn_dark {
+#tab_btn_dark, #stab_btn_stats_l2, #darkconfirm {
   color: #bbbbbb;
   background-color: #000000;
+}
+#tab_btn_chal {
+  color: #ffffff;
+  background-color: #fb0;
 }
 #tab_btn_ach {
   color: #ffffff;
@@ -118,7 +153,43 @@ div, table {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 7% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  overflow: auto;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 button {
   border: 2px solid #0000007f;
   border-radius: 5px;
@@ -126,11 +197,15 @@ button {
   transition: all 0.3s ease;
   transform: scale(1);
 }
-button:hover {
-  transform: scale(1.03)
+#discord {
+  transform: scale(1);
+  transition: all 0.3s ease;
 }
-button:active {
-  transform: scale(1)
+button:hover, #discord:hover {
+  transform: scale(1.05);
+}
+button:active, #discord:active {
+  transform: scale(1);
 }
 .upgbutton { /* size was decided by *some* discussions*/
   height: 32px;
@@ -150,10 +225,10 @@ button:active {
   font-size: 7px;
 }
 .canbuy {
-  background-color: #f9ea62
+  background-color: #f9ea62;
 }
 .bought {
-  background-color: #6ce391
+  background-color: #4ca361;
 }
 .cannotbuy {
   background-color: #f37078;
@@ -169,11 +244,62 @@ button.bought:hover, button.cannotbuy:hover {
   transform: scale(1)
 }
 
+.credits {
+  width: 140px;
+  height: 25px;
+	border: 2px solid black;
+	border-collapse: collapse;
+}
+
+.ach {
+	border-radius: 12px;
+	font-size: 12px;
+	width: 90px;
+	height: 90px;
+	border: 2px solid
+}
+
+.ach.completed {
+  background-color: #4ca361
+}
+
+.ach.rowDone {
+  background-color: gold
+}
+
+.ach.allDone {
+  background: linear-gradient(#ffdf00, #ffffbf, #bfff00);
+  border-color: #0000003f;
+  box-shadow: 0 0 6px #ffbf00
+}
+
+#milestones {
+  background-color: #000000
+}
+
+#abilities {
+  width: 100%;
+  text-align: right
+}
+
+#updatebox {
+  position: fixed;
+  z-index: 2;
+  border-radius: 12px;
+  width: 360px;
+  height: 240px;
+  top: calc(50% - 180px);
+  left: calc(50% - 120px);
+  background: black;
+  color: white;
+  display: none
+}
+
 #layerunlock {
   display: none;
   transition-duration: 1.5s;
 
-  z-index: 1;
+  z-index: 2;
   position: fixed;
   top: 0;
   left: 0;
@@ -221,29 +347,6 @@ button.bought:hover, button.cannotbuy:hover {
   }
 }
 
-.credits {
-  width: 140px;
-  height: 25px;
-	border: 2px solid black;
-	border-collapse: collapse;
-}
-
-.ach {
-	border-radius: 12px;
-	font-size: 12px;
-	width: 90px;
-	height: 90px;
-	border: 2px solid
-}
-
-.ach.completed {
-  background-color: #0adb23
-}
-
-#milestones {
-  background-color: #000000
-}
-
 #news_ticker_base {
   width: 100%;
   height: 30px;
@@ -254,13 +357,18 @@ button.bought:hover, button.cannotbuy:hover {
   overflow: hidden;
   white-space: nowrap;
 }
-
 @keyframes news_ticker {
-  from {transform: translateX(100vw);}
-  to {transform: translateX(-100vw);}
+    from{
+        transform: translateX(100vw);
+    }
+    to{
+        transform: translateX(-100vw);
+    }
 }
-
 #news_ticker {
-  animation: news_ticker cubic-bezier(0,0,1,1) infinite; 
+  animation: news_ticker 10s cubic-bezier(0,0,1,1) infinite; 
   font-size: 20px;
+  display: inline-block;
+  position: relative;
+  text-align: left;
 }

@@ -26,14 +26,13 @@ const NaNToken = Symbol("NaNPath");
 function setup() {
 	return {
     points: D(10),
-    buyables: {
-      0: D(0),
-      1: D(0),
-      2: D(0),
-			3: D(0),
-			4: D(0)
-    },
+    creatorPower: D(0),
+    buyables: Array(6).fill(D(0)),
     upgrades: {},
+    abilities: {
+      total: 0,
+      cd: {},
+    },
 
     boost: setupLayer1(),
     dark: setupLayer2(),
@@ -43,10 +42,17 @@ function setup() {
       time: 0,
       max: D(0),
     },
+    enhancePriority: {},
+    toningPriority: {},
     theme: "default",
     news: false,
     linearNews: true,
     automationtoggle: true,
+    autoBooster: false,
+    autoUpgrades: true,
+    wannacry: false,
+    music: false,
+    tickers: 0,
     lastTick: Date.now(),
     tab: "main",
     stab: {
@@ -56,20 +62,18 @@ function setup() {
 			dark: "upg",
     },
     hasWon: false,
-    ver: 0.1,
-
+    ver: ver,
     [NaNToken]: "player"
 	}
 }
-
 let player = new Proxy(setup(), playerHandler);
 
 const pointBoostingUpgsIds = [0, 1, 6];
 
 function production() {
   let gain = new Decimal(0)
-  for (const id in buyables) {
-    if (id !== "3") gain = gain.add(buyables[id].prod())
+  for (const id of BUYABLE_KEYS) {
+    if (id !== "3" && id !== "5") gain = gain.add(buyables[id].prod())
   }
   gain = gain.mul(getAchPower());
 	gain = gain.mul(buyables[3].prod());
@@ -79,11 +83,12 @@ function production() {
 	if (L1_CONSUME.unl()) gain = gain.mul(tmp.darkTones[2]);
 	if (L1_CONSUME.unl()) gain = gain.mul(tmp.darkTones[3]);
   if (hasUpg(0, "dark")) gain = gain.mul(5);
+  if (hasUpg(3, "dark")) gain = gain.mul(upgrades.dark.list[3].effect());
   return gain;
 }
 
 function gameEnded() {
-  return hasUpg(2, "dark")
+  return !ver.beta && hasUpg(11, "dark")
 }
 
 function inEndGameScreen() {
@@ -95,20 +100,21 @@ function layer_placeholder(x) {
 	return false
 }
 
-document.onkeypress = function (e) {
-    switch (e.key){
-			case "m":
-				buyMaxBuyables();
-				break;
-      case "b":
-        // doLayer1Reset();
-        break;
-		}	
-};
-
-const autoInterval = setInterval(function () {
-  if ((L1_MILESTONES.unl(6) || hasUpg(1, "dark")) && player.automationtoggle) {
-    buyMaxBuyables();
-    if (L1_MILESTONES.unl(10)) for (let i = 0; i <= 6; i++) buyUpg(i, "normal");
-  }
-}, 2000);
+document.onkeypress = function(e) {
+    if (player.wannacry) {
+      notifyMessage("Hotkeys are disabled in wannacry mode")
+    } else {
+      switch (e.key){
+        case "m":
+          buyMaxBuyables();
+          break;
+        case "b":
+          buyBuyable(3);
+          break;
+        case "d":
+          doLayer2();
+          break;
+        default: break;
+      }
+    }
+}

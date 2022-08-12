@@ -1,8 +1,8 @@
 // shamelessly taken from fe0000000
 function notifyMessage(text) {
-    let e = document.createElement('div');
-    e.className = 'notification';
-    e.innerText = text
+    const e = document.createElement("div");
+    e.className = "notification";
+    e.innerText = text;
     const area = tmp.cache.notificationarea.el
     area.prepend(e);
     const remove = function() {
