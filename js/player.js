@@ -1,120 +1,166 @@
+const NaNPath = Symbol("NaNPath");
 const playerHandler = {
   get(target, key) {
     const value = target[key];
-    if (value && !value[NaNToken] && (value.constructor === Object || Array.isArray(value))) {
-      value[NaNToken] = `${target[NaNToken]}.${key}`;
+    if (
+      value &&
+      !value[NaNPath] &&
+      (value.constructor === Object || Array.isArray(value))
+    ) {
+      value[NaNPath] = `${target[NaNPath]}.${key}`;
       target[key] = new Proxy(value, playerHandler);
     }
     return value;
   },
   set(target, key, value) {
-    if (
-      Number.isNaN(value) ||
-      (value instanceof Decimal && Decimal.isNaN(value))
-    ) {
-      console.warn(`Attempted to set ${target[NaNToken]}.${key} to NaN value`);
-      clearInterval(saveInterval);
+    try {
+      if (
+        Number.isNaN(value) ||
+        (value instanceof Decimal && Decimal.isNaN(value))
+      )
+        throw `Attempted to set ${target[NaNPath]}.${key} to NaN value`;
+
+      target[key] = value;
+      return true;
+    } catch (e) {
       clearInterval(interval);
-      throw new Error("Attempted to set a NaN value. See above, and go fix those formulas.");
+      canSave = false;
+
+      console.warn(
+        "Attempted to set a NaN value. See above, and go fix those formulas."
+      );
+      console.error(e);
     }
-    target[key] = value;
-    return true;
-  }
+  },
 };
-const NaNToken = Symbol("NaNPath");
+const pointGainBoostingThings = {
+  upgrades: [0, 1, 6],
+  buyables: BUYABLE_KEYS.filter((id) => {
+    return ![3, 5].includes(id);
+  }),
+};
+let player = {};
 
 function setup() {
-	return {
+  return {
+    ver,
     points: D(10),
     creatorPower: D(0),
     buyables: Array(6).fill(D(0)),
     upgrades: {},
-    abilities: {
-      total: 0,
-      cd: {},
-    },
+    ach: [],
 
-    boost: setupLayer1(),
-    dark: setupLayer2(),
-	
-		ach: [],
+    //AUTOMATION
+    //i'll restructure these later.
+    automationtoggle: true,
+    autoBooster: false,
+    autoUpgrades: true,
+    enhancePriority: {},
+    toningPriority: {},
+
+    //STATS
     stats: {
       time: 0,
       max: D(0),
     },
-    enhancePriority: {},
-    toningPriority: {},
-    theme: "default",
-    news: false,
-    linearNews: true,
-    automationtoggle: true,
-    autoBooster: false,
-    autoUpgrades: true,
-    wannacry: false,
-    music: false,
-    tickers: 0,
     lastTick: Date.now(),
-    tab: "main",
-    stab: {
-      main: "upg",
-      stats: "l1",
-      settings: "main",
-			dark: "upg",
-    },
-    hasWon: false,
-    ver: ver,
-    [NaNToken]: "player"
-	}
-}
-let player = new Proxy(setup(), playerHandler);
 
-const pointBoostingUpgsIds = [0, 1, 6];
+    //TAB
+    stab: {},
+    modes: {},
+
+    //SETINGS
+    theme: "default",
+    icon: "default",
+    notation: "mix",
+    music: false,
+    news: false,
+    tickers: 0,
+    wannacry: false,
+    hasWon: false,
+    offline: {},
+    [NaNPath]: "player",
+  };
+}
 
 function production() {
-  let gain = new Decimal(0)
-  for (const id of BUYABLE_KEYS) {
-    if (id !== "3" && id !== "5") gain = gain.add(buyables[id].prod())
-  }
+  let gain = D(0);
+  if (inChal(1)) gain = D(1);
+  else
+    for (const id of pointGainBoostingThings.buyables) {
+      if (id != "3") gain = gain.add(buyables[id].prod());
+    }
+
   gain = gain.mul(getAchPower());
-	gain = gain.mul(buyables[3].prod());
-  for (const u of pointBoostingUpgsIds) {
-    if (hasUpg(u,"normal")) gain = gain.mul(upgrades.normal.list[u].effect());
+  gain = gain.mul(buyables[3].prod());
+  for (const id of pointGainBoostingThings.upgrades) {
+    if (hasUpg(id, "normal"))
+      gain = gain.mul(UPGRADES.normal.list[id].effect());
   }
-	if (L1_CONSUME.unl()) gain = gain.mul(tmp.darkTones[2]);
-	if (L1_CONSUME.unl()) gain = gain.mul(tmp.darkTones[3]);
+  if (L1_CONSUME.unl()) gain = gain.mul(tmp.darkTones[2]);
+  if (L1_CONSUME.unl()) gain = gain.mul(tmp.darkTones[3]);
   if (hasUpg(0, "dark")) gain = gain.mul(5);
-  if (hasUpg(3, "dark")) gain = gain.mul(upgrades.dark.list[3].effect());
+  if (hasUpg(3, "dark")) gain = gain.mul(UPGRADES.dark.list[3].effect());
+
+  if (player.modes.diff === 0) gain = gain.times(3);
+  if (player.modes.diff === 1) gain = gain.times(2);
+  if (inChal(5)) gain = gain.pow(0.75);
   return gain;
 }
 
+function inStartGameScreen() {
+  return player.modes.diff === undefined;
+}
+
 function gameEnded() {
-  return !ver.beta && hasUpg(11, "dark")
+  return !ver.beta && hasChaReward(6, 0);
 }
 
 function inEndGameScreen() {
-  return gameEnded() && !player.hasWon
+  return gameEnded() && !player.hasWon;
 }
 
 //FUTURE
 function layer_placeholder(x) {
-	return false
+  return false;
 }
 
-document.onkeypress = function(e) {
-    if (player.wannacry) {
-      notifyMessage("Hotkeys are disabled in wannacry mode")
-    } else {
-      switch (e.key){
-        case "m":
-          buyMaxBuyables();
-          break;
-        case "b":
-          buyBuyable(3);
-          break;
-        case "d":
-          doLayer2();
-          break;
-        default: break;
-      }
+document.onkeypress = function (event) {
+  if (player.wannacry) {
+    notifyMessage("Hotkeys are disabled in wannacry mode");
+  } else {
+    switch (event.key) {
+      case "m":
+        buyMaxBuyables();
+        break;
+      case "a":
+        let bool = false;
+        if (
+          !player.automationtoggle ||
+          !player.autoUpgrades ||
+          !player.autoBooster
+        )
+          bool = true;
+        player.automationtoggle = bool;
+        player.autoUpgrades = bool;
+        player.autoBooster = bool;
+      case "1":
+        if (hasUpg(2, "dark")) L2_ABILITY.resize.use();
+        break;
+      case "2":
+        if (hasUpg(2, "dark")) L2_ABILITY.time.jump();
+        break;
+      case "3":
+        if (hasUpg(2, "dark")) L2_ABILITY.time.speed();
+        break;
+      case "b":
+        buyBuyable(3);
+        break;
+      case "d":
+        doLayer2();
+        break;
+      default:
+        break;
     }
-}
+  }
+};

@@ -1,14 +1,28 @@
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Climb up through the summit with 2 layers currently!" />
-  	<meta name="The Longest Incremental" content="Climb up through the summit with 2 layers currently!" charset="utf-8"/>
+    <meta
+      name="description"
+      content="Climb up through the summit with 3 layers and ??? features currently!"
+    />
+    <meta
+      name="The Longest Incremental v0.2.1"
+      content="Climb up through the summit with 3 layers and ??? features currently!"
+      charset="utf-8"
+    />
 
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://unsoftcapped3.github.io/the-longest-incremental/" />
-    <meta property="og:title" content="The Longest Incremental" />
-    <meta property="og:description" content="Climb up through the summit with 2 layers currently!" />
+    <meta
+      property="og:url"
+      content="https://unsoftcapped3.github.io/the-longest-incremental/"
+    />
+    <meta property="og:title" content="The Longest Incremental v0.2.1" />
+    <meta
+      property="og:description"
+      content="Climb up through the summit with 3 layers and ??? features currently!"
+    />
 
     <link
       rel="shortcut icon"
@@ -28,32 +42,58 @@
   </head>
 
   <body id="bg">
-    <div id="dark_bg">
-      <div id="dark_sym"></div>
-    </div>
-    <div class="darkOverwrite" id="loading_page">
+    <div id="loading_page">
       <h1>Loading... (this shouldn't take more than 5 hours)</h1>
       <br />
       What, 5 hours have passed and you still haven't loaded?! Refresh and wait
       for it to load :troll:
     </div>
-    <div id="layerunlock">
-      <div id="layerbg"></div>
-      <b id="layerbar">Layer 1 Unlocked: Boosters!</b>
-      <div id="layerflash"></div>
+    <div id="game_modal">
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close" id="close">&times;</span>
+          <div>Click outside or the X button to close this modal.</div>
+          <div id="contentInsert"></div>
+        </div>
+      </div>
+      <div id="notificationarea"></div>
+      <div id="layerunlock">
+        <div id="layerbg"></div>
+        <div id="layerbar">
+          <b id="layernum"></b><br />
+          <div id="layerreward"></div>
+        </div>
+        <div id="layerdismiss">(Click to dismiss)</div>
+        <div id="layerflash" onclick="dismissLayerNotify()"></div>
+      </div>
     </div>
-    <div id="myModal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content">
-        <span class="close" id="close">&times;</span>
-        <div>Click outside or the X button to close this modal.</div>
-        <div id="contentInsert"></div>
+    <div id="special_bgs" style="display: none">
+      <div id="dark_bg">
+        <div id="dark_sym_div">
+          <div id="dark_sym"></div>
+        </div>
       </div>
-    </div>  
+      <div id="dark_block"></div>
+    </div>
+    <div id="ver"></div>
     <div id="game_page" style="display: none">
-      <div id="news_ticker_base">
-        <div id="news_ticker">randomtuba hmm</div>
+      <div id="musicBox">
+        <button id="musicBoxBtn" onclick="toggleMusicBox()">
+          Music (All original)
+        </button>
+        <div id="musicBoxDiv">
+          <button id="music" onclick="toggleMusic()"></button>
+          <button onclick="nextMusic()">Next</button>
+          <button onclick="shuffleMusic()">?</button><br />
+          <span id="musicId">Playing: ???</span><br />
+        </div>
       </div>
+
+      <div id="news_ticker_base">
+        <div id="news_ticker">See this = news broken</div>
+      </div>
+      <div id="offline_progress"></div>
       <div id="pointsDisplay">
         <span style="font-size: 24px">
           You have <span id="points">X</span> points</span
@@ -61,19 +101,27 @@
         <br />
         (+<span id="pointsGain">X</span>/s) <br /><br />
       </div>
+      <div id="in_chal"></div>
       <h2 id="wannacry" class="cannotbuy" style="display: none">
         You have a <span id="chance"></span>% chance of triggering a rollback
         every time you press a button!
       </h2>
-      <div id="notificationarea"></div>
       <!-- TABS -->
       <div id="tabs">
         <button id="tab_btn_main" onclick="switchTab('main')">Main</button>
-        <button id="tab_btn_dark" onclick="switchTab('dark')">Dark World</button>
-        <button id="tab_btn_chal" onclick="switchTab('chal')">Challenges</button>
+        <button id="tab_btn_dark" onclick="switchTab('dark')">
+          Dark World
+        </button>
+        <button id="tab_btn_chal" onclick="switchTab('chal')">
+          Challenges
+        </button>
         <button id="tab_btn_stats" onclick="switchTab('stats')">Stats</button>
-        <button id="tab_btn_ach" onclick="switchTab('ach')">Achievements</button>
-        <button id="tab_btn_settings" onclick="switchTab('settings')">Settings</button>
+        <button id="tab_btn_ach" onclick="switchTab('ach')">
+          Achievements
+        </button>
+        <button id="tab_btn_settings" onclick="switchTab('settings')">
+          Settings
+        </button>
       </div>
       <div class="tab" id="tab_main" style="position: relative">
         <div id="abilities">
@@ -89,7 +137,7 @@
           >
             Use!
           </button>
-          Timewarp: Jump +<span id="ab_tw_jump_eff"></span>s forward<br />
+          Timewarp: Jump +<span id="ab_tw_jump_eff"></span> forward<br />
           <button
             id="ab_tw_speed"
             class="canbuy"
@@ -97,14 +145,12 @@
           >
             Use!
           </button>
-          Timewarp: <span id="ab_tw_speed_eff"></span>x until cooldown end
+          Timewarp: <span id="ab_tw_speed_eff"></span>x pre-Darken speed
         </div>
         <br />
         <table id="buildings"></table>
         <br /><br />
-        <div id="stabs_main">
-          <!-- *stabs your stats and switches your stabs*-->
-          <!-- *stabs your switches*-->
+        <div class="stab" id="stabs_main">
           <button
             id="stab_btn_main_upgrades"
             onclick="switchStab('main', 'upg')"
@@ -135,37 +181,54 @@
           <div id="upgrades"></div>
         </div>
         <div class="tab" id="stab_main_ms">
-          <table id="milestones"></table>
+          <table id="boostMilestone"></table>
         </div>
         <div class="tab" id="stab_main_con">
           <span id="dark_eng" style="font-size: 24px">0</span> Dark Energy
-          (+<span id="dark_prod">0</span>/s)<br> Next toning at <span id="dark_tone_req" style="font-size: 24px"></span> Dark Energy<br>
+          (+<span id="dark_prod">0</span>/s)<br />
+          Next toning at
+          <span id="dark_tone_req" style="font-size: 24px"></span> Dark
+          Energy<br />
           <button class="u" id="consume_btn" onclick="L1_CONSUME.consume()">
             Consume <span id="consume_str"></span> Boosters.<br />
             <span id="consume_amt"></span> sacrificed<br />
             <span id="consume_left"></span> remaining</button
           ><br />
-          <button onclick="L1_CONSUME.consume(true)">
-            Max Consume</button
-          ><button onclick="L1_CONSUME.release()">
-            Release the Boosters</button
-          ><button
-            id="autoconsume"
-            onclick="openModal('toning')"
-          >Open Auto</button>
+          <button id="consume_all" onclick="L1_CONSUME.consume(true)">Max Consume</button
+          ><button id="consume_release" onclick="L1_CONSUME.release()">Release the Boosters</button
+          ><button id="consume_auto" onclick="openModal('toning')">
+            Open Auto
+          </button>
           <br /><br />
-      
+
           You have a total of <span id="toning_total"></span> Dark Tonings.<br />
           Unused: <span id="toning_left"></span><br />
-          <table id="darkToning"></table>
+          <table id="dark_toning"></table>
         </div>
       </div>
-      <div class="tab" id="tab_chal">coming soon</div>
+      <div class="tab" id="tab_chal">
+        <br /><br />
+        <button id="chaexit" onclick="toggleCha()"></button>
+        <div id="chadiv">
+          <table id="chas"></table>
+          <div id="chadescdiv" style="display: none">
+            <div class="tooltip">
+              <b id="chatitle"></b
+              ><span id="chaauthor" class="tooltiptext"></span>
+            </div>
+            <br />
+            <i id="chadesc"></i><br /><br />
+
+            Goal: <span id="chagoal"></span><br />
+            <b style="color: red"
+              >STARTING WILL DARKEN THE SUN WITH NO REWARDS!</b
+            ><br />
+            <table id="charewards" align="right" style="margin: 0"></table>
+          </div>
+        </div>
+      </div>
       <div class="tab" id="tab_settings">
-        <span id="ver"></span>
-        <div id="stabs_settings">
-          <!-- *stabs your stats and switches your stabs*-->
-          <!-- *stabs your switches*-->
+        <div class="stab" class="stab" id="stabs_settings">
           <button
             id="stab_btn_settings_main"
             onclick="switchStab('settings', 'main')"
@@ -211,34 +274,62 @@
             onclick="player.dark.confirm=!player.dark.confirm"
           ></button>
           <h2>Save</h2>
-          <button onclick="save(true)">
-            Save
-          </button>
-          <button onclick="exportSave()">Export</button>
-          <button onclick="downloadSave()">Download</button>
-          <button onclick="importSave()">Import</button>
-          <h3>Themes</h3>
-          <button onclick="setTheme('default')">Default</button>
-          <button onclick="setTheme('inverted')">Inverted</button><br />
-          <button onclick="setTheme('dark')">Dark</button>
-          <button onclick="setTheme('dim')">Dim</button><br />
-          <button onclick="setTheme('superdark')">Extreme Dark</button>
-          <button onclick="setTheme('light')">Discord Light Mode</button><br />
-          <button onclick="setTheme('sussy')">Sussy (by jwklong)</button>
-          <button onclick="setTheme('retro')">Retro (by jwklong)</button><br />
-          <button onclick="setTheme('compact')">
-            Compact v0.26.1 (by DeLorean)
-          </button>
-          <button onclick="setTheme('scompact')">
-            Simplified Compact (by DeLorean)</button
+          <button onclick="save(true)">Save</button>
+          <button id="load" onclick="openModal('load')">Load</button>
+          <div id="moresaves">
+            <button onclick="exportSave()">Export</button>
+            <button onclick="downloadSave()">Download</button>
+            <button onclick="importSave()">Import</button>
+            <button onclick="document.getElementById('importFile').click();">
+              Import File</button
+            ><input
+              type="file"
+              style="display: none"
+              id="importFile"
+              accept=".txt"
+            />
+            <button id="hardreset" onclick="hardReset()">HARD RESET</button>
+          </div>
+          <br />
+          <button
+            id="offline"
+            onclick="player.offline.off = !player.offline.off"
+          >
+            Offline: ON</button
           ><br />
-          <button onclick="setTheme('crong')">
-            Crong (by CRG, not recommended unless you want to be cronged)</button
+          <h3>Display</h3>
+          Theme:
+          <select id="theme" style="width: 120px" onchange="changeTheme()">
+            <option value="default">Default</option>
+            <option value="inverted">Inverted</option>
+            <option value="dark">Dark</option>
+            <option value="dim">Dim</option>
+            <option value="superdark">Extreme Dark</option>
+            <option value="light">Discord Light Mode</option>
+            <option value="sussy">Sussy (by jwklong)</option>
+            <option value="retro">Retro (by jwklong)</option>
+            <option value="compact">Compact v0.26.1 (by DeLorean)</option>
+            <option value="scompact">Simplified Compact (by DeLorean)</option>
+            <option value="crong">Crong (by CRG)</option>
+            <option value="microwave">Microwave (by TheMKeyHolder)</option>
+            <option value="mysterious">Dark Machine (by dudat0507, VERY WIP)</option>
+            <option value="wannacry">
+              Wannacry (by incremental_gamer, DANGEROUS!)
+            </option>
+            <option value="random">I'm Feeling Lucky</option></select
           ><br />
-          <button onclick="setTheme('microwave')">
-            Microwave (by TheMKeyHolder)</button
-          ><br /><br />
-          <button onclick="randomTheme()">I'm Feeling Lucky</button>
+          Icon:
+          <select id="icon" style="width: 120px" onchange="changeIcons()">
+            <option value="default">Default (by jwklong + TehAarex)</option>
+            <option value="meta">Meta</option>
+            <option value="compact">Compact (by DeLorean)</option></select
+          ><br />
+          <button id="absurd" onclick="absurd=!absurd"></button>
+          <button
+            id="notation"
+            onclick="player.notation=(player.notation=='mix'?'sci':'mix')"
+          ></button>
+          <button id="newsbtn" onclick="toggleNews()"></button>
           <h3>Discord</h3>
           <a href="https://discord.gg/GBHavRPeke" target="_blank"
             ><img
@@ -247,45 +338,98 @@
               width="50px"
               id="discord"
           /></a>
-          <h3>Hard Reset</h3>
-          <button id="hardreset" onclick="hardReset()">HARD RESET</button>
           <h3>Misc</h3>
-          <button id="newsbtn" onclick="toggleNews()"></button>
-          <button id="absurd" onclick="absurd=!absurd"></button>
-          <button id="music" onclick="toggleMusic()"></button>
-          <br />
-          <button onclick="toggleWannacry()">
-            Wannacry (by incremental_gamer)<br>
-            <b style="color: red">[WARNING: DANGEROUS!]</b>
+          <button id="reduceDiff" onclick="reduceDiff()">
+            Reduce difficulty
           </button>
         </div>
-        <div class="tab" id="stab_settings_credits"></div>
+        <div class="tab" id="stab_settings_credits">
+          <div id="credits"></div>
+          <br /><br /><br />
+          <i>This game and its mechanics are in the public domain.</i>
+        </div>
         <div class="tab" id="stab_settings_changelog">
+          
+          <h3>v0.2.1: Painful Journey</h3>
+          + Added the animation for Darkening the Sun.<br />
+          + Implemented Darken Challenges.<br />
+          + Added 3 new achievements.<br />
+          + Added offline progress option.<br />
+          + Added Mixed Scientific option.<br />
+          + Added more hotkeys.<br />
+          + Added icon selector.<br />
+          + Added music player.<br />
+          + Added save selector.<br />
+          + Added welcome screen!<br />
+          <b style="color: gold">+ Finally released easier modes! :D</b><br />
+          + Implemented Rediscoveries.
+
+          <br /><br />
+          <b style="color: gold">- Removed scalings for now! :D</b><br />
+          - Unlocking a new layer now only flashes once.<br />
+          - Unlocking a new layer now displays rewards.<br />
+          - Improved the style for milestones and recall.<br />
+          - Booster Milestones now hide on Darken.<br>
+          - A missing "1 Booster" milestone has been added.<br />
+          - Automation now hides if the content is currently locked.<br />
+          - Automation options now update on change.<br />
+          - Nerfed Point Upgrades 6 and 7.<br />
+          - Consumption now requires 13 boosters.<br />
+          - Improved Auto Consumption by 1 tick.<br />
+          - Rebalanced Dark Tonings.<br />
+          - "Precious" now requires 9 enhances.<br />
+          - "Time Trial" has been replaced with "One with the Only."<br />
+          - Dark Upgrade 4 is now a constant multiplier.<br />
+          - Changed the formula for Dark Upgrade 5.<br />
+          - Changed the costs for Dark Upgrades 6 and 7.<br />
+          - Dark Upgrade 10 now allows you to max tonings.<br />
+          - Dark Booster's effect now caps at 1.5x per Dark Toning.<br />
+          - Heavily nerfed Heatant's effect.<br />
+          - Removed couple Recall Resources.<br />
+          - There is now a hotkey display on each reset.<br />
+          - Achievement rows now show when you have 7 achievements at previous
+          row.<br />
+          - Brought back the original icons.<br />
+          - Improved offline progress.<br />
+          - Time now displays minutes, hours, days, weeks, and years.<br />
+          - Changed the "black" colors to make them more colorful.<br />
+          - Theme selector now has a dropdown.<br />
+          - Buttons are no longer thin.<br />
+          - Tab buttons are now significantly larger.<br>
+          - Removed Curved News Ticker.<br>
+          - The version now always show and recolored.
+
+          <br /><br />
+          - Player data for Abilities and Recall has been restructured.<br />
+          - Player data for Boosters and Darken is now unassigned until you unlock respective layers.
           <h2>v0.2: Frozen Abyss</h2>
-          <br />
-          + Added a modal for automation.<br>
-          + Added automation<br>
-          + Added "respec" and "consume" confirmations.<br/>
-          + Added 4 new Booster stats.<br/>
+          + Added a modal for automation.<br />
+          + Added automation for Layer 1.<br />
+          + Added "respec" and "consume" confirmations.<br />
+          + Added 4 new Booster stats.<br />
+          + Added "next at" for Dark Tonings and Dark Energy.<br />
           + Added 9 more Dark Upgrades.<br />
           + Added 3 Darken mechanics: Abilities, Recall, and Alloying.<br />
           + Added 10 more achievements.<br />
-          + Added "scalings" tab in stats.<br/>
-          + Added hotkeys.<br/>
-          + Added new music by DaBlueTurnip09.<br/>
-          + Added more news ticker messages, of course.<br>
+          + Added "scalings" tab in stats.<br />
+          + Added hotkeys.<br />
+          + Added new music by DaBlueTurnip09.<br />
+          + Added more news ticker messages, of course.
 
-          <br/><br/>
+          <br /><br />
+          - Main tab is now reformatted and less confusing.<br />
           - Changed the icons for Buildings and Boosters! (by meta)<br />
           - Boosters now superscale at 250.<br />
           - Rebalanced Enhancements for post-Consumption.<br />
-          - Heavily nerfed "remaining boosters" for consumption by 75%.<br>
-          - Scattered automation options into Main tab.<br>
-          - Merged "news ticker" options.<br>
-          - Changed save format. (you can still import with the old format in settings)<br />
+          - Heavily nerfed "remaining boosters" for consumption by 75%.<br />
+          - Dark World now shows a different background.<br />
+          - Scattered automation options into Main tab.<br />
+          - Merged "news ticker" options.<br />
+          - Changed save format. (you can still import with the old format in
+          settings)<br />
+          - Loading screen now changes each time we add a new layer.<br />
           - Removed lore for now... :(
           <h2>v0.1: Release</h2>
-          <br />
           + Added 1 Point upgrade.<br />
           - Moved consumption into "Main" tab.<br />
           + Implmented Darken and Dark Upgrades.<br />
@@ -294,57 +438,72 @@
           + Added a news ticker. <b>[and there are a LOT of messages]</b><br />
           - Fixed a lot of bugs!
           <h3>Beta: Build 1 - 2</h3>
-          <br />
           + Added Makers, Generators, Producers, Factories, and Boosters.<br />
           + Added 6 upgrades.<br />
           + Added the beginning of the Dark World: Consumption.<br />
           + Added settings, 8 new themes, credits, lore, changelog, and
           achievements.<br />
-          + Added milestones.<br />
+          + Added milestones.
         </div>
       </div>
       <div class="tab" id="tab_stats">
         <br />
-        Time: <span id="time">0</span>s<br />
-        Highest points: <span id="max">0</span> <br /><br />
+        Time: <span id="time">0</span><br />
+        Highest points: <span id="max">0</span><br /><br />
         Layers: <span id="layers">0</span>/2<br />
-        Features: <span id="features">0</span>/5<br /><br />
-        <div id="stabs_stats">
+        Features: <span id="features">0</span>/6<br /><br />
+        <div class="stab" id="stabs_stats">
           <button id="stab_btn_stats_l1" onclick="switchStab('stats', 'l1')">
             Boosters
           </button>
           <button id="stab_btn_stats_l2" onclick="switchStab('stats', 'l2')">
             Darken
           </button>
-          <button id="stab_btn_stats_scale" onclick="switchStab('stats', 'scale')">
+          <!--<button
+            id="stab_btn_stats_scale"
+            onclick="switchStab('stats', 'scale')"
+          >
             Scalings
+          </button>-->
+          <button
+            id="stab_btn_stats_modes"
+            onclick="switchStab('stats', 'modes')"
+          >
+            Modes
           </button>
         </div>
         <div class="tab" id="stab_stats_l1">
           You have performed <span id="booster_stat">0</span> Booster resets.<br />
-          You have restarted <span id="booster_restart">0</span> Booster runs.<br />
-          Time since last booster reset: <span id="booster_time">0s</span><br />
+          You have restarted <span id="booster_restart">0</span> Booster
+          runs.<br />
+          Time since last booster reset: <span id="booster_time">0</span><br />
           <span id="booster_speed"></span>
           <br /><br />
-          Highest points in all Boosters: <span id="booster_highest">0</span><br />
-          Highest Dark Energy in all Boosters: <span id="booster_highest_eng">0</span><br />
+          Highest points in all Boosters: <span id="booster_highest">0</span
+          ><br />
+          Highest Dark Energy in all Boosters:
+          <span id="booster_highest_eng">0</span><br />
           Consumption level: <span id="booster_consume">0</span><br />
           Total enhances used: <span id="booster_enhance">0</span>
         </div>
         <div class="tab" id="stab_stats_l2">
           You have performed <span id="darken_stat"></span> Darken resets.<br />
           You have restarted <span id="darken_restart"></span> Darken runs.<br />
-          Time since last darken reset: <span id="darken_time"></span>s
+          Time since last darken reset: <span id="darken_time"></span>
           <br /><br />
+          Highest points in all Darkens: <span id="darken_highest">0</span
+          ><br />
           Total Abilities: <span id="darken_ability"></span><br />
           Total Recalls: <span id="darken_recall"></span><br />
           Total Fuses: <span id="darken_fuse"></span><br />
-          Dark Resources: <span id="darken_res"></span>/16<br />
+          Dark Resources: <span id="darken_res"></span>/18<br />
           Maximum Recall for each Factor: <span id="darken_max_recall"></span>
         </div>
         <div class="tab" id="stab_stats_scale">
           <h3>Scalings</h3>
           <div id="scale_info"></div>
+        </div>
+        <div class="tab" id="stab_stats_modes">
         </div>
       </div>
       <div class="tab" id="tab_ach">
@@ -366,11 +525,11 @@
           </b>
         </div>
         <br /><br />
-        <button class="prestige2" id="darken_btn" onclick="doLayer2()">
+        <button class="prestige2" id="darken_btn" onclick="doLayer(2)">
           <span id="darken_resetdesc">Darken the sun.</span></button
         ><br /><br />
 
-        <div id="stabs_dark">
+        <div class="stab" id="stabs_dark">
           <button id="stab_btn_dark_upg" onclick="switchStab('dark', 'upg')">
             Upgrades
           </button>
@@ -382,9 +541,14 @@
           </button>
         </div>
         <div class="tab" id="stab_dark_rec">
-          Each recall is based on its resource. Points boost Point Recall, Dark Energy boosts Energy Recall, and Dark Matter boosts Dark Recall.<br>
-          The recall base is equal to the product of all three recall factors, and it boosts how much of extra resources you get.<br>
-          You can increase each recall factor to nerf it, while providing a greater variety of resources upon a Darken reset.<br>
+          Each recall is based on its resource. Points boost Point Recall, Dark
+          Energy boosts Energy Recall, and Dark Matter boosts Dark Recall.<br />
+          The recall base is equal to the product of all three recall factors,
+          and it boosts how much of extra resources you get.<br />
+          You can increase each recall factor to nerf it, while providing a
+          greater variety of resources upon a Darken reset.
+          <br><br>
+          Get 100 Recall Base to gain extra resources.
           <table>
             <tr>
               <td></td>
@@ -400,31 +564,44 @@
             </tr>
             <tr>
               <td>
-                <button onclick="L2_RECALL.adjust(0, -1)">-1</button>
-                <button onclick="L2_RECALL.adjust(0, 1)">+1</button><br />
-                Point Recall:<br><span id="recallLvl0"></span>
+                <button onclick="L2_RECALL.adjust(0, -1)">-</button>
+                <button onclick="L2_RECALL.adjust(0, 1)">+</button><br />
+                Point Recall:<br /><span id="recallLvl0">/5</span>
               </td>
               <td>
-                <button onclick="L2_RECALL.adjust(1, -1)">-1</button>
-                <button onclick="L2_RECALL.adjust(1, 1)">+1</button><br />
-                Energy Recall:<br><span id="recallLvl1"></span>
+                <button onclick="L2_RECALL.adjust(1, -1)">-</button>
+                <button onclick="L2_RECALL.adjust(1, 1)">+</button><br />
+                Energy Recall:<br /><span id="recallLvl1">/5</span>
               </td>
               <td>
-                <button onclick="L2_RECALL.adjust(2, -1)">-1</button>
-                <button onclick="L2_RECALL.adjust(2, 1)">+1</button><br />
-                Dark Recall:<br><span id="recallLvl2"></span>
+                <button onclick="L2_RECALL.adjust(2, -1)">-</button>
+                <button onclick="L2_RECALL.adjust(2, 1)">+</button><br />
+                Dark Recall:<br /><span id="recallLvl2">/5</span>
               </td>
               <td></td>
             </tr>
           </table>
+          <div id="recallChannel">
+            <br>
+            <button onclick="L2_RECALL.channel = 0">Channel 1</button>
+            <button onclick="L2_RECALL.channel = 1">Channel 2</button>
+          </div>
           <br /><br />
           Hover over a resource's name to see its requirements.
           <table id="recallResources"></table>
         </div>
         <div class="tab" id="stab_dark_alloy">
-          These conversions scale based on your products.<br>
-          Fusing will lose resources needed, and will gain products in exchange.<br><br>
-          Resources to exchange: <input id="alloyPercentage" type="number" min=0 max=100 onchange="L2_ALLOY.changePercentage()">%
+          These conversions scale based on your products.<br />
+          Fusing will lose resources needed, and will gain products in
+          exchange.<br /><br />
+          Resources to exchange:
+          <input
+            id="alloyPercentage"
+            type="number"
+            min="0"
+            max="100"
+            onchange="L2_ALLOY.changePercentage()"
+          />%
           <table id="alloyResources"></table>
         </div>
         <div class="tab" id="stab_dark_upg">
@@ -435,39 +612,102 @@
         </div>
       </div>
     </div>
-    <div id="endgame" style="display: none" class="darkOverwrite">
-      <b style="font-size: 40px">Congratulations! You have reached the end!</b
+    <div id="startgame" style="display: none">
+      <b style="font-size: 40px">Welcome!</b><br />
+      Welcome to the Longest Incremental!<br />
+      <b style="font-size: 6px">(not longest)</b><br /><br />
+
+      This game is currently consists of 2 layers and 6 features.<br />
+      Each layer consists of unique features and automates prior layers.<br /><br />
+
+      Be aware that most features are strategic for Hard mode.<br />
+      <!--<s>Some layers and features consist of many subfeatures.</s><br>-->
+      <b style="color: red">Be prepared. This is a long hike.</b><br /><br />
+
+      Select the difficulty that's best for you.<br />
+      
+      You can find more detailed mode info in Stats -&gt; Modes (but only for the mode you're on)<br><br />
+
+      <button
+        id="diff_0"
+        class="u prestige1"
+        onclick="player.modes = { diff: 0 }"
+      >
+        <h3>Noob</h3>
+        For players new to incrementals. No strategy required. This is the
+        simplest gamemode.
+      </button>
+      <button class="u bought hover" onclick="player.modes = { diff: 1 }">
+        <h3>Easy</h3>
+        For players who somewhat have a feel for incremental games. Requires
+        some time.
+      </button>
+      <button class="u canbuy hover" onclick="player.modes = { diff: 2 }">
+        <h3>Medium</h3>
+        For less experienced players. Requires strategy and time.
+      </button>
+      <button class="u cannotbuy hover" onclick="player.modes = { diff: 3 }">
+        <h3>Hard</h3>
+        <p>
+          For experienced players. Requires large amounts of strategy, skill,
+          and time.
+        </p>
+      </button>
+    </div>
+    <div id="endgame" style="display: none">
+      <b id="endwin" style="font-size: 40px">Congratulations! You have reached the end!</b
       ><br />
-      The long hike is over. You've beaten the game... for now, at least.<br /><br />
-      Check the Discord server to see if there are more updates!<br /><br />
-      <button onclick="player.hasWon = true">Keep Going</button>
+      <b>Difficulty: </b> <span id="enddiff"></span><br />
+      <b>Time: </b> <span id="endtime"></span><br /><br />
+      <b id="endmessage" style="color: gold">The long hike is over. If you didn't use a guide, you are a no-lifer.</b><br />
+      You've beaten the game... for now, at least.<br>
+      Check the Discord server to see if there are more updates!<br>
+      <a href="https://discord.gg/GBHavRPeke" target="_blank"
+        ><img
+          src="https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/discord.png?v=1659925329308"
+          height="50px"
+          width="50px"
+          id="discordimg"
+      /></a><br /><br />
+      
+      You can either use Rediscovery to speedrun or try a harder difficulty.<br>
       <button onclick="hardReset()">Play Again</button>
+      <button onclick="harderMode()">Try a Harder Mode</button>
+      <button onclick="openModal('rediscover')">Rediscovery</button>
+      <button onclick="player.hasWon = true">Keep Going</button>
     </div>
 
     <!-- MAKE SURE TO PUT SCRIPTS AT THE END TO MAKE LOADING SCREEN APPEARS. -->
     <script src="js/utils/break_eternity.js"></script>
-    <script src="js/utils/lzString.js"></script>
     <script src="js/utils/Element.js"></script>
-    <script src="js/utils/utils.js"></script>
-    <script src="js/utils/music.js"></script>
     <script src="js/utils/format.js"></script>
+    <script src="js/utils/imageLoad.js"></script>
+    <script src="js/utils/lzString.js"></script>
+    <script src="js/utils/notify.js"></script>
+    <script src="js/utils/modal.js"></script>
+    <script src="js/utils/utils.js"></script>
+
+    <script src="js/utils/music.js"></script>
     <script src="js/utils/scaling.js"></script>
-    <script src="js/notify.js"></script>
-    <script src="js/modal.js"></script>
-    <script src="js/imageLoad.js"></script>
-
-    <script src="js/layers/0-buyables.js"></script>
-    <script src="js/layers/1-booster.js"></script>
-    <script src="js/layers/2-darken.js"></script>
-    <script src="js/layers/3-elements.js"></script>
-
-    <script src="js/others/newsticker.js"></script>
-    <script src="js/others/trolling.js"></script>
+    <script src="js/utils/layers.js"></script>
 
     <script src="js/achievements.js"></script>
+    <script src="js/milestones.js"></script>
+    <script src="js/challenges.js"></script>
+
     <script src="js/tmp.js"></script>
+    <script src="js/layers/0-buyables.js"></script>
     <script src="js/player.js"></script>
     <script src="js/save.js"></script>
     <script src="js/main.js"></script>
+
+    
+    <script src="js/layers/1-booster.js"></script>
+    <script src="js/layers/2-darken.js"></script>
+    <script src="js/layers/3-elemental.js"></script>
+
+    <script src="js/others/newsticker.js"></script>
+    <script src="js/others/rediscover.js"></script>
+    <script src="js/others/trolling.js"></script>
   </body>
 </html>

@@ -16,6 +16,41 @@
   text-shadow: 0px 2px 0px #2a0054, 0px 2px 0px #5b00b5; /*De text under shadowing*/
   text-shadow: 2px 2px 2px #2a0054, 2px 2px 2px #5b00b5; /*De text glowing*/
 }
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 7% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888888;
+  width: 110%; /* Could be more or less, depending on screen size */
+  overflow: auto;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 
 button {
   background-color: #8459c5;
@@ -136,88 +171,14 @@ button:active {
   background-color: #ffffff;
 }
 
-#mainBuyable3 {
-  color: #33e5f2;
-  text-shadow: 0px 2px 0px #178087, 0px 2px 0px #178087;
-  text-shadow: 2px 2px 2px #178087, 2px 2px 2px #178087;
-}
-#mainBuyable5{
+#mainBuyable3, #mainBuyable5{
   color:  #33e5f2;
-  text-shadow:0px 2px 0px #178087, 0px 2px 0px #178087;
-   text-shadow:2px 2px 2px #178087, 2px 2px 2px #178087;
+  text-shadow:2px 2px 2px #178087, 2px 2px 2px #178087;
 }
 
-#makerimg {
-  display: block;
+#buyableImg3, #buyableImg5 {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/maker.jpg")
-    no-repeat; /*testing*/
-  width: 32px;
-  height: 32px;
-  padding-left: 32px;
-  background-size: cover;
-  filter: drop-shadow(2px 2px 2px #250066);
-}
-#generatorimg {
-  display: block;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/generator.jpg")
-    no-repeat;
-  width: 32px;
-  height: 32px;
-  padding-left: 32px;
-  background-size: cover;
-  filter: drop-shadow(2px 2px 2px #250066);
-}
-#producerimg {
-  display: block;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/producer.jpg")
-    no-repeat;
-  width: 32px;
-  height: 32px;
-  padding-left: 32px;
-  background-size: cover;
-  filter: drop-shadow(2px 2px 2px #250066);
-}
-#factoryimg {
-  display: block;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/factory.jpg")
-    no-repeat;
-  width: 32px;
-  height: 32px;
-  padding-left: 32px;
-  background-size: cover;
-  filter: drop-shadow(2px 2px 2px #250066);
-}
-#boosterimg {
-  display: block;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/booster1.png")
-    no-repeat;
-  width: 32px;
-  height: 32px;
-  padding-left: 32px;
-  background-size: cover;
-  filter: drop-shadow(2px 2px 2px #003866);
-}
-
-#creatorimg {
-  display: block;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/creator1.png")
-    no-repeat;
-  width: 32px;
-  height: 32px;
-  padding-left: 32px;
-  background-size: cover;
   filter: drop-shadow(2px 2px 2px #003866);
 }
 

@@ -1,13 +1,6 @@
 class UtilElement {
   constructor(el) {
     this.el = el;
-    /*this.observer = new MutationObserver(
-      (mutationList) => {
-        mutationList.forEach((mutation) => {
-          
-        })
-      }      
-    );*/
   }
 
   writeText(text) {
@@ -25,7 +18,15 @@ class UtilElement {
   show(type = "block") {
     this.el.style.display = type;
   }
-
+  
+  changeAttr(attribute, value) {
+    this.el[attribute] = value
+  }
+  
+  getAttr(attr) {
+    return this.el[attr]
+  }
+  
   changeStyle(property, value) {
     this.el.style[property] = value;
   }

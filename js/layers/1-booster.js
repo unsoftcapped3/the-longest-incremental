@@ -1,162 +1,183 @@
-function doLayer1Reset(force) {
-  if (canAffordBuyable(3)) force = false;
-  if (!force) {
-    if (player.boost.times === 0) {
-      player.boost.unl = true;
-      notify();
-    }
-    if (Object.values(player.buyables)
-        .every((i,k)=>k===3||Decimal.lt(i,10))) getAch(12);
-    if (player.boost.time < 60) getAch(19);
-    player.boost.times++;
-    player.boost.amt = player.buyables[3];
-  } else player.boost.restart++
-  player.boost.time = 0;
-  player.boost.realTime = 0;
+const BOOST = {
+  name: "Booster",
+  confirm: "This will reset your progress for a booster, which doubles point gain. Are you sure?",
+  reward: "Enhancements, Stats, Load",
+  ani: _ => layerNotify(1),
 
-  player.points = D(10);
-  player.creatorPower = D(0);
-  Object.keys(player.buyables).forEach(
-    (x) => x !== "3" && (player.buyables[x] = D(0))
-  );
-  Object.keys(player.upgrades).forEach(
-    (x) => x !== "2" && (player.upgrades[x] = 0) // DO NOT PUT SEMICOLON HERE
-  );
+  loc: "boost",
+  setup() {
+    return {
+      realTime: 0,
+      maxPoints: D(0),
+      respecConfirm: true,
 
-  if (!force && player.boost.consume.auto.on && player.boost.consume.auto.step == 0 && L1_CONSUME.bulk().sub(player.boost.consume.max || 0).gte(1)) L1_CONSUME_AUTO[0]()
-}
+      bu: {},
+      consume: {
+        amt: D(0),
+        eng: D(0),
+        maxEng: D(0),
+        upg: {},
 
-function setupLayer1() {
-  return {
-    confirm: true,
-    time: 0,
-    realTime: 0,
-    times: 0,
-    restart: 0,
-    maxPoints: D(0),
-    amt: D(0),
-    unl: false,
-    bu: { 0: D(0), 1: D(0), 2: D(0) },
-    respecConfirm: true,
-    consume: {
-      amt: D(0),
-      eng: D(0),
-      maxEng: D(0),
-      upg: {},
-
-      confirm: true,
-      auto: {
-        on: false,
-        step: 0,
+        confirm: true,
+        max: false,
+        auto: {
+          on: false,
+          step: 0,
+        }
       }
-    },
-  };
+    }
+  },
+
+  can: _ => canAffordBuyable(3),
+
+  reset() {
+    player.boost.realTime = 0
+
+    player.points = D(10)
+    player.creatorPower = D(0)
+    player.buyables = {3: player.buyables[3]}
+    player.upgrades = {2: 1}
+  },
+  onReset() {
+    if (Object.values(player.buyables)
+        .every((i,k)=>k===3||Decimal.lt(i,10))) getAch(12)
+    if (player.boost.time < 60) getAch(19)
+    player.boost.times++
+  },
+}
+const BOOSTER = BOOST
+LAYERS[1] = BOOST
+
+function doLayer1Reset(force) {
+  doLayerReset(1, force)
+  if (!force && player.boost.consume.auto.on && player.boost.consume.auto.step == 0 && L1_CONSUME.bulk().sub(player.boost.consume.max || 0).gte(1)) L1_CONSUME_AUTO[0]()
 }
 
 function getLayer1Speed(idle) {
   let speed = D(1)
-  if (!idle && player.abilities.speed) speed = speed.mul(L2_ABILITY.time.power())
+
+  if (hasUpg(2, "dark")) {
+    let power = L2_ABILITY.time.basePower()
+    if (player.modes.diff == 0) speed = speed.mul(power)
+    if (player.modes.diff == 1 || player.modes.diff == 2) {
+      speed = speed.mul(power.div(2).max(1))
+      if (!idle && player.dark.ab.speed) speed = speed.mul(power.min(2))
+    }
+    if (player.modes.diff == 3 && !idle && player.dark.ab.speed) speed = speed.mul(power)
+  }
   if (L2_RECALL.unl()) speed = speed.mul(tmp.darkRecall.ha)
+
   return speed
+}
+
+function getBoosters() {
+  return getBuyable(3)
 }
 
 //BOOSTER MILESTONES
 const L1_MILESTONES = {
-  unl(x) {
-    return Decimal.gte(player.boost.amt, L1_MILESTONES.data[x].req);
-  },
+  unl: (x) => MILESTONES_CORE.got("boost", x) || (hasChaReward(3, 0) && x < 5),
   setupDOM() {
-    document.getElementById("milestones").innerHTML = htmlFor(
-      this.data,
-      (value, key) => `
-			<tr id="milestoneDisplay${key}">
-				<td style='text-align: left; width: 240px'><b>${formatWhole(
-          value.req
-        )} Boosters</b>:</td>
-				<td id="milestoneDesc${key}">${typeof value.desc === 'function' ? value.desc() : value.desc}</td>
-			</tr>`
-    );
+    MILESTONES_CORE.setup("boostMilestone", "boost")
   },
   updateDOM() {
-    for (const milestone of Object.keys(this.data)) {
-      updateBuyThings(
-        `milestoneDisplay` + milestone,
-        Decimal.gte(player.boost.amt, this.data[milestone].req),
-        ["cannotbuy", "bought"]
-      );
-      if (typeof this.data[milestone].desc === 'function') {
-        tmp.cache[`milestoneDesc${milestone}`].writeText(this.data[milestone].desc())
-      }
-    }
-  },
-  data: {
-    0: {
+    MILESTONES_CORE.update("boostMilestone")
+  }
+};
+
+MILESTONES.boost = {
+  res: _ => getBoosters(),
+  resName: "Boosters",
+  data: [
+    {
+      req: D(1),
+      desc: "Unlock Max All and Enhancements.",
+    },
+    {
       req: D(2),
+      unl: _ => player.modes.diff > 1 || tmp.layer >= 2,
       desc: "Unlock the ability to respec Enhances.",
     },
-    1: {
+    {
       req: D(3),
       desc: "Triple Generator Production.",
     },
-    2: {
+    {
       req: D(4),
       desc: "Upgrade 1 has a better formula.",
     },
-    3: {
+    {
       req: D(5),
       desc: "Enhancements are 25% cheaper.",
     },
-    4: {
+    {
       req: D(6),
       desc: "Unlock Building 4: Factory.",
     },
-    5: {
+    {
       req: D(8),
       desc: "Raise Upgrade 1's effect to the power of 1.3.",
     },
-    6: {
+    {
       req: D(10),
       desc: "Automate Buildings.",
     },
-    7: {
-      req: D(15),
+    {
+      req: D(13),
       desc: "Unlock Consumption and the Dark World.",
     },
-    8: {
+    {
       req: D(20),
-      desc: () => `Factory Enhances raise Buyable base cost by ^${format(1/L1_POLISH.cheap())}.`,
+      unl: _ => L1_CONSUME.unl() || tmp.layer > 1,
+      desc: _ =>
+        `Factory Enhances raise Buyable base cost by ^${format(
+          1 / L1_POLISH.cheap()
+        )}.`,
     },
-    9: {
+    {
       req: D(30),
+      unl: _ => L1_CONSUME.unl() || tmp.layer > 1,
       desc: "All consumptions consumes 0.25 less Boosters.",
     },
-    10: {
+    {
+      req: D(35),
+      unl: _ => (L1_CONSUME.unl() || tmp.layer > 1) && player.modes.diff < 3,
+      desc: _ => "Cheapen Enhancements based on Dark Tonings.",
+    },
+    {
       req: D(40),
+      unl: _ => L1_CONSUME.unl() || tmp.layer > 1,
       desc: "Automate Point Upgrades.",
     },
-    11: {
+    {
       req: D(50),
+      unl: _ => tmp.layer >= 2,
       desc: "Buildings and Point Upgrades don't spend anything.",
     },
-    12: {
+    {
       req: D(75),
-      desc: "Unlock Creators. (enhanceless)",
+      unl: _ => tmp.layer >= 2,
+      desc: "Unlock Creators. (cannot be enhanced)",
     },
-  },
-};
+  ]
+}
 
 //ENHANCEMENTS: By Aarex
 //formerly Building Boosters and Polishments
 let L1_POLISH = {
   unl(x) {
-    if (x == 5) return layer_placeholder(3);
-    if (x == 3) return player.dark.unl;
-    return player.boost.unl;
+    if (!layerUnl(1)) return false
+    if (!buyables[x].unlocked()) return false
+
+    if (x == 0) return true
+    if (x == 3) return layerUnl(2)
+    if (x == 5) return layer_placeholder(3)
+    return player.modes.diff > 1
   },
   updateEnhanceAuto() {
     for (const key of BUYABLE_KEYS) {
       if (key === "5") continue
-      const val = document.getElementById(`selectEnhance${key}`).value
+      const val = tmp.cache[`selectEnhance${key}`].getAttr("value")
       if (val === '') {
         delete player.enhancePriority[key]
         continue
@@ -167,73 +188,75 @@ let L1_POLISH = {
   updateDOM() {
     tmp.cache.polish_respec.changeStyle(
       "display",
-      L1_MILESTONES.unl(0) ? "" : "none"
+      MILESTONES_CORE.unl("boost", 1) ? "" : "none"
     );
-    tmp.cache.buyableBoost.writeText(
-      player.boost.unl ? `Boosters left: ${format(L1_POLISH.unspent())}` : ""
-    );
+    tmp.cache.buyableBoostDiv.changeStyle(
+      "display",
+      layerUnl(1) ? "" : "none"
+    )
+    tmp.cache.buyableBoost.writeText(`Boosters left: ${format(L1_POLISH.unspent())}`);
+
     for (const key of BUYABLE_KEYS) {
+      if (key === "5") continue
+
+      let unl = this.unl(key)
+      let shown = this.amt(this.used(key)) > 0
       tmp.cache[`buyableBoostDiv${key}`].changeStyle(
         "display",
-        this.unl(key) ? "table-row" : "none"
+        unl ? "table-row" : "none"
+      )
+      tmp.cache[`buyableBoostEff${key}`].changeStyle(
+        "display",
+        shown ? "table-cell" : "none"
       );
-      tmp.cache[`buyableBoost${key}`].writeText(
-        this.amt(key) === 13
-          ? "(Max)"
-          : `(${this.amt(key)}) Enhance: ${format(this.cost(key))} Boosters`
-      );
-      updateBuyThings(`buyableBoost${key}`, this.can(key));
-      if (key === "5") {
-        tmp.cache.creatorPower.writeText(format(player.creatorPower))
-        tmp.cache.creatorPowerEff.writeText(format(creatorPowerEff()))
+
+      if (unl) {
+        tmp.cache[`buyableBoost${key}`].writeText(`(${this.amt(key)}) Enhance: ${format(this.cost(key))} Boosters`);
+        updateBuyThings(`buyableBoost${key}`, this.can(key))
       }
-      if (key !== "5") tmp.cache[`buyableFlat${key}`].writeText(format(key === "3" ? this.eff(3) : this.flat(key)));
-      if (key !== "3" && key !== "5") {
-        tmp.cache[`buyableRepeated${key}`].writeText(format(this.perLvl(key)))
-      };
+      if (shown) {
+        tmp.cache[`buyableFlat${key}`].writeText(format(this.eff(key)[0]))
+        if (key !== "3") tmp.cache[`buyableRepeated${key}`].writeText(format(this.eff(key)[1]))
+      }
     }
 
     tmp.cache.autoenhance.changeStyle("display", hasUpg(10, "dark") ? "" : "none")
   },
-  eff(x) {
-    if (x === 3 || x === "3") {
-      return this.amt(x) / 26;
-    } else {
-      let r = D(1);
-      r = r.mul(this.flat(x)); //Effect 1: Multiplication
-      r = r.mul(D(2).pow(Decimal.div(getBuyable(x), this.perLvl(x)).floor())); //Effect 2: Per-Level Boost
-      return r;
-    }
-  },
-  perLvl(x) {
-    let amt = this.amt(x);
-    if (amt === 0) return Infinity;
-    return (
-      [0, 6, 5.5, 5, 4.5, 4, 3.75, 3.5, 3.3, 3.2, 3.1, 3, 2.9, 2.8, 2.7, 2.6, 2.5][Math.min(17, amt)]
-      / Math.log2([1.4, 1.6, 1.8, 0, 2, 2.2][x])
-    );
-  },
+
 
   cost(x) {
-    return Math.pow(this.costBase(x), this.amt(x)) * this.costMul(x);
+    return D(this.costBase(x)).pow(this.amt(x)).mul(this.costMul(x));
   },
   costBase(x) {
+    if (inChal(4)) return 2
     return x == 3 ? 1.75 : 1.5
   },
   costMul(x) {
     let r = 1;
     if (x == 3) r = 10;
-    if (L1_MILESTONES.unl(3)) r *= 0.75;
-    if (L1_CONSUME.unl()) r /= tmp.darkTones[3];
+
+    if (player.modes.diff <= 2 && L1_MILESTONES.unl(10)) r /= L1_CONSUME.toneBulk().add(1).log10().add(1).toNumber()
+    if (player.modes.diff == 2) {
+      if (x == 3) r *= 0.8;
+      if (x == 4) r /= 2;
+    }
+    if (player.modes.diff == 3 && L1_CONSUME.unl()) r /= tmp.darkTones[3].toNumber();
+
+    if (L1_MILESTONES.unl(4)) r *= 0.75;
     if (hasUpg(8, "dark")) r *= 0.75;
+    if (inChal(4)) r *= 5;
+    if (L2_RECALL.unl()) r /= tmp.darkRecall.ss.toNumber();
+    if (hasChaReward(2, 2)) r /= chalEff(2, 2);
     return r;
   },
 
   unspent() {
-    return Decimal.sub(player.boost.amt, this.total());
+    let r = getBoosters().sub(this.total());
+    if (hasChaReward(2, 1)) r = r.add(chalEff(2, 1))
+    return r
   },
   can(x) {
-    return buyables[x].unlocked() && this.unspent().gte(this.cost(x)) && this.amt(x) < 13;
+    return this.unl(x) && this.unspent().gte(this.cost(x))
   },
   buy(x) {
     if (!L1_POLISH.can(x)) return;
@@ -247,79 +270,117 @@ let L1_POLISH = {
       return;
     player.boost.bu = {};
     doLayer1Reset(true);
+    if (hasUpg(10, "dark")) tmp.auto.booster = true;
   },
 
+  eff(x) {
+    let u = this.used(x) //determine which enhancements are used
+    let amt = this.amt(x)
+
+    if (x == 3) {
+      if (amt > 4) return [0.5 - 10 / (26 + amt)]
+      return [amt / 26]
+    }
+    return [amt + 1, this.perLvl(x, u)]
+  },
+  effProd(x) {
+    let eff = this.eff(x)
+
+    let r = D(1);
+    r = r.mul(eff[0]); //Effect 1: Multiplication
+    r = r.mul(D(2).pow(getBuyable(x).div(eff[1]).floor())); //Effect 2: Per-Level Boost
+    return r;
+  },
+  used(x) {
+    if (player.modes.diff <= 1 && (x == 1 || x == 2 || x == 4)) x = 0
+    return x
+  },
   flat(x) {
-    return this.amt(x) + 1;
+    return this.amt(x) + 1
   },
   cheap() {
     return Math.sqrt(this.flat(4))
   },
   amt(x) {
-    return (player.boost.bu && D(player.boost.bu[x] || 0).round().toNumber()) || 0;
+    return D(player?.boost?.bu[x] ?? 0).round().toNumber()
   },
+  perLvl(x, u) {
+    let amt = this.amt(u)
+    let scale = 1 / Math.log2(buyables[x].cost.exp)
+    if (amt == 0) return Infinity;
+    if (amt < 12) return [0, 6, 5.5, 5, 4.5, 4, 3.75, 3.5, 3.3, 3.2, 3.1, 3][amt] * scale
+    //don't try to revert the nerf or it wouldn't be grindy and become unbalanced.
+    return (2 + 0.9 / (amt / 20 + 0.4)) * scale
+  },
+
   total() {
-    let t = 0;
+    let t = D(0)
     // can someone mke this more clearer
     for (let i = 0; i < 5; i++) {
       let b = this.costBase(i)
-      t += (Math.pow(b, this.amt(i)) - 1) / (b - 1) * this.costMul(i);
+      t = D(b).pow(this.amt(i)).sub(1).div(b - 1).mul(this.costMul(i)).add(t)
     }
-    return t;
+    return t
   },
   totalamt() {
-    let t = 0;
-    for (let i = 0; i < 5; i++) t += this.amt(i);
-    return t;
+    let t = D(0)
+    for (let i = 0; i < 5; i++) t = t.add(this.amt(i))
+    return t.round();
   },
   maxamt() {
-    let t = 0;
-    for (let i = 0; i < 5; i++) t = Math.max(t, this.amt(i));
-    return t;
+    let t = D(0)
+    for (let i = 0; i < 5; i++) t = t.max(this.amt(i))
+    return t
   },
 };
-const hasMilestone = L1_MILESTONES.unl;
+
 //CONSUMPTION
 const L1_CONSUME = {
-  unl: () => L1_MILESTONES.unl(7) || L1_CONSUME.toneBulk().gt(0),
+  unl: _ => L1_MILESTONES.unl(8) || (tmp.layer >= 2 && L1_CONSUME.toneBulk().gt(0)),
   updateAuto() {
     for (const key of Object.keys(this.toneData)) {
-      const val = document.getElementById(`selectTone${key}`).value
-      if (val === '') {
+      if (key === "1" && inChal(3)) continue
+      const val = tmp.cache[`selectTone${key}`]
+      if (!val.el || val.getAttr("value") === '') {
         delete player.toningPriority[key]
         continue
       }
-      player.toningPriority[key] = Number(val)
+      player.toningPriority[key] = Number(val.getAttr("value"))
     }
-    player.boost.consume.auto.on = document.getElementById(`autoConsumeToggle`).checked
+    player.boost.consume.auto.on = tmp.cache.autoConsumeToggle.getAttr("checked")
   },
   setupDOM() {
-    document.getElementById("darkToning").innerHTML = htmlFor(
+    tmp.cache.dark_toning.writeHTML(htmlFor(
       this.toneData,
       (value, key) => `
 			<tr id="darkToneDiv${key}">
 				<td>
-					<button onclick="L1_CONSUME.tone(-1, ${key})">-1</button>
+					<button onclick="L1_CONSUME.tone(-1, ${key})">-</button>
 					<button onclick="L1_CONSUME.tone(0, ${key})">(0)</button>
-					<button onclick="L1_CONSUME.tone(1, ${key})">+1</button>
+					<button onclick="L1_CONSUME.tone(1, ${key})">+</button>
 				</td>
 				<td id="darkToneLvl${key}"></td>
 				<td id="darkToneEff${key}"></td>
 			</tr>`
-    );
+    ));
   },
   updateDOM() {
-    
-    updateBuyThings(`consume_btn`, this.can(), ["cannotbuy", "prestige"]);
-    tmp.cache.consume_amt.writeText(format(this.consumeAmt()));
-    tmp.cache.consume_left.writeText(format(this.left()));
-    tmp.cache.consume_str.writeText(format(this.req()));
-    tmp.cache.dark_eng.writeText(format(player.boost.consume.eng));
-    tmp.cache.dark_prod.writeText(format(this.darkProd().mul(getLayer1Speed())));
+    const consume = player.modes.diff > 0
+    tmp.cache.consume_btn.changeStyle("display", consume ? "" : "none")
+    tmp.cache.consume_all.changeStyle("display", consume ? "" : "none")
+    tmp.cache.consume_release.changeStyle("display", consume ? "" : "none")
+    tmp.cache.consume_auto.changeStyle("display", hasUpg(10, "dark") ? "" : "none")
+    if (consume) updateBuyThings(`consume_btn`, this.can(), ["cannotbuy", "prestige1"]);
+
+    tmp.cache.consume_amt.writeText(format(this.consumeAmt()))
+    tmp.cache.consume_left.writeText(format(this.left()))
+    tmp.cache.consume_str.writeText(format(this.req()))
+    tmp.cache.dark_eng.writeText(format(player.boost.consume.eng))
+    tmp.cache.dark_prod.writeText(format(this.darkProd().mul(getLayer1Speed())))
     tmp.cache.dark_tone_req.writeText(format(this.nextToneAt()))
 
-    tmp.cache.toning_total.writeText(format(this.toneBulk(), 0));
-    tmp.cache.toning_left.writeText(format(this.toneTotal(), 0));
+    tmp.cache.toning_total.writeText(format(this.toneBulk(), 0))
+    tmp.cache.toning_left.writeText(format(this.toneTotal(), 0))
     for (const i of Object.keys(this.toneData)) {
       tmp.cache["darkToneDiv" + i].changeStyle(
         "display",
@@ -329,21 +390,23 @@ const L1_CONSUME = {
         "(" +
         format(player.boost.consume.upg[i],0) +
         " / " +
-        format(this.toneData[i].max(this.toneBulk()),0) +
+        format(this.toneMax(i),0) +
         ") "
       );
       tmp.cache["darkToneEff" + i].writeText(this.toneData[i].desc(tmp.darkTones[i]));
     }
-
-    tmp.cache.autoconsume.changeStyle("display", hasUpg(10, "dark") ? "" : "none")
   },
   updateTmp() {
     tmp.darkTones = {};
 
-    for (const i of Object.keys(this.toneData))
+    if (!this.unl()) return
+    for (const i of Object.keys(this.toneData)) {
+      const data = this.toneData[i]
       tmp.darkTones[i] = this.toneData[i].eff(
         D(player.boost.consume.upg[i] || 0)
+        .mul(evalVal(data.condense) ?? D(1))
       );
+    }
   },
 
   consume(max, auto) {
@@ -353,7 +416,7 @@ const L1_CONSUME = {
       !confirm("This will consume " + format(L1_CONSUME.req(), 0) + " boosters and their effect. You won't lose boosters assigned to buildings. A booster reset will also be forced. Are you sure?")
     ) return;
     
-    tmp.temp.consumeAuto = true
+    tmp.auto.consume = true
     if (max) {
       let bulk = L1_CONSUME.bulk();
       if (L1_CONSUME.can(bulk)) bulk = bulk.add(1); //fix bulk bug due to quadratic formula
@@ -365,41 +428,61 @@ const L1_CONSUME = {
     
     doLayer1Reset(true);
   },
+  total() {
+    return getBoosters().sub(inChal(1) ? 3 : 12).div(4)
+  },
   left(at) {
-    return D(player.boost.amt).sub(14).div(4).sub(this.consumeAmt(at)).max(0);
+    return this.total().sub(this.consumeAmt(at)).max(0);
   },
   consumeAmt(at) {
-    let amt = D(at || player.boost.consume.amt);
-    return amt.sqr().mul(0.125).add(amt.mul(hasMilestone(9) ? -0.125 : 0.125))
+    at = D(at || player.boost.consume.amt);
+    return at.sqr().mul(0.125).add(at.mul(L1_MILESTONES.unl(9) ? -0.125 : 0.125))
+  },
+  consumeEff(at) {
+    at = D(at || player.boost.consume.amt);
+    if (player.modes.diff == 1) return at.div(4)
+    return at.sqr().mul(0.125).add(at.mul(L1_MILESTONES.unl(9) ? -0.125 : 0.125))
   },
 
   req(at) {
-    return D(at || player.boost.consume.amt).add(hasMilestone(9) ? 0 : 1).div(4);
+    return D(at || player.boost.consume.amt).add(L1_MILESTONES.unl(9) ? 0 : 1).div(4);
   },
   bulk() {
-    let amt = D(player.boost.amt).sub(14).div(4)
+    let amt = this.total()
     if (amt.lte(0)) return D(0)
 
     let a = 0.125
-    let b = hasMilestone(9) ? -0.125 : 0.125
+    let b = L1_MILESTONES.unl(9) ? -0.125 : 0.125
     let c = amt.negate()
 
     return D(b*b).sub(c.mul(4*a)).sqrt().sub(b).div(2*a).floor() //quadratic formula
   },
   can(at) {
-    return this.left(at).gte(this.req(at));
+    return player.modes.diff >= 1 && this.left(at).gte(this.req(at));
+  },
+  amt() {
+    return D(player.boost?.consume?.amt ?? 0)
   },
 
   darkProd() {
-    let amt = D(player.boost.consume.amt);
-    let points = D(player.points).max(10).log10();
+    let amt = player.modes.diff == 0 ? this.bulk() : D(player.boost.consume.amt);
+    let points = D(player.modes.diff > 1 ? player.points : player.boost.maxPoints).max(10).log10();
     if (amt.eq(0)) return D(0);
 
     let r = D(2).pow(amt.add(points.sqrt())).div(5)
     if (hasUpg(0, "dark")) r = r.mul(3);
-    if (L2_RECALL.unl()) r = r.mul(tmp.darkRecall.db.pow(this.toneBulk()))
-    if (L2_RECALL.unl()) r = r.mul(tmp.darkRecall.ir)
+    if (L2_RECALL.unl()) {
+      r = r.mul(tmp.darkRecall.db.pow(this.toneBulk()))
+      r = r.mul(tmp.darkRecall.dd.pow(L1_POLISH.totalamt()))
+      r = r.mul(tmp.darkRecall.ir)
+    }
+    // what it's multiplicative
+    if (hasChaReward(2, 0)) r = r.mul(chalEff(2, 0))
+    if (inChal(5)) r = r.pow(0.55)
     return r;
+  },
+  eng() {
+    return D(player.boost?.consume?.eng ?? 0)
   },
   release(auto) {
     if (D(player.boost.consume.amt).eq(0)) return
@@ -407,24 +490,34 @@ const L1_CONSUME = {
       player.boost.consume.confirm && !auto &&
       !confirm("Are you sure you want to release all boosters? A booster reset will be forced.")
     ) return;
-    tmp.temp.consumeAuto = true
+    tmp.auto.consume = true
     player.boost.consume.amt = D(0);
     player.boost.consume.eng = D(0);
     doLayer1Reset(true);
   },
 
   toneBulk() {
-    let r = D(player.boost.consume.maxEng).div(10).max(1).log(4)
+    let r = D(player.boost.consume.maxEng).div(10).max(1).log(4).max(0)
+    r = r.mul(this.toneMult())
     r = r.add(this.toneExtra())
+    
     return r.floor()
   },
   toneExtra() {
+    if (inChal(2)) return D(0)
+
     let r = D(0)
-    if (L2_RECALL.unl()) r = r.add(tmp.darkRecall.dc)
+    if (L2_RECALL.unl()) r = r.add(tmp.darkRecall?.dc ?? 0)
     return r
   },
+  toneMult(){
+    let mult = D(1)
+    if (inChal(2)) mult = mult.div(1.5)
+    return mult
+  },
   nextToneAt() {
-    return D(4).pow(this.toneBulk().sub(this.toneExtra()).add(1)).mul(10)
+    let amt = this.toneBulk().sub(this.toneExtra())
+    return D(4).pow(amt.add(1).times(D(1).div(this.toneMult()))).mul(10)
   },
   toneTotal() {
     let t = this.toneBulk();
@@ -433,58 +526,63 @@ const L1_CONSUME = {
     return t;
   },
   canTone(x) {
-    return (
-      this.toneTotal().gte(1) &&
-      D(player.boost.consume.upg[x] || 0)
-        .add(1)
-        .lte(this.toneData[x].max(this.toneBulk()))
-    );
+    return this.toneData[x].unl()
   },
   tone(x, i) {
-    if (x == 1 && L1_CONSUME.canTone(i)) {
-      player.boost.consume.upg[i] = D(player.boost.consume.upg[i] || 0)
-        .add(1)
-        .round();
-    }
-    if (x == -1 && D(player.boost.consume.upg[i] || 0).gt(0)) {
-      player.boost.consume.upg[i] = D(player.boost.consume.upg[i] || 0)
-        .sub(1)
-        .round();
-    }
-    if (x == 0 && D(player.boost.consume.upg[i] || 0).gt(0)) {
-      player.boost.consume.upg[i] = D(0);
-    }
+    if (!L1_CONSUME.canTone(i)) return
+
+    let amt = D(player.boost.consume.upg[i] || 0)
+    let max = L1_CONSUME.toneTotal().add(amt).round().min(L1_CONSUME.toneMax(i))
+    if (hasUpg(10, "dark") && x != 0) x *= 1/0
+
+    if (x == 0) player.boost.consume.upg[i] = D(0)
+    else player.boost.consume.upg[i] = amt.add(x)
+        .max(0)
+        .min(max)
+        .round()
   },
-  toneMax(b, frac) {
-    return b.div(frac).floor()
+  toneMax(i) {
+    let r = this.toneData[i].max(L1_CONSUME.toneBulk())
+    r = r.div(evalVal(this.toneData[i].condense) ?? D(1))
+    return r.max(1)
   },
   toneData: {
     0: {
-      unl: () => true,
-      max: (b) => L1_CONSUME.toneMax(b, 1),
+      unl: _ => !inChal(1),
+      max: (b) => b,
       eff(l){
         let r = D(l)
-        if (hasUpg(4, "dark")) r = r.mul(upgrades.dark.list[4].effect());
+        if (hasUpg(4, "dark")) r = r.mul(1.9);
         return r
       },
       desc: (x) => "Add " + format(x) + " effective Boosters.",
     },
     1: {
-      unl: () => player.boost.amt.gte(20),
-      max: (b) => L1_CONSUME.toneMax(b, 2),
+      unl: _ => getBoosters().gte(20) && !inChal(3),
+      max: (b) => b.div(2).floor(),
+      condense() {
+        let r = D(1)
+        if (hasChaReward(2, 4)) r = chalEff(2, 4)
+        return r
+      },
       eff(l) {
         return {
-          0: D(4).add(l.div(6)).pow(l),
-          1: D(3.5).add(l.div(5)).pow(l),
-          2: D(3).add(l.div(4)).pow(l),
-          4: D(2.5).add(l.div(3)).pow(l),
+          0: D(4).add(l.div(player.modes.diff == 0 ? 3 : 6)).pow(l),
+          1: D(player.modes.diff == 0 ? 4 : 3.5).add(l.div(player.modes.diff == 0 ? 3 : 5)).pow(l),
+          2: D(player.modes.diff == 0 ? 4 : 3).add(l.div(player.modes.diff == 0 ? 3 : 4)).pow(l),
+          4: D(player.modes.diff == 0 ? 4 : 2.5).add(l.div(3)).pow(l),
         };
       },
       desc: (x) => "Buildings produce more points. (variable)",
     },
     2: {
-      unl: () => player.boost.amt.gte(25),
-      max: (b) => L1_CONSUME.toneMax(b, 4),
+      unl: _ => getBoosters().gte(25) && !inChal(2),
+      max: (b) => b.div(4).floor(),
+      condense() {
+        let r = D(1)
+        if (hasChaReward(2, 3)) r = chalEff(2, 3)
+        return r
+      },
       eff(l) {
         return L1_CONSUME.left().add(1).pow(l.div(2))
       },
@@ -492,14 +590,22 @@ const L1_CONSUME = {
         "Gain " + format(x) + "x Points based on remaining Boosters.",
     },
     3: {
-      unl: () => player.boost.amt.gte(30),
-      max: (b) => L1_CONSUME.toneMax(b, 5),
-      eff: (l) => l.add(L2_RECALL.unl()?tmp.darkRecall.ns:0).add(1).log10().add(1),
+      unl: _ => getBoosters().gte(30) && !inChal(4) && player.modes.diff == 3,
+      max: (b) => hasChaReward(3,1) ? D(0) : b.div(5).floor(),
+      eff(l) {
+        if (hasChaReward(3, 1)) l = L1_CONSUME.toneBulk().div(5).floor()
+        return l.add(1).log10().add(1)
+      },
       desc: (x) => "Cheapen Enhancements by /" + format(x) + ".",
     },
     4: {
-      unl: () => player.boost.amt.gte(35),
-      max: (b) => L1_CONSUME.toneMax(b, 5),
+      unl: _ => getBoosters().gte(35),
+      max: (b) => b.div(4).floor(),
+      condense() {
+        let r = D(1)
+        if (hasChaReward(2, 5)) r = chalEff(2, 5)
+        return r
+      },
       eff: (l) => D(1).add(l.div(4)),
       desc: (x) => "Raise Upgrade 1 by ^" + format(x) + ".",
     },
@@ -513,24 +619,21 @@ const L1_CONSUME_AUTO = {
     // uses consume :check:
     // auto consume
     L1_CONSUME.consume(true, true)
-    setTimeout(() => {
+    setTimeout(_ => {
       player.boost.consume.auto.step = 1
     }, 200)
   },
   1() {
     // hmm idk on this
     // auto resize
-    if (player.abilities.cd.rs) return
+    // auto time jump
+    if (player.dark.ab.cd.rs) return
+    if (player.dark.ab.cd.tw) return
+    L2_ABILITY.resize.use()
+    L2_ABILITY.time.jump()
     player.boost.consume.auto.step = 2
   },
   2() {
-    // uses consume :check:
-    // auto time jump
-    if (player.abilities.cd.tw) return
-    L2_ABILITY.time.jump()
-    player.boost.consume.auto.step = 3
-  },
-  3() {
     // auto release
     L1_CONSUME.release(true)
     player.boost.consume.auto.step = 0
