@@ -80,7 +80,7 @@ const messages = [
     `Breaking News: A person has reached 1.80e308 point but a suddenly the person saw a light coming from and reveals a new layer called ???. You can check them <a href="javascript:(function(){rickroll()})()" >here!</a>`,
     _ => hasAch(34),
   ],
-  ["It hungers.", () => player.dark.chal[6] && player.dark.chal[6]>0],
+  ["It hungers.", () => player.dark && player.dark.chal && player.dark.chal[6] && player.dark.chal[6]>0],
   ["The Avatar is the master of four elements. How many will you master by the end?", _ => layer_placeholder(3)],
   ["It hungers.", _ => layer_placeholder(3)],
   ["It seems to slow down...", _ => layer_placeholder(3)],
