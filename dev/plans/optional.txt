@@ -1,0 +1,160 @@
+Difficulties / Modes are done.
+
+- The standard (by Aarex)
+  If the standard is not followed, then your mod isn't a new difficulty / mode.
+
+  * Harder = more strategic
+  * No compromisive content
+    * No additions that make this game easier.
+  * No heavy nerfs
+  * No timewalls
+
+------------------------------------ *** OPTIONAL FEATURES *** ------------------------------------
+- Pre-Extend
+ * Extend, but at a opposite direction.
+ * Pre-Extend nerfs pre-Elemental.
+ * Pre-Extend introduce layers before Darken.
+ * There are groups of effects in Pre-Extend.
+   * If one nerf reduces, a specific group also reduces.
+ * Pre-Extend ends at any specific point, but comes back in latter layers.
+ * Pre-Extend is also called Hellish Modes.
+
+ * (downvoid) maybe we could have this be a sub-feature of extend, like a set of challenges that you can enter whenever.
+ * (downvoid) this would just be like ng-, ng--, ng-3, etc.
+ * (Aarex) Yes. Extend N unlocks Pre-Extend N.
+ * (Aarex) However, you won't reward anything.
+ * (incremental_gamer) These are just meta-challenges...
+
+------------------------------------ *** HELLISH MODES *** ------------------------------------ (NOT DIFFICULTIES)
+A hellish mode is defined as a mode which nerfs stuff but adds new content. That doesn't mean it makes this game harder.
+// so the modes MUST make the game harder?
+// sounds weird
+
+
+- (incremental_gamer) Pain
+  (also yet another mode to comply with aarex rules) 
+  * All resource gain ^0.95
+  * All buffs /(0.1*log10(buff+1)+1)
+  * All Dark Resources use 1.2x the amount of recall factors for computing resource gain
+  * All Dark Resources require +1 recall factors (cause why not) and max recall factors +1
+  * All Dark Resources are 10% weaker
+  * All Challenges scale 10% faster
+  * All Milestones require +1 more booster
+  * Fusing resources gives 20% less
+  * Creator Power is 10% less effective
+  * And if the things above were not painful enough...
+    1. "Boosters left" MUST stay above or equal to 0, or else it forces a enhance reset
+    2. Dark Tonings are based on current Dark Energy, not best Dark Energy in this Darken, and if Dark Tonings used are greater than Dark Toning amount, it forces toning respec
+    3. All tonings are nerfed by 25%, but unlock Toning Enhances, which are based on Dark Toning amount. They boost tonings up to 33% (back to normal).
+
+- (meta) Hellish:
+  * Each building will have a cost Enhancement and a generation Enhancement. Both are pretty weak.
+  * Toning 6 :troll:
+  * Dark Alloys will require more and different more expensive materials.
+  * Dark Tonings require 4x more Dark Energy and buildings cost more
+  * More Dark Resources, which need higher recall factor levels to gain
+  * Consumption uses up 100% instead of 25%
+  * All milestones require 1 extra booster. :troll:
+  * One more milestone :troll:
+  * Global time speed nerf that is weakened the more achievements you have
+  * For compensation for all of this pain, a pre-Darken layer is added in this difficulty: Brimstone. no idea what it would actually do :gwa:
+  * ALSO also, an additional track that actually sounds good :) And it will be made by meta, since she makes all the good music. i have literally never made any music shut up but you have, remember the music that you posted (it's the "gwa music") no that crap's TERRIBLE what are you talking about, it's really good
+
+- (downvoid) Hellish+:
+  * Hellish's first 3 and the 5th, 8th, and 11th adjustments are applied.
+  * There are enhancements for tonings as well as buildings.
+  * A 7th toning will divide the requirement for previous tonings.
+  * Dark resources require more than just 2 recall levels for each recall factor.
+  * Booster cost enhancer will instead decrease scaling.
+  * More achievements will have rewards and some will be buffed.
+  * Challenges will be more difficult
+
+  * (Aarex) Expert doesn't exist anymore.
+  
+// note: can someone explain why this is a "hellhole" mode?
+adds stuff.
+- (incremental_gamer) XpandI (Hellish++)
+  * Master modes' 3rd and 6th effect is applied (now all achievements contribute to a global buff)
+  * Hellish modes' 3rd effect is applied
+  * There is a new section called "feats" which requires you to do unconventional things and reach requirements which gives pernament buffs
+  * There are two new meta-verses
+    - These force a "hard reset", losing everything but extend and things that all meta-verses share and automation
+    - M1
+      Unlocks an upgrade tree
+      Upgrades can be bought using upgrade points
+      Upgrade points can be bought using game resources (and maybe minigames?)
+      Has its own seperate challenges
+      Also a ng-1 "universe": Hellish
+    - M2
+      idk for now
+      (Aarex) Might be normal (without Hellhole mods and Metaverse buffs)
+    - M-5
+      All resource gain ^0.75
+      All buffs ^0.8
+      All nerfs ^1.2 (are there any?)
+      Layers are now "collapsed", reducing their gain power and features
+      Feats are 90% less effective
+      Adds a new challenge called "Quantum"
+      Adds a new feature for some layers
+    and a layer for the metaverse (basically to host this stuff , does not actually do anything)
+  * Unlocks self-nerfing!
+    - You can choose how to nerf your run
+    - Forces a x layer reset
+    - Reach the goal of the x+1 layer to complete the challenge
+  * Unlocks skills!
+    - You can choose 3
+    - After that you can choose more after mastering a skill
+    - Skills have unique content and effects
+    - To master a skill you must get level 100
+    - Levels can be gained through exp, which can be gained through doing the skills
+    - Skills also has global skill upgrades which boost all skills
+    - to be dermined soon
+  * Consumption amount 25% -> 50%
+  * Unlocks layer mastery
+  * Unlocks the "Dimension Generator" (tbd)
+  * MORE ACHIEVEMENTS
+  * New extreme-like layer (Metaverses)
+------------------------------------ *** TROLL SUGGESTIONS *** ------------------------------------
+- (incremental_gamer) Extreme Nerfing (also known as the pain mode or ng-Extreme):
+  * All resource gain is nerfed based on resource amount
+  * Unlocks a new mechanic called "meta-longest" (buff)
+  * Scalings are added to every single repeatable thing.
+  * New resource called "anti-gaming" which nerfs everything yet again
+  * Timespeed is nerfed based on time played
+  * Achievement rewards are nerfed (cause why not?)
+  * New tab on every single mechanic called "The Longest Pain" (which unlocks a meta-challenge where you are forced into a rediscovery plus other things)
+  * Very minor softcaps for even more pain
+  * Pain meter on the top of the screen
+  * More timewalls
+  * All buffs from anything are ^0.9 (and slightly reduced the stronger the buff is)
+  * Yet another mechanic called "procedural generation"
+  * Unlocks a meta-layer called "..." which destroys old layers for new ones
+  * Lore (cause why not)
+  * Meta-prestige layer called "The Longest Incremental Incremental" (which resets every single layer including extend but you keep automation)
+  * Finally yet another layer called "Meta-meta", which features inflation to make the game slightly less miserable
+    - Also has tabs that append an extra "-meta" for each new tab
+    - i.e. Meta-meta-meta, Meta-meta-meta-meta, Meta-meta-meta-meta-meta, ...
+  * Features a "Meta" layer (the person not the definition) because meta despises herself
+  * Also a mega-game called "Trolling ABC as 123" which requires a real brain (similar to Trolling 2) and puzzley like just to make sure you give up
+  * Trolling. A lot of it.
+  * Unlocks "scrafice", where you nerf resource gains, force a highest-layer+1 reset, and gain pain points which nerf all extreme nerfing nerfs
+  * The farther you get in Extreme Nerfing, the nerfier the nerfs get
+  * A hard wall :troll: where you are forced to destroy every single layer for adding only... 1 layer
+  * Popups that say "Do you hate me now?"
+  * Bug minigame, but for the entire game
+  * Unlocks the "automator", slot stones and conditions to automate stuff
+  * Unlocks the meta-mega-meta-mega-Skill_Tree, which gives massive buffs and get points based on the product meter and also unlocks stuff for the automator and the automator itself
+  * Makes the game more straetgic (and around 50% more harder)
+  * Yet another popup that says "Ask the devs to make this game 50% less weirder"
+  * Also hidden layers
+  * More minigames
+  * Finally a "product meter" which takes the product of every single resource which buffs resource gain slightly
+  * A scripting page to automate the game
+  * And yet another mega-game called "The Shortest Incremental"
+  * And yet another meta-prestige layer called "The Longest Incremental 2"
+  * And finally (wait did I already say that)...
+  
+  
+  
+  
+  a h a r d r e s e t l a y e r which sucks you in to the dark world and out to the "ng-Extreme^Extreme" mode (technically this mode is ng-Extreme)

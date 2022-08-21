@@ -1,0 +1,163 @@
+------------------------------------ *** EXTEND 1 *** ------------------------------------
+- (Meta) Extend (L∞)
+  * This layer underpins all others, with heavily scaled requirements.
+  * Extending resets EVERYTHING except the Extend layer itself. 
+  * Each reset unlocks a new layer, expands all layers, and unlocks some boosts to speed up the early game.
+    * And yes, I do mean expand ALL layers. All the way from layer 0 to the most recently unlocked one.
+  * Unlocked at the end of the Bug minigame.
+
+  * (Consensus) Also, there's perks. You can choose one more Perk per Layer than last Extend.
+  ** Layer 0 perks unlock at Extend 1 and Layer X perks unlock at Extend X.
+  ** There's also "keep X" perks too!
+  ** These do not subtract from other perks.
+
+------------------------------------ MINIGAMES ------------------------------------
+Minigames:
+  - Minigames are unlocked as a feature of L4. (except for bugs, those are unlocked earlier)
+  - Bugs unlock at the end of L3, and others unlock at Ascension.
+
+  - This will have its own tab.
+  - Minigames boost pre-Ascension and Ascension.
+
+  - NOTICE: THERE ARE TOO MANY MINIGAMES.
+  - We will only consider some to implement.
+
+1. (by incremental_gamer) tetrational power tower game (basically base^^height)
+  no, this is not inflation
+  1.44^^Infinity = some real number
+2. (Aarex's) tetrational balancing (basically multiple dilated formulas stacked on one, and are upgraded by a single currency. +1 slog^0.75 -> x2 tetr points)
+3. (Aarex's) Lights out!
+  You are a snake in a grid.
+  There's lights you need to collect.
+  There are different kinds of lights.
+∞. (Consensus) Bugs (unlocked at: end of L3 pre-extend, end of L4 post-extend, beat at least 1 minigame (increases by 1 per extend))
+  - Unlike other minigames, this is not ranked.
+  * (incremental_gamer) you gain bugs (side effect of features), anti-bugs, and features
+  * you can reset features for updates
+  * updates for games, games for money, and then spend it
+  * however, you can increase your bug and anti-bugs gain
+  * then your bug gain will explode and that's how the corruption is gotten
+  - After E1, progress in this minigame will depend partially on progress in other minigames.
+  - There's an ominous progress bar that has the caption "n% to Corruption"
+  - The screen gets more and more "glitched" as the minigame progresses.
+
+  - When the percentage reaches 100%, the Extend meta-layer is unlocked.
+  - After at least 1 Extend reset, the caption changes to "n% to next Extension"
+  - Animation was chosen in #gameplay-discussion.
+4. (incremental_gamer) The Longest Incremental Minigame
+  - basically you are a dev that is trying to create a game
+  - release versions, fix bugs, and balance stuff
+  - can be slightly boosted based on progress in the real game
+  - maybe a prestige layer...?
+Not considered:
+1. (incremental_gamer) incremental version game
+  Empty yet.
+2. (randomtuba) replicanti 
+  Empty yet.
+3. (downvoid) Code Editor thing
+  (Aarex) Just like Rune Sequences but harder.
+  (downvoid) I don't even know how this would work.
+
+Non-acceptable minigames:
+1. (randomtuba) gwacremental (gwa comes every minute) 
+  "wait what, we're actually adding the entirety of gwacremental as a minigame?" -downvoid
+  (incremental_gamer) dumb question but what is gwacremental
+  (Aarex's) Too complicated if we copy the whole game.
+  (downvoid) I guess we could add --nevermind, that won't work.
+2. (meta) lightning (type every dev's names as fast as possible)
+  Typing isn't an aspect for incremental games.
+3. (Aarex's) balancing control (a game which automatically reduces / adds numbers. going out of bounds loses.)
+  Minigames are now a feature. Therefore, I don't allow this reflexing game.
+4. (incremental_gamer) Recursion minigame.
+  Point gain recursively multiplies itself.
+  However, when you reach B_E limit, you can reset to log10 your gain but unlock new features (maybe for other games) (kinda like despacit tree and tetration)
+  (downvoid) isn't this just the *exact* same thing as Inflation Tree Plus
+  (downvoid) like when you reach Fe308 in the Inflation Tree Plus, you get to reset everything and log10 your point gain and add more layers/features/upgrades
+  (incremental_gamer) yes but also i was thinking about prestreestuck and it's final layer
+  we could borrow ideas from there
+  (Aarex) Woah, woah. This breaks the purpose of Extend.
+
+------------------------------------ Layer 0 ------------------------------------
+- More point upgrades. It's really simple.
+- 10 points: start with 1e5 points on booster/darken reset
+-- balancing check: immediately get boosters and enhancements with that.
+
+------------------------------------ Layer 1 ------------------------------------
+- (randomtuba) AUGMENTATION (EXTEND 1)
+  * You can now "augment" your boosters to gain augmented boosters (kind of like consumption).
+  ** You gain one augment booster per 1 booster.
+  * Augmented boosters allow you to augment point upgrades, like how regular boosters allow you to enhance buildings.
+  * Augmented upgrades have improved effects.
+    -- Upgrade 1: Effect ^2
+    -- Upgrade 2: Effect ^1.5 (cost inflation + softcap)
+    -- Upgrade 3: Unlock super-boosters? (scales quadratically, boosts dark energy)
+    -- Upgrade 4: Upgrade 2 has an even better formula.
+    -- Upgrade 5: Makers produce more points based on Makers bought.
+    -- Upgrade 6: All building production is multiplied by your total amount of boosters.
+    -- Upgrade 7: Effect ^2
+  * (Aarex) Might be Enhancements / Building Boosters, but to Point Upgrades instead.
+    - Oh, you'll keep Augmentation in Lighten Mode.
+
+- (downvoid) Super Boosters (Augmentation, Upgrade 3)
+ * Super boosters increase the booster base.
+ ** Adds effective Boosters instead if Boosters don't scale.
+ * They can also be enhanced.
+ * They will also have milestones that give even more QoL to the layers.
+
+------------------------------------ Layer 2 ------------------------------------
+Do not add Post-Extend features in Layer 2.
+The layer is now finally completed for features.
+
+From the owner of Darken:
+- Hey, zappies!
+- The layer is now finally completed.
+- No post-extend L2 features will be accepted.
+
+For each Extend, you'll be given a new Recall Factor with a proficent resource.
+- Thus, alloying with that resource will unlock new powerful resources.
+
+Anyways, Aarex / Lightning's out!
+
+So, new Recall resources, anyone? -Meta
+
+------------------------------------ Layer 3 ------------------------------------
+Yes. 4 more features to come.
+They're either unlocked by extending or unlock new features from Ascension.
+New features come from the second Upgrade Tree.
+
+- (meta) Energy/Matter:
+there is a button to convert your points to energy and matter
+there's also a bar you can use to control how much energy and matter you get upon conversion
+additionally, you don't retain your PREVIOUS energy/matter upon conversion
+- (???) Mana:
+  * ???
+- (???) Blood:
+  * ???
+
+------------------------------------ Layer 4 ------------------------------------
+- ASCENSION (L4):
+  * Basically ascension from trollcremental
+  -- ASCENSION UPGRADES:
+  Ascension Points can be used to buy Ascension Upgrades, and some of them can be charged with AP to have a greater impact (the ones with effects)
+  -- TECHNOBABBLE GAMING:
+  Based on your total AP, you generate Technobabble Gaming (TG), which pisses off scientists based on how many you have, which raises some ascension upgrade effects
+  Pissed off scientists also unlock milestones (some have QoL, some unlock new mechanics)
+    --- QUARK-GLUON:
+    There are two currencies, quark-gluon plasma and quark-gluon gas. You can use the thermocharger to generate more/less of the two currencies.
+    Quark-gluon plasma generates at higher temperature and boosts TG, quark-gluon gas generates at lower temperature and boosts main L4 currency gain
+    --- SECONDARY PARTICLES:
+    Based on your pissed off scientists, you generate Higgs fermions that boost quark-gluon effects
+    You can also change the type of photons you have (6 types, up, down, top, bottom, charm, strange), each having different effects
+    UP: boosts AP gain
+    DOWN: raises point gain
+    TOP: boosts higgs fermion gain
+    BOTTOM: boosts TG gain
+    CHARM: boosts quark-gluon gains
+    STRANGE: boosts photon gain
+  -- ASCENSION CHALLENGES:
+  There are 8 Ascension Challenges. They can be completed up to TEN TIMES.
+  Each first-time completion of an Ascension Challenge should unlock something significant.
+  -- GIFTS:
+  After unlocking this mechanic from an Ascension Upgrade, you can also gain giftboxes from Ascending!
+  Giftboxes can be sacrificed to different developers, each one having a different effect.
+  (downvoid) Gifts will boost or unlock new features in branches of the upgrade tree and elements.

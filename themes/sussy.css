@@ -11,3 +11,70 @@ button {
 .u {
   font-size: 11.5px
 }
+
+#makerimg {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Maker.png")
+    no-repeat; /*testing*/
+  width: 32px;
+  height: 32px;
+  padding-left: 32px;
+  background-size: cover;
+}
+#generatorimg {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Generator.png")
+    no-repeat;
+  width: 32px;
+  height: 32px;
+  padding-left: 32px;
+  background-size: cover;
+}
+#producerimg {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Producer.png")
+    no-repeat;
+  width: 32px;
+  height: 32px;
+  padding-left: 32px;
+  background-size: cover;
+}
+#factoryimg {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Factory.png")
+    no-repeat;
+  width: 32px;
+  height: 32px;
+  padding-left: 32px;
+  background-size: cover;
+}
+#boosterimg {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Booster.png")
+    no-repeat;
+  width: 32px;
+  height: 32px;
+  padding-left: 32px;
+  background-size: cover;
+}
+#creatorimg {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Creator.png")
+    no-repeat;
+  width: 32px;
+  height: 32px;
+  padding-left: 32px;
+  background-size: cover;
+}

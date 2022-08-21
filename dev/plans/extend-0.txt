@@ -1,0 +1,227 @@
+Congrats, dear player. You found our ramblings document. If you SOMEHOW find this, DM a Trusted person and get 25% of a personal role.
+
+------------------------------------ *** EXTEND 0 *** ------------------------------------
+
+Extend 0 content up to Challenges is done.
+Do not plan until v0.3 releases.
+
+------------------------------------ *** LAYER 2 - DARKEN *** ------------------------------------
+Do not implement these L2 features below until L3.
+
+- (Aarex) Elemental Essences
+  (In order to transition to L3)
+  (merged with Dark Orbs)
+  * A post-Elemental feature in Dark World!
+  * Elemental Essences multiply Element gains.
+  * In order, later Essences are 2x weaker than earlier Essences.
+  * Elemental Essences don't lose on Elemental unless respecced.
+
+  * Elemental Essences require Essence and other Elemental resources.
+  * You must select what requirements are increased.
+  * Dark Orbs scale extremely slowly.
+  * You can't create if you don't have at least 70% weight for an element.
+
+------------------------------------ dark branch stuff ------------------------------------
+(Dark Branch goes here)
+- (incremental_gamer) Dark Balance
+  * You can adjust a slider which gives various nerfs and buffs
+  * There are upgrades that can nerf the nerfs (and make new ones, blah blah blah)
+  * It also generates "Balance Energy" based on the slider and also differs in concentration (equal to the "composition" of the left and right side of the slider, similar to a concentration of a liquid)
+  * Unlocks a section where you can merge these concentrations to create new ones and then you can merge them together to get dark orbs and special orbs as well
+  -- (Aarex / Lightning)
+   - Let's see... Dark Balance gives nerfs and buffs, which is like Alternate Timelines.
+   - And you can use the sliders to spam concentration and normalcy.
+
+   - Maybe could there be multiple sliders?
+   - And has multiple resources at different levels?
+   - Also, Darken is permanently finalized. Sorry.
+
+------------------------------------ light branch stuff ------------------------------------
+(Light Branch goes here)
+- (Aarex) Lighten Mode
+ * How?
+    Point generation will be nerfed.
+    Enhancements scale faster.
+    Boosters scale instantly.
+ * Replaces:
+    Buildings, Boosters, Enhancements, and Elemental won't be replaced.
+    Consumption is replaced with a different mechanic.
+    Darken is transformed into Lighten with different gameplay.
+      No Darken boosts are shared with the Light except with Space.
+ * Toggling:
+    All Lighten features only unlock as you progress in Lighten Mode.  
+    Turning off Lighten Mode removes Lighten features, and readds Darken features.
+
+Virtualization:
+- With Boosters, you can virtualize for an extra Booster, Neutral Booster, and Anti-Booster.
+- You can spend Anti-Boosters and other kind of Boosters for Theorems.
+- These theorems can be putted into different "milestones," and you can respec them. 
+
+Lighten (Layer 2b):
+- Lighten doesn't reset Neutral Boosters and Anti-Boosters.
+- You will unlock Interelemental Upgrades which keeps upgrades in Darken mode.
+ - Some upgrades are based on Neutral Boosters.
+
+Transfusion:
+- You'll be given a transfuser.
+- Transfusers convert one resource into another.
+- Merging Transfusers allow you to convert multiple into another.
+- Having enough progress allows you to multiply Elemental Essences.
+- You can even reverse it!
+
+There won't be new Lighten Challenges and new Elemental Essences.
+Lighten is permanently finalized as Darken content is completed.
+
+------------------------------------ *** LAYER 3 - ELEMENTAL *** ------------------------------------
+Going Elemental resets Darken entirely.
+Yes, including Darken Unlocks, Dark Upgrades, and Dark Resources.
+
+Elements are gained by going Elemental, multiplied by Elemental Essence.
+(based on the logarithmic rate)
+	* There are a total of 12 elements, each coming with a feature.
+  * For each set of 8 elements, there is a upgrade tree.
+  * The prestige resource for elemental will be called...
+    - Fire: Runes.
+    - Water: Potions.
+    - Air: Possession.
+    - Earth: The Planet
+  * Part 2:
+    - Light: Lighten Mode.
+    - Dark: Dark Orbs.
+  * Part 3:
+    - Space: Soup.
+    - Time: Lattices.
+
+------------------------------------ The Upgrade Tree ------------------------------------
+- (downvoid) Upgrade Tree (L3)
+  * A tree consists of 8 of 2x2 upgrade cubes branching off from (0,0,0) center.
+  * Each element contains its own upgrade cube.
+  * Elemental upgrades will cost their respective type of elemental essence.
+
+  * Distance 1 boosts pre-Elemental and distance 2 unlocks a feature.
+    -- For example, upgrade (2,0,0) unlocks Runes and upgrade (0,0,2) unlocks Lighten Mode.
+    -- The position of each upgrade determines what it does. so like upgrade (1,1,0) is combining air with fire and will probably be a synergy between air's feature and fire's feature.
+    -- Each upgrade (x,y,z) requires upgrades (x-1,y,z), (x,y-1,z), and (x,y,z-1) to buy. (unless one or more are 0, also replace -1 with +1 if it's negative)
+  * There won't be upgrades beyond 2.
+    -- If an upgrade has more than one non-zero coordinate, it will cost both or all 3 of those essence types.
+  * However, coordinates with 2 increase the progress for improving features.
+    
+-- Branch Planning:
+  -- First Set:
+    - 1: air
+    - 2: earth
+    - 3: water
+    - 4: fire
+    - 5: light
+    - 6: dark
+    - 7: space
+    - 8: time
+
+------------------------------------ Upgrade Planning ------------------------------------
+There are a total of 65 unique upgrades.
+* any upgrade with 2 or more 0s in its coordinates will have a unique effect.
+* any upgrade where all 3 numbers have the same absolute value will have a unique effect.
+
+* Upgrade Tree 1:
+(0,0,0): Unlock the Collider. (this costs 0 of each essence because all the coordinates are 0)
+(1,0,0): Dark Energy gain is quadrupled.
+(2,0,0): Unlock Runes.
+(-1,0,0): Boosters are 5% more effective. (the base is raised to the 1.05)
+(-2,0,0): Unlock Potions.
+(0,1,0): Decrease all building scaling bases by 0.1
+(0,2,0): Unlock Possession.
+(0,-1,0): Double all non-alloy dark resource gain.
+(0,-2,0): Unlock The Planet.
+(0,0,1): Challenge requirements are divided by 100.
+(0,0,2): Unlock Lighten Mode.
+(0,0,-1): The 5th Dark Toning is ^2 as effective.
+(0,0,-2): Unlock Dark Orbs.
+
+------------------------------------ Collider ------------------------------------
+Side-feature for (0,0,0).
+- (randomtuba) Collider (L3)
+  * (downvoid) Collider is unlocked when you buy the (0,0,0) upgrade.
+  * You generate matter from points and antimatter from dark energy.
+  * You can collide both to create annihilation energy and darker matter.
+  * Annihilation Energy can be used to make the Collider more effective, and speed up production of other currencies outside of Collider
+  * Darker Matter can be used to purchase upgrades.
+
+------------------------------------ Element Features ------------------------------------
+We'll go over the features of every element before Extend.
+
+- (downvoid) Fire: Rune Sequences
+  * Unlocks Runes and Rune Sequences, which do stuff depending on the sequence.
+  * You have a limited supply of rune slots, and you can only use rune types from the branches where you have unlocked that branch's feature.
+  * Before you can use Runes you have to make them, which costs rune slots and the element's essence. Each rune costs 1 rune slot.
+  * There will be a large list of sequences that work and what their effects will be. However, some will have negative effects.
+  * Time and Space rune sequences are more powerful than sequences without them, but they have a higher chance of having a negative effect.
+  * The longer the sequence, the higher the chance of it having no effect.
+  * Rune sequences can be deactivated and they will be lost on deactivation.
+
+- Water: (open to suggestions)
+  * aughhhhhh we could make use of the fact that water literally cleans stuff -Meta
+
+- (incremental_gamer) Air: 
+  * Infuse air into other elements to boost their production/other things
+  * Air can be mixed with other elements to produce reactions
+  * Reactions can be used to create "potions" which have special effects
+  * (open to suggestions)
+
+- (downvoid) Earth: 
+  * Unlocks new features
+  * Can synergize with other resoures
+  * The Planet: You must control a colony on a new planet and help them colonize the planet.
+  * You will start out with some resources and you must keep the people alive to get resources from them.
+  * The resources you collect can be used to upgrade the colony or boost other things.
+  * You can also buy more rune slots with resources. They can also do some other stuff but we'll figure that out when we get there
+
+- (Aarex) Light: Lighten Mode
+  * [See Lighten in L2]
+
+- (downvoid) Dark: Dark Balance
+  * This will definitely be another mechanic in Darken.
+  * [See Dark Balance in L2]
+
+- (Aarex) Space: Space Banking
+  * Allows you to permanently bank a small portion of Dark / Light Resources, but decay over time.
+  * Spending Soup will enable a Dark Upgrade in Lighten Mode and Light Upgrade in Darken Mode!
+  * These banks are considered "pseudo-Virtual," due to abilites to keep in challenges.
+  * (downvoid) Drinking the soup will give you a currency called knowledge, which will be used to improve rune usage, potion crafting, possession power, and colony growth.
+- (downvoid) Time:
+  * The Lattice is a place where you can hop to "alternate timelines", where each timeline has a different effect. There are infinitely many timelines.
+  * The lattice is 2-dimensional. Timelines are numbered "a+bi",
+  * The further you go from the center, the more extreme the nerfs in those timelines are, making them less useful.
+  * however, if you get lucky you could find a timeline without nerfs, but those get more and more rare the further out you go
+  * the effects can be almost anything, here are a few examples:
+    - t1: This is the normal universe, there are no differences.
+    - t2: Point gain is ^1.5, but you can't gain dark tonings
+    - t100: Booster base is 1.2 but dark matter gain *10
+    - t63: Dark Fuel is 3x stronger.
+    - t42069: Point gain ^0.14, Time Crystal effect ^6
+    - t(-1): All runes' effects are inverted.
+    - t(2+i): Point gain is ^1.25, but you gain half as many dark tonings
+    - (yes, all the imaginary timelines are altering the effects of the timeline without the i)
+  * Yes, procedurally generated challenges! These are going to be hellish to make...
+  * Imaginary numbered timelines will be unlocked at the 3rd upgrade in the time branch.
+  * (these could make for good challenges)
+  * Changing timelines forces an Elemental reset.
+
+------------------------------------ *** ACHIEVEMENTS *** ------------------------------------
+- Achievement tab appear at Layer 1.
+
+id  name                               req                     effect (mostly additive ok)
+
+(future achievements, number unknown)
+??                                                             Above 2x, Timewarp Power speeds up Boosters instead.
+??  Underachiever                      Go Elemental.           NO
+??  Mediumachiever                     Unlock light and dark.  MAYBE
+??  Just One Massive Reference         Unlock space and time.  MAYBE
+??  Realistic                          Unlock the Bugs minigame.
+??  Into the Infinite                  Extend.                 NO
+??  Now What?                          Ascend.                 NO
+??  Side Story Proficiency             Reach gold or above in all minigames.
+??  Master of Worlds                   Reach obsidian in all minigames.
+??  Into the Eternal                   Extend twice.           NO
+??  Third Time's the Charm             Extend three times.     NO
+??  It Grows                           Extend four times.      NO
+??  Into the Ethereal                  Extend five times.      NO

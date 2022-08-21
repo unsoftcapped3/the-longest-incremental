@@ -1,6 +1,6 @@
 :root { /* theme stuff */
   --font: "Lato",sans-serif;
-  --font-color: #000000;
+  --font-color: #012D40;
   --bg: #719dcc;
 }
 
@@ -17,7 +17,7 @@ body {
 	top: 0;
 	right: 0;
 	text-align: right;
-	opacity: 0.1
+	opacity: 0.5
 }
 #dev {
 	transition-duration: 3s
@@ -27,8 +27,30 @@ div, table {
   margin: auto;
 	text-align: center;
 }
+h1, h2, h3 {
+  color: #003f7f
+}
 .tab {
   display: none;   
+}
+/* challenges tab */
+#chadiv {
+  position: relative;
+  width: 80%;
+}
+#chas {
+  position: absolute;
+  width: 240px;
+  left: 0;
+}
+#chadescdiv {
+  position: absolute;
+  width: calc(100% - 240px);
+  right: 0;
+  text-align: right
+}
+#chatitle {
+  font-size: 24px
 }
 /* dark tab */
 .darkOverwrite, .darkOverwrite *:not(button):not(button > *):not(input) {
@@ -44,23 +66,74 @@ div, table {
   top: 0;
   left: 0;
   height: 100%;
-  width: 100%;
+  width: 100%
 }
-#dark_sym {
+#dark_block {
+  z-index: 99999;
+  position: fixed;
+  background: transparent;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+  transition-duration: 2s
+}
+#dark_sym_div {
   position: absolute;
-  background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/dark_world_icon.png");
   opacity: 0.5;
   top: calc(50% - 400px);
   left: calc(50% - 400px);
   width: 800px;
   height: 800px;
+  animation: spin 30s linear infinite;
+}
+#dark_sym {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+
+  background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/dark_world_icon.png");
   background-size: contain;
   background-repeat: no-repeat;
-  animation: spin 30s linear infinite;
+}
+@keyframes fade {
+  0% {
+    opacity: 1
+  }
+  50% {
+    opacity: 0
+  }
+  100% {
+    opacity: 0
+  }
 }
 @keyframes spin {
   from {transform: rotate3d(0.7, 0.3, 2, 0deg)}
   to {transform: rotate3d(0.7, 0.3, 2, 360deg)}
+}
+@keyframes spinAni {
+  from {transform: rotate(0deg); opacity: 1}
+  to {transform: rotate(36000deg); opacity: 0}
+}
+
+.darkRecall {
+  width: 120px;
+  background: #df7fff;
+  border: 2px solid #0000003f
+}
+.darkRecall.curr {
+  background: #dfbfff;
+}
+.darkRecall.fuse {
+  background: #df00ff;
+}
+.darkRecall b {
+  color: white;
+}
+#recallResources td {
+  height: 42px;
+  vertical-align: 0.5;
 }
 /* specific tab button styling */
 #stab_btn_main_upgrades {
@@ -69,20 +142,45 @@ div, table {
 #stab_btn_main_milestones, #stab_btn_stats_l1, #boosterconfirm, #respecconfirm {
   background-color: #c8ffff;
 }
-#tabs button, #stabs_settings button, #stabs_main button, #stabs_stats button {
+#tabs button {
   width: 110px;
-  border-radius: 10px;
+  height: 30px;
+  border-radius: 15px;
+  display: table-row
 }
+.stab button {
+  width: 90px;
+  height: 25px;
+  padding: 0;
+  border-radius: 15px;
+}
+
+.spoiler {
+  color: black;
+  background: black;
+  user-select: none;
+  border-radius: 5px;
+}
+.spoiler:active {
+  background: inherit;
+  color: inherit;
+}
+
+.number {
+  position: absolute;
+  left: 20%;
+}
+
 #stab_btn_main_consume, #consumeconfirm {
-  color: #fff;
+  color: #ffffff;
   background-color: #6900aa;
 }
 #tab_btn_auto {
-  color: #fff;
+  color: #ffffff;
   background-color: #00a81c;
 }
 #stab_btn_settings_lore {
-  color: #fff;
+  color: #ffffff;
   background-color: #b06621;
 }
 #tab_btn_dark, #stab_btn_stats_l2, #darkconfirm {
@@ -111,7 +209,6 @@ div, table {
   right: 0px;
   z-index: 1;
 }
-
 .notification {
   position: relative;
   top: 0px;
@@ -172,7 +269,7 @@ div, table {
   margin: 7% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 88%; /* Could be more or less, depending on screen size */
   overflow: auto;
 }
 
@@ -183,23 +280,20 @@ div, table {
   font-size: 28px;
   font-weight: bold;
 }
-
 .close:hover,
 .close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
+
 button {
   border: 2px solid #0000007f;
   border-radius: 5px;
+  padding: 6px;
   font-family: var(--font);
   transition: all 0.3s ease;
   transform: scale(1);
-}
-#discord {
-  transform: scale(1);
-  transition: all 0.3s ease;
 }
 button:hover, #discord:hover {
   transform: scale(1.05);
@@ -207,6 +301,10 @@ button:hover, #discord:hover {
 button:active, #discord:active {
   transform: scale(1);
 }
+button.hover:hover {
+  transform: scale(1.05) !important;
+}
+
 .upgbutton { /* size was decided by *some* discussions*/
   height: 32px;
   width: 205px;
@@ -221,6 +319,11 @@ button:active, #discord:active {
   font-size: 12px; /*this does matter as upg button and u are different*/
 	vertical-align: top;
 }
+.buildimg {
+  width: 32px;
+  height: 32px;
+  background-size: cover;
+}
 .buildboosttext{
   font-size: 7px;
 }
@@ -233,7 +336,7 @@ button:active, #discord:active {
 .cannotbuy {
   background-color: #f37078;
 }
-.prestige {
+.prestige1 {
   background-color: #87d3e7;
 }
 .prestige2 {
@@ -244,6 +347,62 @@ button.bought:hover, button.cannotbuy:hover {
   transform: scale(1)
 }
 
+.ach {
+	border-radius: 12px;
+	font-size: 12px;
+	width: 90px;
+	height: 90px;
+	border: 2px solid #0000003f
+}
+.ach.completed {
+  background-color: #4ca361
+}
+.ach.rowDone {
+  background-color: gold
+}
+.ach.allDone {
+  background: linear-gradient(#ffdf00, #ffffbf, #bfff00);
+  box-shadow: 0 0 6px #ffbf00
+}
+
+.milestones td {
+  padding: 0;
+}
+#abilities {
+  width: 100%;
+  text-align: right
+}
+
+/* MISC */
+#musicBox {
+  position: fixed;
+  z-index: 2;
+  left: 12px;
+  height: 120px;
+  transition: all 1s ease;
+  bottom: -90px
+}
+#musicBoxOpen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 24px;
+}
+#musicBoxDiv {
+  position: absolute;
+  top: 30px;
+  width: 240px;
+  height: 96px;
+
+  background: white;
+  border: 2px solid #0000007f;
+  border-radius: 5px;
+  padding: 6px;
+}
+#musicId {
+  color: black
+}
+
 .credits {
   width: 140px;
   height: 25px;
@@ -251,35 +410,9 @@ button.bought:hover, button.cannotbuy:hover {
 	border-collapse: collapse;
 }
 
-.ach {
-	border-radius: 12px;
-	font-size: 12px;
-	width: 90px;
-	height: 90px;
-	border: 2px solid
-}
-
-.ach.completed {
-  background-color: #4ca361
-}
-
-.ach.rowDone {
-  background-color: gold
-}
-
-.ach.allDone {
-  background: linear-gradient(#ffdf00, #ffffbf, #bfff00);
-  border-color: #0000003f;
-  box-shadow: 0 0 6px #ffbf00
-}
-
-#milestones {
-  background-color: #000000
-}
-
-#abilities {
-  width: 100%;
-  text-align: right
+#discord {
+  transform: scale(1);
+  transition: all 0.3s ease;
 }
 
 #updatebox {
@@ -299,24 +432,12 @@ button.bought:hover, button.cannotbuy:hover {
   display: none;
   transition-duration: 1.5s;
 
-  z-index: 2;
+  z-index: 99999;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-}
-#layerbar {
-  background: #ffffff3f;
-  box-shadow: 0 0 6px white;
-  color: #3f3fff;
-  text-shadow: 0 0 6px #3f3fff;
-  position: absolute;
-  top: calc(50% - 60px);
-  left: 0;
-  width: 100%;
-  height: 36px;
-  font-size: 24px
 }
 #layerbg {
   background: linear-gradient(#bfbfff7f, transparent);
@@ -326,14 +447,38 @@ button.bought:hover, button.cannotbuy:hover {
   width: 100%;
   height: 100%;
 }
+#layerbar {
+  background: #ffffffbf;
+  box-shadow: 0 0 6px white;
+  color: #3f3fff;
+  text-shadow: 0 0 6px #3f3fff;
+  position: absolute;
+  top: calc(50% - 60px);
+  left: 0;
+  width: 100%;
+  height: 54px;
+}
+#layernum {
+  font-size: 24px
+}
+#layerdismiss {
+  width: 100%;
+  height: 24px;
+
+  position: absolute;
+  bottom: 0;
+
+  color: #3f3fff;
+  text-shadow: 0 0 6px #3f3fff;
+}
 #layerflash {
-  background: white;
+  background: transparent;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  animation: 2s flash linear infinite;
+  animation: 2s flash linear;
 }
 @keyframes flash {
   0% {
@@ -357,18 +502,19 @@ button.bought:hover, button.cannotbuy:hover {
   overflow: hidden;
   white-space: nowrap;
 }
-@keyframes news_ticker {
-    from{
-        transform: translateX(100vw);
-    }
-    to{
-        transform: translateX(-100vw);
-    }
-}
 #news_ticker {
-  animation: news_ticker 10s cubic-bezier(0,0,1,1) infinite; 
   font-size: 20px;
   display: inline-block;
   position: relative;
   text-align: left;
+}
+
+li span {
+  position: relative;
+  left: -10px;
+} /* im adding random shit :cart_troll: */
+
+/* fixes */
+button h1, button h2, button h3 {
+  color: black
 }

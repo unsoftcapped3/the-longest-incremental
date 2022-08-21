@@ -1,0 +1,16 @@
+------------------------------------ *** EXTEND 2 *** ------------------------------------
+- (Meta) Extend (L∞)
+  * This layer underpins all others, with heavily scaled requirements.
+  * Extending resets EVERYTHING except the Extend layer itself. 
+  * Each reset unlocks a new layer, expands all layers, and unlocks some boosts to speed up the early game.
+    * And yes, I do mean expand ALL layers. All the way from layer 0 to the most recently unlocked one.
+  * Unlocked at the end of the Bug minigame.
+
+  * (Consensus) Also, there's perks. You can choose one more Perk per Layer than last Extend.
+  ** Layer 0 perks unlock at Extend 1 and Layer X perks unlock at Extend X.
+  ** There's also "keep X" perks too!
+  ** These do not subtract from other perks.
+
+DO NOT PLAN HERE. (yet, until we are done with E1)
+------------------------------------ *** LAYER 5 *** ------------------------------------
+<the document is hardcapped at 15 lines so no further plans may be made> here, have a free 0.01 personal role.

@@ -3,8 +3,8 @@ var NumToString = [null,"a","b","c","d","e","f","g","h","i","j","k","l","m","n",
 function getString(x) {
     let s = ""
     x = Decimal.floor(x)
-    if(x.lte(0)) return ""
-    while(x.gt(0)){
+    if (x.lte(0)) return ""
+    while (x.gt(0)){
         s = NumToString[x.sub(x.div(26).floor().mul(26)).toNumber()] + s
         x = x.div(26).floor()
     }
@@ -17,3 +17,5 @@ function getString(x) {
 function gteIncrementalGame(x){
   return x.gte(6.17e20)
 }
+
+//let's move that function to utils.js.

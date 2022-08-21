@@ -1,86 +1,193 @@
+const MUSIC_LIST = {
+  layer0: {
+    unl: _ => tmp.layer >= 0,
+    src: "The_Longest_Incremental_-_Sunrise.mp3",
+    title: "Sunrise",
+    author: "DaBlueTurnip09"
+  },
+  layer1: {
+    unl: _ => tmp.layer >= 1,
+    src: "The_Longest_Incremental_-_On%20Beat.MP3",
+    title: "Onbeat",
+    author: "DaBlueTurnip09"
+  },
+  layer1a: {
+    unl: _ => tmp.layer >= 1,
+    src: "The_Longest_Incremental_-_Boost_Into_Action.mp3",
+    title: "Boost Into Action",
+    author: "DaBlueTurnip09"
+  },
+  layer2: {
+    unl: _ => tmp.layer >= 2,
+    src: "The-Longest-Incremental-It-Consu.MP3",
+    title: "It Consumes All",
+    author: "DaBlueTurnip09"
+  },
+  layer2a: {
+    unl: _ => tmp.layer >= 2,
+    src: "The_Longest_Incremental_-_Dark%20World.MP3",
+    title: "Another World",
+    author: "DaBlueTurnip09"
+  },
+  layer3: {
+    unl: _ => tmp.layer >= 3,
+    src: "The-Longest-Incremental-Recallin.MP3",
+    title: "Recallin'",
+    author: "DaBlueTurnip09"
+  },
+  layer3a: {
+    unl: _ => tmp.layer >= 3,
+    src: "The-Longest-Incremental-33-does.MP3",
+    title: "3 Cubed Is Not 9",
+    author: "DaBlueTurnip09"
+  },
+  easy: {
+    unl: _ => player.modes.diff < 3,
+    src: "The_Longest_Incremental_-_Living_On_Easy_Mode.mp3",
+    title: "Living On Easy Mode",
+    author: "DaBlueTurnip09"
+  },
+
+  crong: {
+    unl: _ => player.theme === 'crong', //unlocked on special themes
+    theme: true,
+    src: "AAAAAAAAAAAAAAAAAA.mp3",
+    title: "AAAAAAAAAAA",
+    author: "CRG"
+  },
+  // why don't you set unl to that theme???
+  compact: {
+    unl: _ => ['compact', 'scompact'].includes(player.theme), //unlocked on special themes
+    theme: true,
+    src: "compact_theme.mp3",
+    title: "Compact Theme A",
+    author: "DeLorean"
+  },
+  compact_b: {
+    unl: _ => ['compact', 'scompact'].includes(player.theme), //unlocked on special themes
+    theme: true,
+    src: "compact_theme_b.mp3",
+    title: "Compact Theme B",
+    author: "DeLorean"
+  },
+  retro: {
+    unl: _ => player.theme === 'retro', //unlocked on special themes
+    theme: true,
+    src: "Retrobreak.mp3",
+    title: "Retrobreak",
+    author: "jwklong"
+  },
+  gwa: {
+    unl: _ => ['inverted', 'superdark', 'light', 'dark'].includes(player.theme), //unlocked on special themes
+    theme: true,
+    src: "4831701109047296.wav",
+    title: "gwa music",
+    author: "meta"
+  },
+  rickroll: {
+    unl: _ => player.wannacry,
+    src: "rickroll.mp3",
+    title: "rickroll",
+    author: "Rick Astley (incremental_gamer)"
+  }
+}
+
+const AUDIO_MAP = new Map();
+
+function getPlaylist() {
+  let playlist = []
+  for (const i in MUSIC_LIST) if (MUSIC_LIST[i].unl()) playlist.push(i)
+  return playlist
+}
+
 let music = ""
 function changeMusic(name) {
-  if (name == music) return
-  music = name
-  audioMap.forEach(i=>i.pause())
-  if (music === "crong") {
-    crong()
-    notifyMessage("Playing: [unnamed] - CRG")
-  } else if (music === "compact") {
-    compact()
-    notifyMessage("Playing: Compact Theme A - DeLorean")
-  } else if (music === "gwa") {
-    gwa()
-    notifyMessage("Playing: [unnamed] - [unknown author]")
-  } else if (music === 'rickroll') {
-    rickroll()
-    notifyMessage("Playing: rickroll - Rick Astley (added by incremental_gamer)")
-  } else if (music === "music0") {
-    playMusic0()
-    notifyMessage("Playing: Sunrise - DaBlueTurnip09")
-  } else if (music === "music1") {
-    playMusic1()
-    notifyMessage("Playing: On Beat - DaBlueTurnip09")
-  } else if (music === "music2") {
-    playMusic2()
-    notifyMessage("Playing: It Consumes All - DaBlueTurnip09")
-  }
+  if (music === name) return;
+  music = name;
+  AUDIO_MAP.forEach((audio) => audio.pause());
+  const musicId = MUSIC_LIST[name]
+  changeMusicLabel("Playing: " + musicId.title + " - " + musicId.author);
+  AUDIO_MAP.set(
+    name,
+    playAudio(
+      musicId.src.startsWith("//") ? musicId.src :
+      "//cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/" + musicId.src + "?v=1659992407502"
+    )
+  )
+}
+
+function stopMusic() {
+  music = ""
+  AUDIO_MAP.forEach((audio) => audio.pause());
+  changeMusicLabel("Stopped");
+}
+
+function getThemeMusic(theme = player.theme) {
+  for (const [music, song] of Object.entries(MUSIC_LIST)) if (song.unl() && song.theme) return music
+  return null
 }
 
 function getMusic() {
   if (player.music) {
-    if (player.wannacry) changeMusic("rickroll")
-    else if (player.theme === "compact" || player.theme === "scompact") changeMusic("compact")
-    else if (player.theme === "crong") changeMusic("crong")
-    else if (player.theme === "inverted" || player.theme == "superdark" || player.theme == "light") changeMusic("gwa")
-    else if (player.dark.unl||player.tab === "dark") changeMusic("music2")
-    else if (player.boost.unl) changeMusic("music1")
-    else changeMusic("music0")
-    audioMap.get(audioMap.keys().next().value).volume=0.25
+    let theme = getThemeMusic()
+    if (theme != null) changeMusic(theme)
+    else changeMusic("layer"+tmp.layer)
   } else {
-    changeMusic("")
+    stopMusic()
   }
-  
 }
 
-// rickroll stuff
-const audioMap = new Map()
-function rickroll() {
-  audioMap.set("rickroll", playAudio("//cdn.glitch.global/3f70934b-8463-45ab-b33e-4045b9696eef/Rick_Astley_-_Never_Gonna_Give_You_Up_legitmuzic.com.mp3?v=1652834040070"))
+function nextMusic() {
+  if (!player.music) return
+  let playlist = getPlaylist()
+  if (playlist.includes(music)) {
+    let i = 0
+    while (playlist[i] != music) i++
+    changeMusic(playlist[(i + 1) % playlist.length])
+  } else changeMusic("layer"+tmp.layer)
 }
-function crong(){
-  audioMap.set("crong", playAudio("//cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/AAAAAAAAAAAAAAAAAA.mp3?v=1659992407502"))
+
+function shuffleMusic() {
+  if (!player.music) return
+  changeMusic(random(getPlaylist()))
 }
-function gwa() {
-  audioMap.set("gwa", playAudio("//cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/4831701109047296.wav?v=1660060854784"))
+
+// music box
+let musicBox = false
+function toggleMusicBox() {
+  musicBox = !musicBox
+  tmp.cache.musicBox.changeStyle("bottom", musicBox ? "0" : "-90px")
 }
-function compact() {
-  audioMap.set("compact", playAudio("//cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/compact_theme.mp3?v=1660173495714"))
+
+function updateMusicBox() {
+  tmp.cache.music.writeText(player.music ? "Stop" : "Play")
 }
-function playMusic0() {
-  audioMap.set("music0", playAudio("//cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/The_Longest_Incremental_-_Sunrise.mp3?v=1660072194132"))
-}
-function playMusic1() {
-  audioMap.set("music1", playAudio("//cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/The_Longest_Incremental_-_On%20Beat.MP3?v=1660169476763"))
-}
-function playMusic2() {
-  audioMap.set("music2", playAudio("//cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/The-Longest-Incremental-It-Consu.MP3?v=1660268209822"))
+
+function changeMusicLabel(x) {
+  tmp.cache.musicId.writeText(x)
 }
 
 function toggleMusic() {
-  player.music = !player.music
+  player.music = !player.music;
   getMusic()
 }
-function playAudio(link, key){
+
+// Audio
+function rickroll() {
+  changeMusic("rickroll")
+}
+
+function playAudio(link, volume) {
   const audio = new Audio(link);
-  audio.addEventListener("canplaythrough", () => {
+  audio.addEventListener("canplaythrough", _ => {
     audio.loop = true;
-    const playId = setInterval(async () => {
+    audio.volume = volume || 0.25
+    const playId = setInterval(async _ => {
       try {
         await audio.play();
         clearInterval(playId);
       } catch {}
     }, 1);
   });
-  return audio
+  return audio;
 }

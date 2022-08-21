@@ -1,5 +1,4 @@
 // wannacry stuff
-
 const chance = 0.1
 function wannacry() {
   if (Math.random() < chance) {
@@ -27,20 +26,18 @@ function wannacryDOM() {
 function toggleWannacry() {
   player.wannacry = !player.wannacry
   wannacryDOM()
-  if (player.music) getMusic()
+  rickroll()
 }
+
 // absurd mode stuff
-
 let absurd = false;
-
 const affectedEls = document.querySelectorAll(".tab, #mainContainer");
 function absurdMode() {
-  if (!absurd) return;
   for (const el of affectedEls) {
     if (el.style === undefined) return;
-    const transform = `rotate(${Math.random() * 360}deg) ` +
+    const transform = absurd ? `rotate(${Math.random() * 360}deg) ` +
     `skew(${Math.random() * 75}deg) ` +
-    `scale(${Math.max((Math.random() * 3) ** 2 / 9, 0.1)}) `;
+    `scale(${Math.max((Math.random() * 3) ** 2 / 9, 0.1)}) ` : ``;
     el.style.transform = transform;
     document.body.style.transform = transform;
   }

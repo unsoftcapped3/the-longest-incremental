@@ -1,0 +1,63 @@
+:root {
+  --font: Futura, Roboto, sans-serif;
+  --font-color: white;
+  --bg: transparent;
+  --bg-noise: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/noise.png");
+}
+
+html {
+  background: linear-gradient(#111111fb, #111111fb), var(--bg-noise);
+  background-repeat: repeat;
+}
+
+button {
+  margin-bottom: 4px;
+    
+  background: linear-gradient(#333333f8, #333333f8), var(--bg-noise);
+  
+  color: #ffffff;
+  text-shadow: 0 -1px 1px #000000, 0 0 12px #ffffff00, 0 -1px 2px #777777;
+  
+  border: none;
+  border-radius: 0 !important;
+  box-shadow: 0 2px #222222, 0 2px #000000, 0 2px 50px #ffffff00;
+  transform: none;
+  transition: 1s;
+}
+button:hover {
+  color: #ffffff;
+  text-shadow: 0 -1px 1px #ffffff, 0 0 12px #ffffff, 0 -1px 2px #777777;
+  
+  transform: translateY(-2px);
+  box-shadow: 0 2px #222222, 0 4px #ffffff, 0 4px 200px #ffffff;
+  
+  transition: .2s;
+}
+button:active {  
+  color: #ffffff;
+  text-shadow: 0 -1px 1px #ffffff, 0 0 12px #ffffff, 0 -1px 2px #777777;
+  
+  transform: translateY(1px);
+  box-shadow: 0 1px #222222, 0 1px #000000, 0 1px 0px #ffffff00;
+  
+  transition: 0s;
+}
+
+.cannotbuy, .cannotbuy:hover, .cannotbuy:active {
+  color: #000000;
+  box-shadow: none;
+  text-shadow: 0 -1px 1px #000000, 0 -1px 12px #ffffff00, 0 -1px 2px #777777;
+  
+  transform: translateY(2px) !important;
+  
+  transition: 1s;
+}
+.bought, .bought:hover, .bought:active {
+  color: #ffffff;
+  box-shadow: inset 0 2px #ffffff, inset 0 2px 20px #ffffff;
+  text-shadow: 0 -1px 1px #ffffff, 0 -1px 12px #ffffff, 0 -1px 2px #777777;
+  
+  transform: translateY(2px) !important;
+  
+  transition: 1s;
+}
