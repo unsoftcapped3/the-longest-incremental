@@ -364,7 +364,7 @@ function buyUpg(id, type = "normal") {
   const res = RESOURCES[data[id]?.res ?? data.res]
   const res_parent = res.parent()
   data.src()[id] = 1;
-  if (data.spendable()) res_parent[res.src] = D(res_parent[res.src]).sub(data.list[id].cost);
+  if (data.spendable instanceof Function) res_parent[res.src] = D(res_parent[res.src]).sub(data.list[id].cost);
 }
 function hasUpg(id, type = "normal") {
   const src = UPGRADES[type].src();
