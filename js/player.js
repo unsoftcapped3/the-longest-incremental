@@ -144,6 +144,7 @@ document.onkeypress = function (event) {
         player.automationtoggle = bool;
         player.autoUpgrades = bool;
         player.autoBooster = bool;
+        break;
       case "1":
         if (hasUpg(2, "dark")) L2_ABILITY.resize.use();
         break;
