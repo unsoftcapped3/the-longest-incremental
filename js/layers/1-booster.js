@@ -40,8 +40,7 @@ const BOOST = {
   },
   onReset() {
     if (Object.values(player.buyables)
-        .every((i,k)=>k===3||Decimal.lt(i,10))) getAch(12)
-    if (player.boost.time < 60) getAch(19)
+        .every((i,k)=>k===2||k===3||Decimal.lt(i,10))) getAch(12)
     player.boost.times++
   },
 }
