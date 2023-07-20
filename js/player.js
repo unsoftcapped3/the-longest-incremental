@@ -157,7 +157,7 @@ document.onkeypress = function (event) {
         buyBuyable(3);
         break;
       case "d":
-        doLayer2();
+        doLayer(2);
         break;
       default:
         break;
