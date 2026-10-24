@@ -16,7 +16,7 @@ button {
   display: block;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Maker.png")
+  background: url("assets/Maker.png")
     no-repeat; /*testing*/
   width: 32px;
   height: 32px;
@@ -27,7 +27,7 @@ button {
   display: block;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Generator.png")
+  background: url("assets/Generator.png")
     no-repeat;
   width: 32px;
   height: 32px;
@@ -38,7 +38,7 @@ button {
   display: block;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Producer.png")
+  background: url("assets/Producer.png")
     no-repeat;
   width: 32px;
   height: 32px;
@@ -49,7 +49,7 @@ button {
   display: block;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Factory.png")
+  background: url("assets/Factory.png")
     no-repeat;
   width: 32px;
   height: 32px;
@@ -60,7 +60,7 @@ button {
   display: block;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Booster.png")
+  background: url("assets/Booster.png")
     no-repeat;
   width: 32px;
   height: 32px;
@@ -71,7 +71,7 @@ button {
   display: block;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/Creator.png")
+  background: url("assets/Creator.png")
     no-repeat;
   width: 32px;
   height: 32px;

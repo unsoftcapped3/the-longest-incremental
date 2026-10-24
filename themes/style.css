@@ -93,7 +93,7 @@ h1, h2, h3 {
   width: 800px;
   height: 800px;
 
-  background-image: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/dark_world_icon.png");
+  background-image: url("assets/dark_world_icon.png");
   background-size: contain;
   background-repeat: no-repeat;
 }

@@ -111,7 +111,7 @@ function changeMusic(name) {
     name,
     playAudio(
       musicId.src.startsWith("//") ? musicId.src :
-      "//cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/" + musicId.src + "?v=1659992407502"
+      "assets/" + musicId.src
     )
   )
 }

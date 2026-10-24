@@ -2,7 +2,7 @@
   --font: Futura, Roboto, sans-serif;
   --font-color: white;
   --bg: transparent;
-  --bg-noise: url("https://cdn.glitch.global/a8bae54f-d7d3-4a51-8ee6-6fbadebe03a5/noise.png");
+  --bg-noise: url("assets/noise.png");
 }
 
 html {
